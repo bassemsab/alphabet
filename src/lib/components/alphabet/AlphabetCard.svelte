@@ -32,6 +32,7 @@
   let listeningWord = $state<string | null>(null);
   let evaluatingWord = $state<string | null>(null);
   let wordVerdicts = $state<Record<string, PronunciationVerdict>>({});
+  let imageLoaded = $state<Record<string, boolean>>({});
 
   let currentSpeechSession: SpeechSession | null = null;
 
@@ -183,14 +184,20 @@
 
       <div class="rounded-2xl border border-slate-200/80 dark:border-white/5 bg-surface-elevated overflow-hidden flex flex-col group hover:shadow-md transition-all">
         <!-- Photo Container -->
-        <div class="relative w-full h-44 bg-slate-100 dark:bg-slate-900/50 overflow-hidden">
-          <img
-            src={ex.imageUrl}
-            alt={ex.word}
-            loading="lazy"
-            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+        {#key ex.word}
+          <div class="relative w-full h-44 bg-slate-200 dark:bg-slate-800/80 overflow-hidden">
+            {#if !imageLoaded[ex.word]}
+              <div class="absolute inset-0 bg-slate-200 dark:bg-slate-800 animate-pulse"></div>
+            {/if}
+            <img
+              src={ex.imageUrl}
+              alt={ex.word}
+              loading="eager"
+              decoding="async"
+              onload={() => { imageLoaded[ex.word] = true; }}
+              class="w-full h-full object-cover object-center transition-all duration-300 group-hover:scale-105 {imageLoaded[ex.word] ? 'opacity-100' : 'opacity-0'}"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 
           <!-- Highlighted Word Overlay -->
           <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
@@ -228,7 +235,7 @@
               {/if}
             </button>
           </div>
-        </div>
+        {/key}
 
         <!-- Word Info & Pronunciation Practice -->
         <div class="p-4 flex flex-col gap-3 flex-1 justify-between">

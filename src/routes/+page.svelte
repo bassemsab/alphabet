@@ -39,6 +39,32 @@
     }
   });
 
+  // Preload neighboring letters' images so card flips are instantaneous and never show old images
+  $effect(() => {
+    if (typeof window === "undefined") return;
+    const letters = filteredLetters();
+    const preloadIndices = [
+      currentIndex,
+      currentIndex + 1,
+      currentIndex + 2,
+      currentIndex + 3,
+      currentIndex - 1
+    ];
+    for (const idx of preloadIndices) {
+      if (idx >= 0 && idx < letters.length) {
+        const item = letters[idx];
+        for (const variant of item.variants) {
+          for (const word of variant.words) {
+            if (word.imageUrl) {
+              const img = new Image();
+              img.src = word.imageUrl;
+            }
+          }
+        }
+      }
+    }
+  });
+
   const currentLetter = $derived<AlphabetLetter>(filteredLetters()[currentIndex] || FRENCH_ALPHABET_DATA[0]);
 
   function nextLetter() {
@@ -162,7 +188,9 @@
 
       <!-- Current Letter Card -->
       {#if currentLetter}
-        <AlphabetCard letter={currentLetter} />
+        {#key currentLetter.letter}
+          <AlphabetCard letter={currentLetter} />
+        {/key}
       {/if}
 
       <!-- Bottom Navigation Footer -->
