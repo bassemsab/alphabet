@@ -10,6 +10,9 @@ export interface LocalizedText {
   pt?: string;
   zh?: string;
   nl?: string;
+  ps?: string;
+  sq?: string;
+  ka?: string;
 }
 
 export interface SpeechSession {

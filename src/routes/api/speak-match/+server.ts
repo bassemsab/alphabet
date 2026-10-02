@@ -8,6 +8,7 @@ export const POST: RequestHandler = async ({ request }) => {
   const body = await request.json().catch(() => null);
   const audio = typeof body?.audio === "string" ? body.audio : null;
   const expected = typeof body?.expected === "string" ? body.expected.trim() : null;
+  const uiLang = typeof body?.uiLang === "string" ? body.uiLang : "fr";
 
   if (!audio || audio.length > MAX_AUDIO_BASE64_LENGTH) {
     throw error(400, "Un extrait audio court est requis.");
@@ -16,6 +17,6 @@ export const POST: RequestHandler = async ({ request }) => {
     throw error(400, "Le mot ou la lettre attendu est requis.");
   }
 
-  const verdict = await evaluatePronunciation(audio, expected);
+  const verdict = await evaluatePronunciation(audio, expected, uiLang);
   return json(verdict);
 };

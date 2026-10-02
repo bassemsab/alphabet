@@ -83,6 +83,7 @@
 
     currentSpeechSession = recordAndJudgeSpeech(
       word,
+      i18n.currentLang,
       (state) => {
         if (state === "listening") {
           listeningWord = word;
@@ -117,7 +118,7 @@
       <button
         onclick={handlePlayLetterName}
         class="min-w-[5.5rem] min-h-[5.5rem] sm:min-w-[6.5rem] sm:min-h-[6.5rem] p-3 shrink-0 rounded-2xl sm:rounded-3xl bg-emerald-500/10 border-2 border-emerald-500/30 dark:border-emerald-500/30 flex flex-col items-center justify-center text-emerald-700 dark:text-emerald-300 transition-transform active:scale-95 group hover:border-emerald-400 select-none shadow-xs cursor-pointer"
-        title="Écouter la lettre"
+        title={i18n.t("alphabet_listen_letter")}
       >
         <span class="text-3xl sm:text-4xl font-black tracking-tight leading-none pt-0.5">{letter.letter} {letter.lower}</span>
         <span class="text-xs font-mono font-semibold text-emerald-600/90 dark:text-emerald-400/90 mt-1">
@@ -220,7 +221,7 @@
               <button
                 onclick={() => handlePlayWord(ex.word)}
                 class="w-10 h-10 rounded-full bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-100 flex items-center justify-center shadow-md transition-transform active:scale-95 hover:bg-white cursor-pointer"
-                title="Écouter le mot"
+                title={i18n.t("alphabet_listen_word")}
               >
                 {#if isPlaying}
                   <svg class="w-5 h-5 text-emerald-500 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
@@ -246,7 +247,7 @@
               {getTranslation(ex.gloss)}
             </span>
             <span class="text-xs text-slate-400">
-              Son : <strong class="text-emerald-600 dark:text-emerald-400 font-mono font-bold">{activeVariant.soundIpa}</strong>
+              {i18n.t('alphabet_sound')} <strong class="text-emerald-600 dark:text-emerald-400 font-mono font-bold">{activeVariant.soundIpa}</strong>
             </span>
           </div>
 
@@ -254,7 +255,7 @@
           <div class="pt-2 border-t border-slate-100 dark:border-white/5 flex flex-col gap-2">
             <div class="flex items-center justify-between gap-2">
               <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                {i18n.t('alphabet_practice')}
+                {i18n.t('alphabet_oral_practice')}
               </span>
 
               <button
@@ -294,7 +295,7 @@
                 {/if}
                 <div class="flex-1">
                   <div class="font-bold">
-                    {verdict.correct ? "Bravo !" : "Presque !"}
+                    {verdict.correct ? i18n.t('alphabet_bravo') : i18n.t('alphabet_almost')}
                   </div>
                   <div class="text-[11px] opacity-90 mt-0.5">
                     {verdict.feedback}

@@ -27,6 +27,10 @@
     showLangMenu = false;
   }
 
+  $effect(() => {
+    i18n.applyDocumentDirection(i18n.currentLang);
+  });
+
   const currentOption = $derived(
     LANGUAGE_OPTIONS.find((opt) => opt.code === i18n.currentLang) || LANGUAGE_OPTIONS[0]
   );
@@ -84,11 +88,11 @@
         </button>
 
         {#if showLangMenu}
-          <div class="absolute right-0 mt-2 w-48 max-h-80 overflow-y-auto rounded-2xl bg-surface-elevated border border-slate-200 dark:border-white/10 shadow-xl py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+          <div class="absolute right-0 rtl:right-auto rtl:left-0 mt-2 w-52 max-h-80 overflow-y-auto rounded-2xl bg-surface-elevated border border-slate-200 dark:border-white/10 shadow-xl py-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
             {#each LANGUAGE_OPTIONS as opt}
               <button
                 onclick={() => selectLanguage(opt.code)}
-                class="w-full px-3.5 py-2 text-left text-xs font-semibold flex items-center justify-between transition-colors {i18n.currentLang === opt.code ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5'}"
+                class="w-full px-3.5 py-2 text-start text-xs font-semibold flex items-center justify-between transition-colors {i18n.currentLang === opt.code ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold' : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/5'}"
               >
                 <div class="flex items-center gap-2">
                   <span>{opt.flag}</span>

@@ -117,10 +117,10 @@
         <input
           type="text"
           bind:value={searchQuery}
-          placeholder="Rechercher..."
-          class="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 dark:border-white/10 bg-surface-elevated text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          placeholder={i18n.t("alphabet_search_placeholder")}
+          class="w-full ps-8 pe-3 py-1.5 text-xs rounded-xl border border-slate-200 dark:border-white/10 bg-surface-elevated text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
         />
-        <svg class="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg class="w-3.5 h-3.5 text-slate-400 absolute start-2.5 top-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
@@ -163,7 +163,7 @@
     {#if filteredLetters.length === 0}
       <div class="text-center py-20 bg-surface-elevated rounded-3xl border border-slate-200 dark:border-white/5">
         <p class="text-slate-500 dark:text-slate-400 font-medium">
-          Aucune lettre trouvée pour "{searchQuery}".
+          {i18n.t("alphabet_no_letters_found")} "{searchQuery}".
         </p>
       </div>
     {:else if viewMode === 'cards'}
