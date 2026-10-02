@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-surface-base: var(--surface-base);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-chrome: var(--surface-chrome);
+  --color-surface-card: var(--surface-card);
+}
+
+:root {
+  --surface-base: #f8fafc;
+  --surface-elevated: #ffffff;
+  --surface-chrome: rgba(255, 255, 255, 0.85);
+  --surface-card: #ffffff;
+}
+
+.dark {
+  --surface-base: #090d16;
+  --surface-elevated: #111827;
+  --surface-chrome: rgba(17, 24, 39, 0.85);
+  --surface-card: #151e2e;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-sans);
+}
+
+/* Custom scrollbar styling */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alphabet
+  namespace: alphabet
+  labels:
+    app: alphabet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alphabet
+  template:
+    metadata:
+      labels:
+        app: alphabet
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: alphabet
+          image: ghcr.io/bassemsab/alphabet:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: NODE_ENV
+              value: "production"
+            - name: OPENROUTER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: alphabet-secrets
+                  key: OPENROUTER_API_KEY
+                  optional: true
+            - name: GROQ_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: alphabet-secrets
+                  key: GROQ_API_KEY
+                  optional: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
