@@ -48,9 +48,7 @@
   <header class="h-16 px-4 sm:px-8 border-b border-slate-200/80 dark:border-white/5 bg-surface-chrome backdrop-blur-md sticky top-0 z-50 flex items-center justify-between">
     <!-- Brand / Title -->
     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xl font-black shadow-xs">
-        🔤
-      </div>
+      <img src="/icon-192.png" alt="Ami Logo" class="w-10 h-10 rounded-2xl shadow-xs object-cover" />
       <div>
         <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
           {i18n.t("alphabet_title")}
