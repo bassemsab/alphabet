@@ -57,9 +57,6 @@
         <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
           {i18n.t("alphabet_title")}
         </h1>
-        <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">
-          alphabet.ether.paris
-        </p>
       </div>
     </div>
 
