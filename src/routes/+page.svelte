@@ -13,7 +13,7 @@
   let currentIndex = $state(0);
   let searchQuery = $state("");
 
-  const filteredLetters = $derived<AlphabetLetter[]>(() => {
+  const filteredLetters = $derived.by<AlphabetLetter[]>(() => {
     let list = FRENCH_ALPHABET_DATA;
     if (currentCategory !== "all") {
       list = list.filter((l) => l.category === currentCategory);
@@ -33,16 +33,15 @@
   });
 
   $effect(() => {
-    const letters = filteredLetters();
-    if (currentIndex >= letters.length) {
-      currentIndex = Math.max(0, letters.length - 1);
+    if (currentIndex >= filteredLetters.length) {
+      currentIndex = Math.max(0, filteredLetters.length - 1);
     }
   });
 
   // Preload neighboring letters' images so card flips are instantaneous and never show old images
   $effect(() => {
     if (typeof window === "undefined") return;
-    const letters = filteredLetters();
+    const letters = filteredLetters;
     const preloadIndices = [
       currentIndex,
       currentIndex + 1,
@@ -65,10 +64,10 @@
     }
   });
 
-  const currentLetter = $derived<AlphabetLetter>(filteredLetters()[currentIndex] || FRENCH_ALPHABET_DATA[0]);
+  const currentLetter = $derived<AlphabetLetter>(filteredLetters[currentIndex] || FRENCH_ALPHABET_DATA[0]);
 
   function nextLetter() {
-    const letters = filteredLetters();
+    const letters = filteredLetters;
     if (currentIndex < letters.length - 1) {
       currentIndex++;
     }
@@ -161,7 +160,7 @@
 
   <!-- Main Content Area -->
   <main class="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 pb-20 flex flex-col gap-6">
-    {#if filteredLetters().length === 0}
+    {#if filteredLetters.length === 0}
       <div class="text-center py-20 bg-surface-elevated rounded-3xl border border-slate-200 dark:border-white/5">
         <p class="text-slate-500 dark:text-slate-400 font-medium">
           Aucune lettre trouvée pour "{searchQuery}".
@@ -170,7 +169,7 @@
     {:else if viewMode === 'cards'}
       <!-- Letter Selector Carousel -->
       <div class="flex items-center gap-2 overflow-x-auto py-2 scrollbar-none">
-        {#each filteredLetters() as item, i}
+        {#each filteredLetters as item, i}
           {@const isItemMastered = progress.isMastered(item.letter)}
           <button
             onclick={() => (currentIndex = i)}
@@ -211,17 +210,17 @@
           <div class="h-2 w-full bg-slate-200 dark:bg-white/10 rounded-full overflow-hidden">
             <div
               class="h-full bg-emerald-500 rounded-full transition-all duration-300"
-              style="width: {((currentIndex + 1) / filteredLetters().length) * 100}%"
+              style="width: {((currentIndex + 1) / filteredLetters.length) * 100}%"
             ></div>
           </div>
           <span class="text-xs font-mono font-bold text-slate-400 shrink-0">
-            {currentIndex + 1} / {filteredLetters().length}
+            {currentIndex + 1} / {filteredLetters.length}
           </span>
         </div>
 
         <button
           onclick={nextLetter}
-          disabled={currentIndex === filteredLetters().length - 1}
+          disabled={currentIndex === filteredLetters.length - 1}
           class="px-5 py-2.5 rounded-2xl bg-emerald-500 text-white font-semibold text-sm flex items-center gap-2 disabled:opacity-40 disabled:pointer-events-none hover:bg-emerald-600 transition-all shadow-md shadow-emerald-500/20 cursor-pointer"
         >
           <span>{i18n.t('alphabet_next')}</span>
@@ -234,7 +233,7 @@
     {:else}
       <!-- Grid Mode: Show all filtered letters -->
       <div class="flex flex-col gap-6">
-        {#each filteredLetters() as letterItem (letterItem.letter)}
+        {#each filteredLetters as letterItem (letterItem.letter)}
           <AlphabetCard letter={letterItem} />
         {/each}
       </div>

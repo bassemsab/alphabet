@@ -195,45 +195,46 @@
               loading="eager"
               decoding="async"
               onload={() => { imageLoaded[ex.word] = true; }}
-              class="w-full h-full object-cover object-center transition-all duration-300 group-hover:scale-105 {imageLoaded[ex.word] ? 'opacity-100' : 'opacity-0'}"
+              class="w-full h-full {ex.word === 'stylo' ? 'object-contain p-2 bg-slate-100 dark:bg-slate-900' : 'object-cover'} object-center transition-all duration-300 group-hover:scale-105 {imageLoaded[ex.word] ? 'opacity-100' : 'opacity-0'}"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
 
-          <!-- Highlighted Word Overlay -->
-          <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
-            <div>
-              <div class="text-2xl font-black text-white tracking-wide drop-shadow-sm">
-                {#each splitHighlight(ex.word, ex.highlight) as part}
-                  {#if part.isMatch}
-                    <span class="text-emerald-400 underline decoration-emerald-300 decoration-4 underline-offset-4">{part.text}</span>
-                  {:else}
-                    <span>{part.text}</span>
-                  {/if}
-                {/each}
+            <!-- Highlighted Word Overlay -->
+            <div class="absolute bottom-3 left-4 right-4 flex items-end justify-between">
+              <div>
+                <div class="text-2xl font-black text-white tracking-wide drop-shadow-sm">
+                  {#each splitHighlight(ex.word, ex.highlight) as part}
+                    {#if part.isMatch}
+                      <span class="text-emerald-400 underline decoration-emerald-300 decoration-4 underline-offset-4">{part.text}</span>
+                    {:else}
+                      <span>{part.text}</span>
+                    {/if}
+                  {/each}
+                </div>
+                <div class="text-xs font-mono text-white/80 drop-shadow-xs">
+                  {ex.ipa}
+                </div>
               </div>
-              <div class="text-xs font-mono text-white/80 drop-shadow-xs">
-                {ex.ipa}
-              </div>
-            </div>
 
-            <!-- Speaker Action Button on Image -->
-            <button
-              onclick={() => handlePlayWord(ex.word)}
-              class="w-10 h-10 rounded-full bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-100 flex items-center justify-center shadow-md transition-transform active:scale-95 hover:bg-white cursor-pointer"
-              title="Écouter le mot"
-            >
-              {#if isPlaying}
-                <svg class="w-5 h-5 text-emerald-500 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 3v18l-6-5H2V8h4l6-5zm4.5 4.5a7 7 0 0 1 0 9M19 5a10 10 0 0 1 0 14" />
-                </svg>
-              {:else}
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-                </svg>
-              {/if}
-            </button>
+              <!-- Speaker Action Button on Image -->
+              <button
+                onclick={() => handlePlayWord(ex.word)}
+                class="w-10 h-10 rounded-full bg-white/90 dark:bg-slate-900/90 text-slate-800 dark:text-slate-100 flex items-center justify-center shadow-md transition-transform active:scale-95 hover:bg-white cursor-pointer"
+                title="Écouter le mot"
+              >
+                {#if isPlaying}
+                  <svg class="w-5 h-5 text-emerald-500 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 3v18l-6-5H2V8h4l6-5zm4.5 4.5a7 7 0 0 1 0 9M19 5a10 10 0 0 1 0 14" />
+                  </svg>
+                {:else}
+                  <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                {/if}
+              </button>
+            </div>
           </div>
         {/key}
 
