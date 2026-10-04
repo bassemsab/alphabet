@@ -4,6 +4,7 @@
   import type { AlphabetLetter, LetterCategory } from "$lib/alphabet/types";
   import { i18n } from "$lib/stores/i18n.svelte";
   import { progress } from "$lib/stores/progress.svelte";
+  import { trackEvent } from "$lib/telemetry";
 
   type FilterCategory = "all" | LetterCategory;
   type ViewMode = "cards" | "grid";
@@ -70,12 +71,22 @@
     const letters = filteredLetters;
     if (currentIndex < letters.length - 1) {
       currentIndex++;
+      trackEvent("carousel_nav", {
+        direction: "next",
+        letter: letters[currentIndex]?.letter,
+        index: currentIndex
+      });
     }
   }
 
   function prevLetter() {
     if (currentIndex > 0) {
       currentIndex--;
+      trackEvent("carousel_nav", {
+        direction: "prev",
+        letter: filteredLetters[currentIndex]?.letter,
+        index: currentIndex
+      });
     }
   }
 
@@ -102,7 +113,11 @@
     <div class="flex items-center gap-2 overflow-x-auto scrollbar-none pb-1 sm:pb-0">
       {#each (['all', 'vowel', 'consonant', 'digraph'] as FilterCategory[]) as cat}
         <button
-          onclick={() => { currentCategory = cat; currentIndex = 0; }}
+          onclick={() => {
+            currentCategory = cat;
+            currentIndex = 0;
+            trackEvent("category_filter", { category: cat });
+          }}
           class="px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer {currentCategory === cat ? 'bg-emerald-500 text-white shadow-xs shadow-emerald-500/20' : 'bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-200/70 dark:hover:bg-white/10'}"
         >
           {categoryLabels[cat]}
@@ -129,7 +144,10 @@
       <!-- Mode Switcher -->
       <div class="flex items-center gap-1 p-1 bg-slate-100 dark:bg-white/5 rounded-xl shrink-0">
         <button
-          onclick={() => (viewMode = 'cards')}
+          onclick={() => {
+            viewMode = 'cards';
+            trackEvent("view_mode", { mode: 'cards' });
+          }}
           class="px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer {viewMode === 'cards' ? 'bg-white dark:bg-surface-elevated text-emerald-600 dark:text-emerald-400 shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400'}"
           title={i18n.t('alphabet_tab_cards')}
         >
@@ -142,7 +160,10 @@
         </button>
 
         <button
-          onclick={() => (viewMode = 'grid')}
+          onclick={() => {
+            viewMode = 'grid';
+            trackEvent("view_mode", { mode: 'grid' });
+          }}
           class="px-3.5 py-1.5 text-xs font-semibold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer {viewMode === 'grid' ? 'bg-white dark:bg-surface-elevated text-emerald-600 dark:text-emerald-400 shadow-xs' : 'text-slate-500 hover:text-slate-800 dark:text-slate-400'}"
           title={i18n.t('alphabet_tab_grid')}
         >
@@ -172,7 +193,10 @@
         {#each filteredLetters as item, i}
           {@const isItemMastered = progress.isMastered(item.letter)}
           <button
-            onclick={() => (currentIndex = i)}
+            onclick={() => {
+              currentIndex = i;
+              trackEvent("letter_selected", { letter: item.letter, index: i });
+            }}
             class="relative w-11 h-11 rounded-2xl font-bold text-sm shrink-0 flex items-center justify-center transition-all cursor-pointer {currentIndex === i ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/25 ring-2 ring-emerald-400' : 'bg-surface-elevated border border-slate-200/80 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-emerald-400 hover:text-emerald-500'}"
           >
             {item.letter}

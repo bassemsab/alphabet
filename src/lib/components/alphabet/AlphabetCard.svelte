@@ -4,6 +4,7 @@
   import { recordAndJudgeSpeech, type SpeechSession } from "$lib/alphabet/speech";
   import { i18n } from "$lib/stores/i18n.svelte";
   import { progress } from "$lib/stores/progress.svelte";
+  import { trackEvent } from "$lib/telemetry";
   import { onDestroy } from "svelte";
 
   interface Props {
@@ -60,12 +61,14 @@
   }
 
   async function handlePlayLetterName() {
+    trackEvent("audio_play_letter", { letter: letter.letter, name: letter.name });
     await playFrenchAudio(letter.name, (playing) => {
       playingWord = playing ? `letter-${letter.letter}` : null;
     });
   }
 
   async function handlePlayWord(word: string) {
+    trackEvent("audio_play_word", { word, letter: letter.letter });
     await playFrenchAudio(word, (playing) => {
       playingWord = playing ? word : null;
     });
@@ -80,6 +83,7 @@
     currentSpeechSession?.cancel();
     listeningWord = word;
     evaluatingWord = null;
+    trackEvent("speech_practice_started", { word, letter: letter.letter });
 
     currentSpeechSession = recordAndJudgeSpeech(
       word,
@@ -102,6 +106,13 @@
         if (verdict.correct && !progress.isMastered(letter.letter)) {
           progress.toggleMastered(letter.letter);
         }
+        trackEvent("speech_practice_result", {
+          word,
+          letter: letter.letter,
+          correct: verdict.correct,
+          heard: verdict.heard,
+          transcript: verdict.transcript
+        });
         listeningWord = null;
         evaluatingWord = null;
       }
@@ -155,6 +166,7 @@
               onclick={() => {
                 activeVariantId = variant.id;
                 onSelectVariant?.(variant.id);
+                trackEvent("variant_selected", { letter: letter.letter, variant_id: variant.id, sound_ipa: variant.soundIpa });
               }}
               class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all whitespace-nowrap cursor-pointer {activeVariantId === variant.id ? 'bg-white dark:bg-surface-elevated text-emerald-600 dark:text-emerald-400 shadow-xs' : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'}"
             >
@@ -165,7 +177,11 @@
       {/if}
 
       <button
-        onclick={() => progress.toggleMastered(letter.letter)}
+        onclick={() => {
+          const nextMastered = !isMastered;
+          progress.toggleMastered(letter.letter);
+          trackEvent("mastery_toggled", { letter: letter.letter, mastered: nextMastered });
+        }}
         class="px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all flex items-center gap-1.5 cursor-pointer {isMastered ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'border-slate-200 dark:border-white/10 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'}"
         title={i18n.t('alphabet_mark_mastered')}
       >

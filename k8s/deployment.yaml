@@ -40,6 +40,18 @@ spec:
                   name: alphabet-secrets
                   key: GROQ_API_KEY
                   optional: true
+            - name: OPENOBSERVE_ENDPOINT
+              value: "http://openobserve.ether-shared.svc.cluster.local:5080"
+            - name: OPENOBSERVE_ORG
+              value: "3GlJ6SL7OxrCVJR5Cyvw89gKBTg"
+            - name: OPENOBSERVE_STREAM
+              value: "alphabet"
+            - name: OPENOBSERVE_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: alphabet-secrets
+                  key: OPENOBSERVE_AUTH
+                  optional: true
           resources:
             requests:
               cpu: 100m

@@ -5,6 +5,8 @@
   import { FRENCH_ALPHABET_DATA } from "$lib/alphabet/data";
   import { onMount } from "svelte";
 
+  import { initClientTelemetry, trackEvent } from "$lib/telemetry";
+
   let { children } = $props();
 
   let isDark = $state(false);
@@ -12,6 +14,7 @@
 
   onMount(() => {
     isDark = document.documentElement.classList.contains("dark");
+    initClientTelemetry();
   });
 
   function toggleTheme() {
@@ -20,11 +23,14 @@
     try {
       localStorage.setItem("alphabet-theme", isDark ? "dark" : "light");
     } catch {}
+    trackEvent("theme_toggled", { theme: isDark ? "dark" : "light" });
   }
 
   function selectLanguage(lang: SupportedLanguage) {
+    const prev = i18n.currentLang;
     i18n.setLang(lang);
     showLangMenu = false;
+    trackEvent("language_selected", { from_lang: prev, to_lang: lang });
   }
 
   $effect(() => {
