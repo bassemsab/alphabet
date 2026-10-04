@@ -29,8 +29,22 @@ export function getSessionId(): string {
   return sessionId;
 }
 
+export function isClientBot(): boolean {
+  if (typeof window === "undefined") return false;
+  // Headless browser and automation flags
+  if (navigator.webdriver) return true;
+  const w = window as any;
+  if (w.__nightmare || w._phantom || w.callPhantom || w.__selenium_unwrapped) return true;
+  const ua = navigator.userAgent || "";
+  if (!ua || /(?:bot|crawler|spider|slurp|headlesschrome|lighthouse|phantomjs|selenium|puppeteer|playwright)/i.test(ua)) {
+    return true;
+  }
+  return false;
+}
+
 export function trackEvent(event: string, details: Record<string, any> = {}): void {
   if (typeof window === "undefined") return;
+  if (isClientBot()) return;
 
   const sid = getSessionId();
   const payload = {
@@ -64,6 +78,7 @@ let initialized = false;
 
 export function initClientTelemetry(): void {
   if (typeof window === "undefined" || initialized) return;
+  if (isClientBot()) return;
   initialized = true;
 
   getSessionId();

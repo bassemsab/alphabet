@@ -31,18 +31,26 @@ export interface ParsedUserAgent {
   isBot: boolean;
 }
 
+export const BOT_REGEX = /(?:bot|crawler|spider|slurp|curl|wget|python|urllib|requests|httpx|aiohttp|go-http-client|java|perl|ruby|php|libwww|okhttp|apache-httpclient|winhttp|node-fetch|axios|undici|postman|insomnia|k6|jmeter|locust|artillery|uptimerobot|pingdom|statuscake|site24x7|datadog|newrelic|sensu|nagios|zabbix|check_http|kube-probe|healthcheck|envoy|consul|googlebot|bingbot|yandex|baiduspider|duckduckbot|sogou|exabot|facebot|ia_archiver|twitterbot|facebookexternalhit|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest|slackbot|vkshare|w3c_validator|telegrambot|applebot|whatsapp|flipboard|discordbot|bytespider|petalbot|claudebot|gptbot|ccbot|anthropic|openai|cohere|serpstat|ahrefs|semrush|dotbot|mj12bot|rogerbot|screaming frog|headlesschrome|phantomjs|selenium|puppeteer|playwright|prerender|lighthouse|inspect|scanner|nessus|sqlmap|nmap|nikto)/i;
+
+export function isBotUserAgent(ua: string | null | undefined): boolean {
+  if (!ua || !ua.trim()) return true; // Missing or empty UA is almost always automated
+  return BOT_REGEX.test(ua);
+}
+
 export function parseUserAgent(ua: string | null | undefined): ParsedUserAgent {
-  if (!ua) {
-    return { browser: "Unknown", os: "Unknown", deviceType: "desktop", isBot: false };
+  if (!ua || !ua.trim()) {
+    return { browser: "Unknown", os: "Unknown", deviceType: "bot", isBot: true };
+  }
+
+  const isBot = isBotUserAgent(ua);
+  if (isBot) {
+    return { browser: "Bot", os: "Bot", deviceType: "bot", isBot: true };
   }
 
   const lower = ua.toLowerCase();
-
-  const isBot = /bot|crawl|spider|slurp|curl|wget|python|httpclient|postman|uptimerobot|k8s|probe|uptime/i.test(lower);
   let deviceType: "mobile" | "tablet" | "desktop" | "bot" = "desktop";
-  if (isBot) {
-    deviceType = "bot";
-  } else if (/ipad|tablet|(android(?!.*mobile))/i.test(lower)) {
+  if (/ipad|tablet|(android(?!.*mobile))/i.test(lower)) {
     deviceType = "tablet";
   } else if (/mobile|iphone|ipod|android|blackberry|iemobile|opera mini/i.test(lower)) {
     deviceType = "mobile";
@@ -62,7 +70,7 @@ export function parseUserAgent(ua: string | null | undefined): ParsedUserAgent {
   else if (/firefox|fxios/i.test(lower)) browser = "Firefox";
   else if (/safari/i.test(lower)) browser = "Safari";
 
-  return { browser, os, deviceType, isBot };
+  return { browser, os, deviceType, isBot: false };
 }
 
 export function extractClientIp(headers: Headers): string {
@@ -89,6 +97,14 @@ export function extractCountry(headers: Headers): string {
  * Send an event record to OpenObserve asynchronously (non-blocking).
  */
 export async function logToO2(event: Record<string, any>): Promise<void> {
+  // Never log bots, crawlers, scrapers, or automated tools
+  if (event.is_bot) {
+    return;
+  }
+  if (typeof event.user_agent === "string" && isBotUserAgent(event.user_agent)) {
+    return;
+  }
+
   const cfg = getConfig();
   if (!cfg) {
     // If not configured (e.g. local test without secrets), log locally

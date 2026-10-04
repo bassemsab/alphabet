@@ -26,6 +26,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   const headers = request.headers;
   const rawUa = headers.get("user-agent") || "";
   const uaInfo = parseUserAgent(rawUa);
+
+  // Do not log events from bots or crawlers
+  if (uaInfo.isBot) {
+    return json({ ok: true });
+  }
+
   const clientIp = extractClientIp(headers);
   const country = extractCountry(headers);
   const referer = headers.get("referer") || null;

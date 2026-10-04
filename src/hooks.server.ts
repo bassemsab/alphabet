@@ -21,6 +21,12 @@ export const handle: Handle = async ({ event, resolve }) => {
   const headers = event.request.headers;
   const rawUa = headers.get("user-agent") || "";
   const uaInfo = parseUserAgent(rawUa);
+
+  // Do not log web bots, crawlers, or automated scripts
+  if (uaInfo.isBot) {
+    return response;
+  }
+
   const clientIp = extractClientIp(headers);
   const country = extractCountry(headers);
   const referer = headers.get("referer") || null;
@@ -42,7 +48,6 @@ export const handle: Handle = async ({ event, resolve }) => {
     browser: uaInfo.browser,
     os: uaInfo.os,
     device_type: uaInfo.deviceType,
-    is_bot: uaInfo.isBot,
     referer,
     accept_language: acceptLanguage,
     session_id: sessionId
@@ -52,11 +57,16 @@ export const handle: Handle = async ({ event, resolve }) => {
 };
 
 export const handleError: HandleServerError = async ({ error, event }) => {
-  const message = error instanceof Error ? error.message : String(error);
-  const stack = error instanceof Error ? error.stack : undefined;
   const headers = event.request.headers;
   const rawUa = headers.get("user-agent") || "";
   const uaInfo = parseUserAgent(rawUa);
+
+  // Do not log errors triggered by web bots or scanner probes
+  if (uaInfo.isBot) {
+    return {
+      message: "Une erreur inattendue est survenue."
+    };
+  }
 
   logToO2({
     event: "server_error",

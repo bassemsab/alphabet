@@ -27,24 +27,26 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   const rawUa = headers.get("user-agent") || "";
   const uaInfo = parseUserAgent(rawUa);
 
-  logToO2({
-    event: "speech_evaluation",
-    session_id: sessionId,
-    expected_word: expected,
-    correct: verdict.correct,
-    heard: verdict.heard,
-    transcript: verdict.transcript,
-    feedback: verdict.feedback,
-    target_ipa: verdict.targetIpa,
-    ui_lang: uiLang,
-    duration_ms: durationMs,
-    client_ip: extractClientIp(headers),
-    country: extractCountry(headers),
-    user_agent: rawUa,
-    browser: uaInfo.browser,
-    os: uaInfo.os,
-    device_type: uaInfo.deviceType
-  }).catch(() => {});
+  if (!uaInfo.isBot) {
+    logToO2({
+      event: "speech_evaluation",
+      session_id: sessionId,
+      expected_word: expected,
+      correct: verdict.correct,
+      heard: verdict.heard,
+      transcript: verdict.transcript,
+      feedback: verdict.feedback,
+      target_ipa: verdict.targetIpa,
+      ui_lang: uiLang,
+      duration_ms: durationMs,
+      client_ip: extractClientIp(headers),
+      country: extractCountry(headers),
+      user_agent: rawUa,
+      browser: uaInfo.browser,
+      os: uaInfo.os,
+      device_type: uaInfo.deviceType
+    }).catch(() => {});
+  }
 
   return json(verdict);
 };
