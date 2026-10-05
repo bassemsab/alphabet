@@ -7,17 +7,17 @@ import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 export async function synthesizeFrench(text: string): Promise<Buffer> {
   const tts = new MsEdgeTTS();
   await tts.setMetadata("fr-FR-DeniseNeural", OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
-  const stream = tts.toStream(text);
+  const { audioStream } = tts.toStream(text);
 
   return new Promise<Buffer>((resolve, reject) => {
     const chunks: Buffer[] = [];
-    stream.on("data", (chunk: Buffer) => {
+    audioStream.on("data", (chunk: Buffer) => {
       chunks.push(chunk);
     });
-    stream.on("end", () => {
+    audioStream.on("end", () => {
       resolve(Buffer.concat(chunks));
     });
-    stream.on("error", (err: Error) => {
+    audioStream.on("error", (err: Error) => {
       reject(err);
     });
   });
