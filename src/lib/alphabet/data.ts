@@ -1144,7 +1144,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "gju",
               "ka": "მუხლი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1782766835676-11f373bc5c45?auto=format&fit=crop&w=600&q=80"
           },
           {
             "word": "orange",
@@ -2620,7 +2620,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "diell",
               "ka": "მზე"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1601297183305-6df142704ea2?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1622278647429-71bc97e904e8?auto=format&fit=crop&w=600&q=80"
           },
           {
             "word": "poisson",
@@ -3016,7 +3016,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "flautë",
               "ka": "ფლეიტა"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1771923654517-9be42eb0e516?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -3198,7 +3198,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "vagon",
               "ka": "ვაგონი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1643474004491-ee1ae42ae5eb?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1612527670286-1912f78763f2?auto=format&fit=crop&w=600&q=80"
           },
           {
             "word": "web",
@@ -3845,7 +3845,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "gju",
               "ka": "მუხლი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1782766835676-11f373bc5c45?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -4093,7 +4093,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "i zi",
               "ka": "შავი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1751699413631-bf89bc43f54d?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -4162,7 +4162,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "flokë",
               "ka": "თმა"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1620939391250-eb822ac0818a?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -4231,7 +4231,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "postier",
               "ka": "ფოსტალიონი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1745968358029-39659409d1ce?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -4322,7 +4322,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "një (1)",
               "ka": "ერთი (1)"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1621440318464-72633426377b?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -4551,7 +4551,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "portë",
               "ka": "ჭიშკარი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1558036117-15d82a90b9b1?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1559871753-75a00941f6b2?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -4620,7 +4620,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "diell",
               "ka": "მზე"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1576426863848-c21f53c60b19?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1622278647429-71bc97e904e8?auto=format&fit=crop&w=600&q=80"
           },
           {
             "word": "abeille",
@@ -4642,7 +4642,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "bletë",
               "ka": "ფუტკარი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1539313373344-88bbfb9ac83f?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -4849,7 +4849,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "emocion",
               "ka": "ემოცია"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1556011068-970d91076c37?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -4918,7 +4918,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "tension",
               "ka": "დაძაბულობა"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1513827574967-e763dd0bc329?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -5078,7 +5078,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "familje",
               "ka": "ოჯახი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1628705250580-80b96d4657f6?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -5147,7 +5147,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "kënd",
               "ka": "კუთხე"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1775293192966-db69ddac3562?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -5467,7 +5467,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "ujë",
               "ka": "წყალი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1534616042650-80f5c9b61f09?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -5558,7 +5558,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "imja",
               "ka": "ჩემი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://images.unsplash.com/photo-1747263717426-d434c9f1fb3d?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
