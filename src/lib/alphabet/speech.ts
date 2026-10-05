@@ -43,6 +43,7 @@ export function recordAndJudgeSpeech(
     captureSource = null;
     captureNode = null;
     captureSink = null;
+    chunks.length = 0;
   }
 
   async function finishAndEvaluate() {

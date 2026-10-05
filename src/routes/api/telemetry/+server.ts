@@ -36,6 +36,13 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   const country = extractCountry(headers);
   const referer = headers.get("referer") || null;
 
+  const safeDetails = { ...details };
+  delete safeDetails.audio;
+  delete safeDetails.audio_base64;
+  delete safeDetails.voice;
+  delete safeDetails.recording;
+  delete safeDetails.transcript;
+
   logToO2({
     event: eventName,
     session_id: sessionId,
@@ -46,9 +53,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     browser: uaInfo.browser,
     os: uaInfo.os,
     device_type: uaInfo.deviceType,
-    is_bot: uaInfo.isBot,
     referer,
-    ...details
+    ...safeDetails
   }).catch(() => {});
 
   return json({ ok: true });

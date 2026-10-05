@@ -110,8 +110,7 @@
           word,
           letter: letter.letter,
           correct: verdict.correct,
-          heard: verdict.heard,
-          transcript: verdict.transcript
+          heard: verdict.heard
         });
         listeningWord = null;
         evaluatingWord = null;

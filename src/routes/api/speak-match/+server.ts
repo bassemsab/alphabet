@@ -34,7 +34,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
       expected_word: expected,
       correct: verdict.correct,
       heard: verdict.heard,
-      transcript: verdict.transcript,
       feedback: verdict.feedback,
       target_ipa: verdict.targetIpa,
       ui_lang: uiLang,

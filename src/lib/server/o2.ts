@@ -105,11 +105,19 @@ export async function logToO2(event: Record<string, any>): Promise<void> {
     return;
   }
 
+  // Never record user voice, raw audio, or spoken transcripts
+  const safeEvent = { ...event };
+  delete safeEvent.audio;
+  delete safeEvent.audio_base64;
+  delete safeEvent.voice;
+  delete safeEvent.recording;
+  delete safeEvent.transcript;
+
   const cfg = getConfig();
   if (!cfg) {
     // If not configured (e.g. local test without secrets), log locally
     if (process.env.NODE_ENV !== "production") {
-      console.log("[O2 dev log]", event);
+      console.log("[O2 dev log]", safeEvent);
     }
     return;
   }
@@ -119,7 +127,7 @@ export async function logToO2(event: Record<string, any>): Promise<void> {
       _timestamp: Date.now() * 1000, // microsecond precision
       service: "alphabet",
       stream: cfg.stream,
-      ...event
+      ...safeEvent
     }
   ];
 
