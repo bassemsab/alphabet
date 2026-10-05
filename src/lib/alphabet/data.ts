@@ -1144,7 +1144,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "gju",
               "ka": "მუხლი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1782766835676-11f373bc5c45?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Blausen_0596_KneeAnatomy_Front.png/960px-Blausen_0596_KneeAnatomy_Front.png"
           },
           {
             "word": "orange",
@@ -3845,7 +3845,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "gju",
               "ka": "მუხლი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1782766835676-11f373bc5c45?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Blausen_0596_KneeAnatomy_Front.png/960px-Blausen_0596_KneeAnatomy_Front.png"
           }
         ]
       }
@@ -4162,7 +4162,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "flokë",
               "ka": "თმა"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1620939391250-eb822ac0818a?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Woman_with_long_brown_hair_from_behind_%287_October_2023%29.jpg/960px-Woman_with_long_brown_hair_from_behind_%287_October_2023%29.jpg"
           }
         ]
       }
@@ -4231,7 +4231,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "postier",
               "ka": "ფოსტალიონი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1745968358029-39659409d1ce?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/La_tourn%C3%A9e_-_Flickr_-_besopha.jpg/960px-La_tourn%C3%A9e_-_Flickr_-_besopha.jpg"
           }
         ]
       }
@@ -5147,7 +5147,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "kënd",
               "ka": "კუთხე"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1775293192966-db69ddac3562?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Au_March%C3%A9_de_la_Butte%2C_Paris_12_April_2022.jpg/960px-Au_March%C3%A9_de_la_Butte%2C_Paris_12_April_2022.jpg"
           }
         ]
       }
@@ -5354,7 +5354,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "karamel",
               "ka": "კარამელი"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Caramels.jpg/960px-Caramels.jpg"
           },
           {
             "word": "belle",
@@ -5445,7 +5445,7 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "sq": "kuaj",
               "ka": "ცხენები"
             },
-            "imageUrl": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80"
+            "imageUrl": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Woman_with_long_brown_hair_from_behind_%287_October_2023%29.jpg/960px-Woman_with_long_brown_hair_from_behind_%287_October_2023%29.jpg"
           },
           {
             "word": "eau",
