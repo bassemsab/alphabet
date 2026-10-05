@@ -127,10 +127,16 @@
     <div class="flex items-center gap-4 min-w-0">
       <button
         onclick={handlePlayLetterName}
-        class="min-w-[5.5rem] min-h-[5.5rem] sm:min-w-[6.5rem] sm:min-h-[6.5rem] p-3 shrink-0 rounded-2xl sm:rounded-3xl bg-emerald-500/10 border-2 border-emerald-500/30 dark:border-emerald-500/30 flex flex-col items-center justify-center text-emerald-700 dark:text-emerald-300 transition-transform active:scale-95 group hover:border-emerald-400 select-none shadow-xs cursor-pointer"
+        class="min-w-[5.5rem] min-h-[5.5rem] sm:min-w-[6.5rem] sm:min-h-[6.5rem] px-2.5 py-2 shrink-0 rounded-2xl sm:rounded-3xl bg-emerald-500/10 border-2 border-emerald-500/30 dark:border-emerald-500/30 flex flex-col items-center justify-center text-emerald-700 dark:text-emerald-300 transition-transform active:scale-95 group hover:border-emerald-400 select-none shadow-xs cursor-pointer text-center"
         title={i18n.t("alphabet_listen_letter")}
       >
-        <span class="text-3xl sm:text-4xl font-black tracking-tight leading-none pt-0.5">{letter.letter} {letter.lower}</span>
+        <span class="{letter.letter.length > 7 ? 'text-base sm:text-lg' : letter.letter.length > 3 ? 'text-xl sm:text-2xl' : 'text-3xl sm:text-4xl'} font-black tracking-tight leading-tight pt-0.5 text-center">
+          {#if letter.letter.length <= 2}
+            {letter.letter} {letter.lower}
+          {:else}
+            {letter.letter}
+          {/if}
+        </span>
         <span class="text-xs font-mono font-semibold text-emerald-600/90 dark:text-emerald-400/90 mt-1">
           {playingWord === `letter-${letter.letter}` ? '🔊 ...' : letter.nameIpa}
         </span>

@@ -1579,6 +1579,50 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "ka": "სურათი"
             },
             "imageUrl": "https://images.unsplash.com/photo-1530634962287-1aa57a5e70fe?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "midi",
+            "highlight": "i",
+            "ipa": "/mi.di/",
+            "gloss": {
+              "en": "midday / noon",
+              "fr": "midi",
+              "es": "mediodía",
+              "de": "Mittag",
+              "it": "mezzogiorno",
+              "pt": "meio-dia",
+              "ar": "منتصف النهار / ظهر",
+              "zh": "中午",
+              "nl": "middag",
+              "prs": "ظهر",
+              "uk": "полудень",
+              "ps": "غرمه",
+              "sq": "mesditë",
+              "ka": "შუადღე"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "chimie",
+            "highlight": "i",
+            "ipa": "/ʃi.mi/",
+            "gloss": {
+              "en": "chemistry",
+              "fr": "chimie",
+              "es": "química",
+              "de": "Chemie",
+              "it": "chimica",
+              "pt": "química",
+              "ar": "كيمياء",
+              "zh": "化学",
+              "nl": "chemie",
+              "prs": "کیمیا",
+              "uk": "хімія",
+              "ps": "کیمیا",
+              "sq": "kimi",
+              "ka": "ქიმია"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -2951,6 +2995,28 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "ka": "უნიფორმა"
             },
             "imageUrl": "https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "flûte",
+            "highlight": "u",
+            "ipa": "/flyt/",
+            "gloss": {
+              "en": "flute",
+              "fr": "flûte",
+              "es": "flauta",
+              "de": "Flöte",
+              "it": "flauto",
+              "pt": "flauta",
+              "ar": "ناي / فلوت",
+              "zh": "长笛",
+              "nl": "fluit",
+              "prs": "فلوت",
+              "uk": "флейта",
+              "ps": "شپېلۍ",
+              "sq": "flautë",
+              "ka": "ფლეიტა"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1511192336575-5a79af67a629?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -3419,6 +3485,28 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "ka": "თვალები"
             },
             "imageUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "loyer",
+            "highlight": "y",
+            "ipa": "/lwa.je/",
+            "gloss": {
+              "en": "rent",
+              "fr": "loyer",
+              "es": "alquiler",
+              "de": "Miete",
+              "it": "affitto",
+              "pt": "aluguel",
+              "ar": "إيجار",
+              "zh": "房租",
+              "nl": "huur",
+              "prs": "کرایه",
+              "uk": "оренда",
+              "ps": "کرایه",
+              "sq": "qira",
+              "ka": "ქირა"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -3736,6 +3824,28 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "ka": "წვნიანი"
             },
             "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "genou",
+            "highlight": "ou",
+            "ipa": "/ʒə.nu/",
+            "gloss": {
+              "en": "knee",
+              "fr": "genou",
+              "es": "rodilla",
+              "de": "Knie",
+              "it": "ginocchio",
+              "pt": "joelho",
+              "ar": "ركبة",
+              "zh": "膝盖",
+              "nl": "knie",
+              "prs": "زانو",
+              "uk": "коліно",
+              "ps": "زنګون",
+              "sq": "gju",
+              "ka": "მუხლი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1516726817505-f5ed825624d8?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -3827,6 +3937,28 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "ka": "ხიდი"
             },
             "imageUrl": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "maison",
+            "highlight": "on",
+            "ipa": "/mɛ.zɔ̃/",
+            "gloss": {
+              "en": "house",
+              "fr": "maison",
+              "es": "casa",
+              "de": "Haus",
+              "it": "casa",
+              "pt": "casa",
+              "ar": "منزل",
+              "zh": "房子",
+              "nl": "huis",
+              "prs": "خانه",
+              "uk": "будинок",
+              "ps": "کور",
+              "sq": "shtëpi",
+              "ka": "სახლი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }
@@ -3918,6 +4050,1515 @@ export const FRENCH_ALPHABET_DATA: AlphabetLetter[] = [
               "ka": "თევზი"
             },
             "imageUrl": "https://images.unsplash.com/photo-1524704654690-b56c05c78a00?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "boîte",
+            "highlight": "oi",
+            "ipa": "/bwat/",
+            "gloss": {
+              "en": "box",
+              "fr": "boîte",
+              "es": "caja",
+              "de": "Kiste / Schachtel",
+              "it": "scatola",
+              "pt": "caixa",
+              "ar": "صندوق / علبة",
+              "zh": "盒子 / 箱子",
+              "nl": "doos",
+              "prs": "جعبه",
+              "uk": "коробка",
+              "ps": "بکس",
+              "sq": "kuti",
+              "ka": "ყუთი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "noir",
+            "highlight": "oi",
+            "ipa": "/nwaʁ/",
+            "gloss": {
+              "en": "black",
+              "fr": "noir",
+              "es": "negro",
+              "de": "schwarz",
+              "it": "nero",
+              "pt": "preto",
+              "ar": "أسود",
+              "zh": "黑色",
+              "nl": "zwart",
+              "prs": "سیاه",
+              "uk": "чорний",
+              "ps": "تور",
+              "sq": "i zi",
+              "ka": "შავი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "EU = e",
+    "lower": "eu",
+    "name": "eu",
+    "nameIpa": "/ø/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "eu-standard",
+        "soundIpa": "/ø/",
+        "soundName": {
+          "fr": "Son EU = e (/ø/)",
+          "en": "EU = e sound (/ø/)",
+          "es": "Sonido EU = e (/ø/)",
+          "de": "EU = e-Laut (/ø/)",
+          "it": "Suono EU = e (/ø/)",
+          "pt": "Som EU = e (/ø/)",
+          "ar": "صوت EU = e (/ø/)",
+          "zh": "EU = e 组合 (/ø/)",
+          "nl": "EU = e-klank (/ø/)",
+          "prs": "صوت EU = e (/ø/)",
+          "uk": "Звук EU = e (/ø/)",
+          "ps": "د EU = e غږ (/ø/)",
+          "sq": "Tingulli EU = e (/ø/)",
+          "ka": "EU = e ბგერა (/ø/)"
+        },
+        "rule": {
+          "fr": "La combinaison EU se prononce généralement /ø/ (comme un « e » fermé, comme dans « cheveu »).",
+          "en": "The combination EU is generally pronounced /ø/ (a closed 'e' sound, as in \"cheveu\").",
+          "es": "La combinación EU suele pronunciarse /ø/ (como una 'e' cerrada, como en «cheveu»).",
+          "de": "Die Kombination EU wird meist als /ø/ gesprochen (wie in «cheveu»).",
+          "it": "La combinazione EU si pronuncia generalmente /ø/ (come una 'e' chiusa, come in «cheveu»).",
+          "pt": "A combinação EU pronuncia-se geralmente /ø/ (como um 'e' fechado, como em «cheveu»).",
+          "ar": "التركيبة EU تُنطق كصوت e مغلق /ø/ (كما في كلمة « cheveu »).",
+          "zh": "组合 EU 通常读作圆唇闭元音 /ø/（如 \"cheveu\"）。",
+          "nl": "De combinatie EU klinkt meestal als /ø/ (zoals in «cheveu»).",
+          "prs": "ترکیب EU صدای e بسته /ø/ می‌دهد (مانند «cheveu»).",
+          "uk": "Буквосполучення EU зазвичай читається як /ø/ (як у «cheveu»).",
+          "ps": "د EU ترکیب د تړلي e /ø/ په څېر تلفظ کېږي (لکه په «cheveu» کې).",
+          "sq": "Kombinimi EU shqiptohet përgjithësisht /ø/ (si te «cheveu»).",
+          "ka": "EU კომბინაცია წარმოითქმის როგორც /ø/ (როგორც «cheveu»-ში)."
+        },
+        "words": [
+          {
+            "word": "cheveu",
+            "highlight": "eu",
+            "ipa": "/ʃə.vø/",
+            "gloss": {
+              "en": "hair",
+              "fr": "cheveu",
+              "es": "cabello / pelo",
+              "de": "Haar",
+              "it": "capello",
+              "pt": "cabelo",
+              "ar": "شعر",
+              "zh": "头发",
+              "nl": "haar",
+              "prs": "مو",
+              "uk": "волосся",
+              "ps": "ویښته",
+              "sq": "flokë",
+              "ka": "თმა"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "EUR",
+    "lower": "eur",
+    "name": "eur",
+    "nameIpa": "/œʁ/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "eur-standard",
+        "soundIpa": "/œʁ/",
+        "soundName": {
+          "fr": "Son EUR (/œʁ/)",
+          "en": "EUR sound (/œʁ/)",
+          "es": "Sonido EUR (/œʁ/)",
+          "de": "EUR-Laut (/œʁ/)",
+          "it": "Suono EUR (/œʁ/)",
+          "pt": "Som EUR (/œʁ/)",
+          "ar": "صوت EUR (/œʁ/)",
+          "zh": "EUR 组合 (/œʁ/)",
+          "nl": "EUR-klank (/œʁ/)",
+          "prs": "صوت EUR (/œʁ/)",
+          "uk": "Звук EUR (/œʁ/)",
+          "ps": "د EUR غږ (/œʁ/)",
+          "sq": "Tingulli EUR (/œʁ/)",
+          "ka": "EUR ბგერა (/œʁ/)"
+        },
+        "rule": {
+          "fr": "La terminaison EUR se prononce /œʁ/ (comme dans « facteur »).",
+          "en": "The ending EUR is pronounced /œʁ/ (as in \"facteur\").",
+          "es": "La terminación EUR se pronuncia /œʁ/ (como en «facteur»).",
+          "de": "Die Endung EUR wird als /œʁ/ gesprochen (wie in «facteur»).",
+          "it": "La desinenza EUR si pronuncia /œʁ/ (come in «facteur»).",
+          "pt": "A terminação EUR pronuncia-se /œʁ/ (como em «facteur»).",
+          "ar": "اللاحقة EUR تُنطق /œʁ/ (كما في « facteur »).",
+          "zh": "词尾 EUR 读作 /œʁ/（如 \"facteur\"）。",
+          "nl": "De uitgang EUR klinkt als /œʁ/ (zoals in «facteur»).",
+          "prs": "پسوند EUR صدای /œʁ/ می‌دهد (مانند «facteur»).",
+          "uk": "Закінчення EUR вимовляється як /œʁ/ (як у «facteur»).",
+          "ps": "د EUR پای د /œʁ/ په توګه تلفظ کېږي (لکه په «facteur» کې).",
+          "sq": "Prapashtesa EUR shqiptohet /œʁ/ (si te «facteur»).",
+          "ka": "EUR დაბოლოება წარმოითქმის როგორც /œʁ/ (როგორც «facteur»-ში)."
+        },
+        "words": [
+          {
+            "word": "facteur",
+            "highlight": "eur",
+            "ipa": "/fak.tœʁ/",
+            "gloss": {
+              "en": "mail carrier",
+              "fr": "facteur",
+              "es": "cartero",
+              "de": "Briefträger",
+              "it": "postino",
+              "pt": "carteiro",
+              "ar": "ساعي البريد",
+              "zh": "邮递员",
+              "nl": "postbode",
+              "prs": "پسته‌رسان",
+              "uk": "листоноша",
+              "ps": "پوسته رسوونکی",
+              "sq": "postier",
+              "ka": "ფოსტალიონი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "IN = UN",
+    "lower": "in / un",
+    "name": "in",
+    "nameIpa": "/ɛ̃/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "in-un-nasal",
+        "soundIpa": "/ɛ̃/",
+        "soundName": {
+          "fr": "Son IN = UN (/ɛ̃/)",
+          "en": "IN = UN sound (/ɛ̃/)",
+          "es": "Sonido IN = UN (/ɛ̃/)",
+          "de": "IN = UN-Laut (/ɛ̃/)",
+          "it": "Suono IN = UN (/ɛ̃/)",
+          "pt": "Som IN = UN (/ɛ̃/)",
+          "ar": "صوت IN = UN الأنفي (/ɛ̃/)",
+          "zh": "IN = UN 鼻元音 (/ɛ̃/)",
+          "nl": "IN = UN-klank (/ɛ̃/)",
+          "prs": "صوت IN = UN تودماغی (/ɛ̃/)",
+          "uk": "Носовий звук IN = UN (/ɛ̃/)",
+          "ps": "د IN = UN پوزیز غږ (/ɛ̃/)",
+          "sq": "Tingulli IN = UN (/ɛ̃/)",
+          "ka": "IN = UN ბგერა (/ɛ̃/)"
+        },
+        "rule": {
+          "fr": "Les graphies IN et UN produisent le même son nasal /ɛ̃/ (comme dans « lapin » et « un »).",
+          "en": "The spellings IN and UN produce the same nasal sound /ɛ̃/ (as in \"lapin\" and \"un\").",
+          "es": "Las grafías IN y UN producen el mismo sonido nasal /ɛ̃/.",
+          "de": "Die Schreibweisen IN und UN erzeugen denselben nasalen Laut /ɛ̃/.",
+          "it": "Le grafie IN e UN producono lo stesso suono nasale /ɛ̃/.",
+          "pt": "As grafias IN e UN produzem o mesmo som nasal /ɛ̃/.",
+          "ar": "الرسمان IN و UN يعطيان نفس الصوت الأنفي /ɛ̃/ (كما في « lapin » و « un »).",
+          "zh": "拼写 IN 和 UN 发相同的鼻元音 /ɛ̃/（如 \"lapin\" 和 \"un\"）。",
+          "nl": "IN en UN produceren dezelfde nasale klank /ɛ̃/.",
+          "prs": "نوشتار IN و UN هر دو صدای تودماغی /ɛ̃/ تولید می‌کنند.",
+          "uk": "Буквосполучення IN та UN утворюють однаковий носовий звук /ɛ̃/.",
+          "ps": "د IN او UN لیکنه یو شان پوزیز غږ /ɛ̃/ رامنځته کوي.",
+          "sq": "Shkronjat IN dhe UN prodhojnë të njëjtin tingull hundor /ɛ̃/.",
+          "ka": "IN და UN იძლევა ერთსა და იმავე ცხვირისმიერ ბგერას /ɛ̃/."
+        },
+        "words": [
+          {
+            "word": "lapin",
+            "highlight": "in",
+            "ipa": "/la.pɛ̃/",
+            "gloss": {
+              "en": "rabbit",
+              "fr": "lapin",
+              "es": "conejo",
+              "de": "Hase",
+              "it": "coniglio",
+              "pt": "coelho",
+              "ar": "أرنب",
+              "zh": "兔子",
+              "nl": "konijn",
+              "prs": "خرگوش",
+              "uk": "кролик",
+              "ps": "سوی",
+              "sq": "lepuri",
+              "ka": "კურდღელი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "un",
+            "highlight": "un",
+            "ipa": "/œ̃/",
+            "gloss": {
+              "en": "one (1)",
+              "fr": "un",
+              "es": "uno (1)",
+              "de": "eins (1)",
+              "it": "uno (1)",
+              "pt": "um (1)",
+              "ar": "واحد (١)",
+              "zh": "一 (1)",
+              "nl": "één (1)",
+              "prs": "یک (۱)",
+              "uk": "один (1)",
+              "ps": "یو (۱)",
+              "sq": "një (1)",
+              "ka": "ერთი (1)"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "AN / EN",
+    "lower": "an / en",
+    "name": "an",
+    "nameIpa": "/ɑ̃/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "an-en-nasal",
+        "soundIpa": "/ɑ̃/",
+        "soundName": {
+          "fr": "Son AN / EN (/ɑ̃/)",
+          "en": "AN / EN sound (/ɑ̃/)",
+          "es": "Sonido AN / EN (/ɑ̃/)",
+          "de": "AN / EN-Laut (/ɑ̃/)",
+          "it": "Suono AN / EN (/ɑ̃/)",
+          "pt": "Som AN / EN (/ɑ̃/)",
+          "ar": "صوت AN / EN الأنفي (/ɑ̃/)",
+          "zh": "AN / EN 鼻元音 (/ɑ̃/)",
+          "nl": "AN / EN-klank (/ɑ̃/)",
+          "prs": "صوت AN / EN تودماغی (/ɑ̃/)",
+          "uk": "Носовий звук AN / EN (/ɑ̃/)",
+          "ps": "د AN / EN پوزیز غږ (/ɑ̃/)",
+          "sq": "Tingulli AN / EN (/ɑ̃/)",
+          "ka": "AN / EN ბგერა (/ɑ̃/)"
+        },
+        "rule": {
+          "fr": "Les graphies AN et EN produisent le même son nasal ouvert /ɑ̃/ (comme dans « enfants »).",
+          "en": "The spellings AN and EN make the same open nasal vowel /ɑ̃/ (as in \"enfants\").",
+          "es": "Las grafías AN y EN producen el mismo sonido nasal abierto /ɑ̃/.",
+          "de": "Die Schreibweisen AN und EN erzeugen denselben offenen Nasallaut /ɑ̃/.",
+          "it": "Le grafie AN e EN producono lo stesso suono nasale aperto /ɑ̃/.",
+          "pt": "As grafias AN e EN produzem o mesmo som nasal aberto /ɑ̃/.",
+          "ar": "الحرفان AN و EN يُنطقان بنفس الصوت الأنفي المفتوح /ɑ̃/ (كما في « enfants »).",
+          "zh": "拼写 AN 和 EN 发相同的开鼻元音 /ɑ̃/（如 \"enfants\" 中）。",
+          "nl": "AN en EN produceren dezelfde open nasale klank /ɑ̃/.",
+          "prs": "ترکیب‌های AN و EN هر دو صدای تودماغی باز /ɑ̃/ تولید می‌کنند.",
+          "uk": "Буквосполучення AN та EN вимовляються однаково як відкритий носовий звук /ɑ̃/.",
+          "ps": "د AN او EN ترکیبونه یو شان پرانیستی پوزیز غږ /ɑ̃/ جوړوي.",
+          "sq": "Kombinimet AN dhe EN prodhojnë të njëjtin tingull hundor /ɑ̃/.",
+          "ka": "AN და EN იძლევა ერთსა და იმავე ღია ცხვირისმიერ ბგერას /ɑ̃/."
+        },
+        "words": [
+          {
+            "word": "enfants",
+            "highlight": "en",
+            "ipa": "/ɑ̃.fɑ̃/",
+            "gloss": {
+              "en": "children",
+              "fr": "enfants",
+              "es": "niños",
+              "de": "Kinder",
+              "it": "bambini",
+              "pt": "crianças",
+              "ar": "أطفال",
+              "zh": "孩子们",
+              "nl": "kinderen",
+              "prs": "کودکان",
+              "uk": "діти",
+              "ps": "ماشومان",
+              "sq": "fëmijët",
+              "ka": "ბავშვები"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "EUIL / EUILLE",
+    "lower": "euil / euille",
+    "name": "euil",
+    "nameIpa": "/œj/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "euil-standard",
+        "soundIpa": "/œj/",
+        "soundName": {
+          "fr": "Son EUIL / EUILLE (/œj/)",
+          "en": "EUIL / EUILLE sound (/œj/)",
+          "es": "Sonido EUIL / EUILLE (/œj/)",
+          "de": "EUIL / EUILLE-Laut (/œj/)",
+          "it": "Suono EUIL / EUILLE (/œj/)",
+          "pt": "Som EUIL / EUILLE (/œj/)",
+          "ar": "صوت EUIL / EUILLE (/œj/)",
+          "zh": "EUIL / EUILLE 组合 (/œj/)",
+          "nl": "EUIL / EUILLE-klank (/œj/)",
+          "prs": "صوت EUIL / EUILLE (/œj/)",
+          "uk": "Звук EUIL / EUILLE (/œj/)",
+          "ps": "د EUIL / EUILLE غږ (/œj/)",
+          "sq": "Tingulli EUIL / EUILLE (/œj/)",
+          "ka": "EUIL / EUILLE ბგერა (/œj/)"
+        },
+        "rule": {
+          "fr": "Au masculin « euil », au féminin « euille », ce groupe produit le son /œj/ (comme dans « fauteuil » et « feuille »).",
+          "en": "Masculine \"euil\", feminine \"euille\", pronounced /œj/ (as in \"fauteuil\" and \"feuille\").",
+          "es": "En masculino «euil», en femenino «euille», suena /œj/.",
+          "de": "Männlich «euil», weiblich «euille», wird /œj/ gesprochen.",
+          "it": "Al maschile «euil», al femminile «euille», si pronuncia /œj/.",
+          "pt": "No masculino «euil», no feminino «euille», soa /œj/.",
+          "ar": "يُنطق /œj/ (بالمذكر « euil » والمؤنث « euille » كما في « fauteuil » و « feuille »).",
+          "zh": "阳性写作 \"euil\"，阴性写作 \"euille\"，发音为 /œj/。",
+          "nl": "Mannelijk «euil», vrouwelijk «euille», klinkt als /œj/.",
+          "prs": "در مذکر «euil» و در مؤنث «euille»، صدای /œj/ می‌دهد.",
+          "uk": "У чоловічому роді «euil», у жіночому «euille», вимовляється як /œj/.",
+          "ps": "په مذکر کې «euil» او په مؤنث کې «euille»، د /œj/ غږ جوړوي.",
+          "sq": "Në mashkullore «euil», në femërore «euille», shqiptohet /œj/.",
+          "ka": "მამრობითში «euil», მდედრობითში «euille», წარმოითქმის როგორც /œj/."
+        },
+        "words": [
+          {
+            "word": "fauteuil",
+            "highlight": "euil",
+            "ipa": "/fo.tœj/",
+            "gloss": {
+              "en": "armchair",
+              "fr": "fauteuil",
+              "es": "sillón",
+              "de": "Sessel",
+              "it": "poltrona",
+              "pt": "poltrona",
+              "ar": "كرسي بذراعين",
+              "zh": "扶手椅",
+              "nl": "leunstoel",
+              "prs": "مبل راحتی",
+              "uk": "крісло",
+              "ps": "ارام څوکۍ",
+              "sq": "kolltuk",
+              "ka": "სავარძელი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "feuille",
+            "highlight": "euille",
+            "ipa": "/fœj/",
+            "gloss": {
+              "en": "leaf",
+              "fr": "feuille",
+              "es": "hoja",
+              "de": "Blatt",
+              "it": "foglia",
+              "pt": "folha",
+              "ar": "ورقة شجر",
+              "zh": "树叶",
+              "nl": "blad",
+              "prs": "برگ",
+              "uk": "листок",
+              "ps": "پاڼه",
+              "sq": "gjethe",
+              "ka": "ფოთოლი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "AIL",
+    "lower": "ail",
+    "name": "ail",
+    "nameIpa": "/aj/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "ail-standard",
+        "soundIpa": "/aj/",
+        "soundName": {
+          "fr": "Son AIL (/aj/)",
+          "en": "AIL sound (/aj/)",
+          "es": "Sonido AIL (/aj/)",
+          "de": "AIL-Laut (/aj/)",
+          "it": "Suono AIL (/aj/)",
+          "pt": "Som AIL (/aj/)",
+          "ar": "صوت AIL (/aj/)",
+          "zh": "AIL 组合 (/aj/)",
+          "nl": "AIL-klank (/aj/)",
+          "prs": "صوت AIL (/aj/)",
+          "uk": "Звук AIL (/aj/)",
+          "ps": "د AIL غږ (/aj/)",
+          "sq": "Tingulli AIL (/aj/)",
+          "ka": "AIL ბგერა (/aj/)"
+        },
+        "rule": {
+          "fr": "La combinaison AIL (ou AILLE) se prononce /aj/ (comme dans « portail »).",
+          "en": "The combination AIL (or AILLE) is pronounced /aj/ (as in \"portail\").",
+          "es": "La combinación AIL se pronuncia /aj/ (como en «portail»).",
+          "de": "Die Verbindung AIL wird als /aj/ gesprochen (wie in «portail»).",
+          "it": "La combinazione AIL si pronuncia /aj/ (come in «portail»).",
+          "pt": "A combinação AIL pronuncia-se /aj/ (como em «portail»).",
+          "ar": "التركيبة AIL تُنطق /aj/ (كما في « portail »).",
+          "zh": "组合 AIL 读作 /aj/（如 \"portail\"）。",
+          "nl": "De combinatie AIL klinkt als /aj/ (zoals in «portail»).",
+          "prs": "ترکیب AIL صدای /aj/ می‌دهد (مانند «portail»).",
+          "uk": "Буквосполучення AIL вимовляється як /aj/ (як у «portail»).",
+          "ps": "د AIL ترکیب د /aj/ غږ جوړوي (لکه په «portail» کې).",
+          "sq": "Kombinimi AIL shqiptohet /aj/ (si te «portail»).",
+          "ka": "AIL კომბინაცია წარმოითქმის როგორც /aj/ (როგორც «portail»-ში)."
+        },
+        "words": [
+          {
+            "word": "portail",
+            "highlight": "ail",
+            "ipa": "/pɔʁ.taj/",
+            "gloss": {
+              "en": "gate",
+              "fr": "portail",
+              "es": "portal / verja",
+              "de": "Tor / Portal",
+              "it": "cancello",
+              "pt": "portão",
+              "ar": "بوابة",
+              "zh": "大门",
+              "nl": "poort",
+              "prs": "دروازه بزرگ",
+              "uk": "ворота",
+              "ps": "لویه دروازه",
+              "sq": "portë",
+              "ka": "ჭიშკარი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1558036117-15d82a90b9b1?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "EIL / EILLE",
+    "lower": "eil / eille",
+    "name": "eil",
+    "nameIpa": "/ɛj/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "eil-standard",
+        "soundIpa": "/ɛj/",
+        "soundName": {
+          "fr": "Son EIL / EILLE (/ɛj/)",
+          "en": "EIL / EILLE sound (/ɛj/)",
+          "es": "Sonido EIL / EILLE (/ɛj/)",
+          "de": "EIL / EILLE-Laut (/ɛj/)",
+          "it": "Suono EIL / EILLE (/ɛj/)",
+          "pt": "Som EIL / EILLE (/ɛj/)",
+          "ar": "صوت EIL / EILLE (/ɛj/)",
+          "zh": "EIL / EILLE 组合 (/ɛj/)",
+          "nl": "EIL / EILLE-klank (/ɛj/)",
+          "prs": "صوت EIL / EILLE (/ɛj/)",
+          "uk": "Звук EIL / EILLE (/ɛj/)",
+          "ps": "د EIL / EILLE غږ (/ɛj/)",
+          "sq": "Tingulli EIL / EILLE (/ɛj/)",
+          "ka": "EIL / EILLE ბგერა (/ɛj/)"
+        },
+        "rule": {
+          "fr": "Au masculin « eil », au féminin « eille », ce groupe se prononce /ɛj/ (comme dans « soleil » et « abeille »).",
+          "en": "Masculine \"eil\", feminine \"eille\", pronounced /ɛj/ (as in \"soleil\" and \"abeille\").",
+          "es": "En masculino «eil», en femenino «eille», suena /ɛj/.",
+          "de": "Männlich «eil», weiblich «eille», wird /ɛj/ gesprochen.",
+          "it": "Al maschile «eil», al femminile «eille», si pronuncia /ɛj/.",
+          "pt": "No masculino «eil», no feminino «eille», soa /ɛj/.",
+          "ar": "يُنطق /ɛj/ (بالمذكر « eil » والمؤنث « eille » كما في « soleil » و « abeille »).",
+          "zh": "阳性写作 \"eil\"，阴性写作 \"eille\"，读作 /ɛj/。",
+          "nl": "Mannelijk «eil», vrouwelijk «eille», klinkt als /ɛj/.",
+          "prs": "در مذکر «eil» و در مؤنث «eille»، صدای /ɛj/ می‌دهد.",
+          "uk": "У чоловічому роді «eil», у жіночому «eille», вимовляється як /ɛj/.",
+          "ps": "په مذکر کې «eil» او په مؤنث کې «eille»، د /ɛj/ غږ جوړوي.",
+          "sq": "Në mashkullore «eil», në femërore «eille», shqiptohet /ɛj/.",
+          "ka": "მამრობითში «eil», მდედრობითში «eille», წარმოითქმის როგორც /ɛj/."
+        },
+        "words": [
+          {
+            "word": "soleil",
+            "highlight": "eil",
+            "ipa": "/sɔ.lɛj/",
+            "gloss": {
+              "en": "sun",
+              "fr": "soleil",
+              "es": "sol",
+              "de": "Sonne",
+              "it": "sole",
+              "pt": "sol",
+              "ar": "شمس",
+              "zh": "太阳",
+              "nl": "zon",
+              "prs": "خورشید",
+              "uk": "сонце",
+              "ps": "لمر",
+              "sq": "diell",
+              "ka": "მზე"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1576426863848-c21f53c60b19?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "abeille",
+            "highlight": "eille",
+            "ipa": "/a.bɛj/",
+            "gloss": {
+              "en": "bee",
+              "fr": "abeille",
+              "es": "abeja",
+              "de": "Biene",
+              "it": "ape",
+              "pt": "abelha",
+              "ar": "نحلة",
+              "zh": "蜜蜂",
+              "nl": "bij",
+              "prs": "زنبور عسل",
+              "uk": "бджола",
+              "ps": "مچۍ",
+              "sq": "bletë",
+              "ka": "ფუტკარი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "AIN = UN",
+    "lower": "ain",
+    "name": "ain",
+    "nameIpa": "/ɛ̃/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "ain-standard",
+        "soundIpa": "/ɛ̃/",
+        "soundName": {
+          "fr": "Son AIN (/ɛ̃/)",
+          "en": "AIN sound (/ɛ̃/)",
+          "es": "Sonido AIN (/ɛ̃/)",
+          "de": "AIN-Laut (/ɛ̃/)",
+          "it": "Suono AIN (/ɛ̃/)",
+          "pt": "Som AIN (/ɛ̃/)",
+          "ar": "صوت AIN الأنفي (/ɛ̃/)",
+          "zh": "AIN 鼻元音 (/ɛ̃/)",
+          "nl": "AIN-klank (/ɛ̃/)",
+          "prs": "صوت AIN تودماغی (/ɛ̃/)",
+          "uk": "Звук AIN (/ɛ̃/)",
+          "ps": "د AIN پوزیز غږ (/ɛ̃/)",
+          "sq": "Tingulli AIN (/ɛ̃/)",
+          "ka": "AIN ბგერა (/ɛ̃/)"
+        },
+        "rule": {
+          "fr": "La combinaison AIN produit le son nasal /ɛ̃/ (comme dans « pain »).",
+          "en": "The combination AIN produces the nasal sound /ɛ̃/ (as in \"pain\").",
+          "es": "La combinación AIN produce el sonido nasal /ɛ̃/ (como en «pain»).",
+          "de": "Die Verbindung AIN erzeugt den Nasallaut /ɛ̃/ (wie in «pain»).",
+          "it": "La combinazione AIN produce il suono nasale /ɛ̃/ (come in «pain»).",
+          "pt": "A combinação AIN produz o som nasal /ɛ̃/ (como em «pain»).",
+          "ar": "التركيبة AIN تنتج الصوت الأنفي /ɛ̃/ (كما في « pain »).",
+          "zh": "组合 AIN 发鼻元音 /ɛ̃/（如 \"pain\"）。",
+          "nl": "De combinatie AIN klinkt als de nasale /ɛ̃/ (zoals in «pain»).",
+          "prs": "ترکیب AIN صدای تودماغی /ɛ̃/ می‌دهد (مانند «pain»).",
+          "uk": "Буквосполучення AIN утворює носовий звук /ɛ̃/ (як у «pain»).",
+          "ps": "د AIN ترکیب پوزیز غږ /ɛ̃/ رامنځته کوي (لکه په «pain» کې).",
+          "sq": "Kombinimi AIN prodhon tingullin hundor /ɛ̃/ (si te «pain»).",
+          "ka": "AIN კომბინაცია იძლევა ცხვირისმიერ ბგერას /ɛ̃/ (როგორც «pain»-ში)."
+        },
+        "words": [
+          {
+            "word": "pain",
+            "highlight": "ain",
+            "ipa": "/pɛ̃/",
+            "gloss": {
+              "en": "bread",
+              "fr": "pain",
+              "es": "pan",
+              "de": "Brot",
+              "it": "pane",
+              "pt": "pão",
+              "ar": "خبز",
+              "zh": "面包",
+              "nl": "brood",
+              "prs": "نان",
+              "uk": "хліб",
+              "ps": "ډوډۍ",
+              "sq": "bukë",
+              "ka": "პური"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "EIN",
+    "lower": "ein",
+    "name": "ein",
+    "nameIpa": "/ɛ̃/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "ein-standard",
+        "soundIpa": "/ɛ̃/",
+        "soundName": {
+          "fr": "Son EIN (/ɛ̃/)",
+          "en": "EIN sound (/ɛ̃/)",
+          "es": "Sonido EIN (/ɛ̃/)",
+          "de": "EIN-Laut (/ɛ̃/)",
+          "it": "Suono EIN (/ɛ̃/)",
+          "pt": "Som EIN (/ɛ̃/)",
+          "ar": "صوت EIN الأنفي (/ɛ̃/)",
+          "zh": "EIN 鼻元音 (/ɛ̃/)",
+          "nl": "EIN-klank (/ɛ̃/)",
+          "prs": "صوت EIN تودماغی (/ɛ̃/)",
+          "uk": "Звук EIN (/ɛ̃/)",
+          "ps": "د EIN پوزیز غږ (/ɛ̃/)",
+          "sq": "Tingulli EIN (/ɛ̃/)",
+          "ka": "EIN ბგერა (/ɛ̃/)"
+        },
+        "rule": {
+          "fr": "La combinaison EIN produit le son nasal /ɛ̃/ (comme dans « peintre »).",
+          "en": "The combination EIN produces the nasal sound /ɛ̃/ (as in \"peintre\").",
+          "es": "La combinación EIN produce el sonido nasal /ɛ̃/ (como en «peintre»).",
+          "de": "Die Verbindung EIN erzeugt den Nasallaut /ɛ̃/ (wie in «peintre»).",
+          "it": "La combinazione EIN produce il suono nasale /ɛ̃/ (come in «peintre»).",
+          "pt": "A combinação EIN produz o som nasal /ɛ̃/ (como em «peintre»).",
+          "ar": "التركيبة EIN تنتج الصوت الأنفي /ɛ̃/ (كما في « peintre »).",
+          "zh": "组合 EIN 发鼻元音 /ɛ̃/（如 \"peintre\"）。",
+          "nl": "De combinatie EIN klinkt als de nasale /ɛ̃/ (zoals in «peintre»).",
+          "prs": "ترکیب EIN صدای تودماغی /ɛ̃/ می‌دهد (مانند «peintre»).",
+          "uk": "Буквосполучення EIN утворює носовий звук /ɛ̃/ (як у «peintre»).",
+          "ps": "د EIN ترکیب پوزیز غږ /ɛ̃/ رامنځته کوي (لکه په «peintre» کې).",
+          "sq": "Kombinimi EIN prodhon tingullin hundor /ɛ̃/ (si te «peintre»).",
+          "ka": "EIN კომბინაცია იძლევა ცხვირისმიერ ბგერას /ɛ̃/ (როგორც «peintre»-ში)."
+        },
+        "words": [
+          {
+            "word": "peintre",
+            "highlight": "ein",
+            "ipa": "/pɛ̃tʁ/",
+            "gloss": {
+              "en": "painter",
+              "fr": "peintre",
+              "es": "pintor",
+              "de": "Maler",
+              "it": "pittore",
+              "pt": "pintor",
+              "ar": "رسام",
+              "zh": "画家",
+              "nl": "schilder",
+              "prs": "نقاش",
+              "uk": "художник",
+              "ps": "انځورګر",
+              "sq": "piktor",
+              "ka": "მხატვარი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "TION",
+    "lower": "tion",
+    "name": "tion",
+    "nameIpa": "/sjɔ̃/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "tion-standard",
+        "soundIpa": "/sjɔ̃/",
+        "soundName": {
+          "fr": "Son TION (/sjɔ̃/)",
+          "en": "TION sound (/sjɔ̃/)",
+          "es": "Sonido TION (/sjɔ̃/)",
+          "de": "TION-Laut (/sjɔ̃/)",
+          "it": "Suono TION (/sjɔ̃/)",
+          "pt": "Som TION (/sjɔ̃/)",
+          "ar": "صوت TION (/sjɔ̃/)",
+          "zh": "TION 后缀 (/sjɔ̃/)",
+          "nl": "TION-klank (/sjɔ̃/)",
+          "prs": "صوت TION (/sjɔ̃/)",
+          "uk": "Звук TION (/sjɔ̃/)",
+          "ps": "د TION غږ (/sjɔ̃/)",
+          "sq": "Tingulli TION (/sjɔ̃/)",
+          "ka": "TION ბგერა (/sjɔ̃/)"
+        },
+        "rule": {
+          "fr": "Le suffixe TION se prononce généralement /sjɔ̃/ (comme dans « émotion »).",
+          "en": "The suffix TION is pronounced /sjɔ̃/ (as in \"émotion\").",
+          "es": "El sufijo TION se pronuncia /sjɔ̃/ (como en «émotion»).",
+          "de": "Die Endung TION wird als /sjɔ̃/ ausgesprochen (wie in «émotion»).",
+          "it": "Il suffisso TION si pronuncia /sjɔ̃/ (come in «émotion»).",
+          "pt": "O sufixo TION pronuncia-se /sjɔ̃/ (como em «émotion»).",
+          "ar": "اللاحقة TION تُنطق /sjɔ̃/ (كما في « émotion »).",
+          "zh": "后缀 TION 通常读作 /sjɔ̃/（如 \"émotion\"）。",
+          "nl": "Het achtervoegsel TION klinkt als /sjɔ̃/ (zoals in «émotion»).",
+          "prs": "پسوند TION صدای /sjɔ̃/ می‌دهد (مانند «émotion»).",
+          "uk": "Суфікс TION вимовляється як /sjɔ̃/ (як у «émotion»).",
+          "ps": "د TION وروستاړی د /sjɔ̃/ په توګه تلفظ کېږي (لکه په «émotion» کې).",
+          "sq": "Prapashtesa TION shqiptohet /sjɔ̃/ (si te «émotion»).",
+          "ka": "TION სუფიქსი წარმოითქმის როგორც /sjɔ̃/ (როგორც «émotion»-ში)."
+        },
+        "words": [
+          {
+            "word": "émotion",
+            "highlight": "tion",
+            "ipa": "/e.mo.sjɔ̃/",
+            "gloss": {
+              "en": "emotion",
+              "fr": "émotion",
+              "es": "emoción",
+              "de": "Emotion / Gefühl",
+              "it": "emozione",
+              "pt": "emoção",
+              "ar": "عاطفة / شعور",
+              "zh": "情感",
+              "nl": "emotie",
+              "prs": "احساس",
+              "uk": "емоція",
+              "ps": "احساس",
+              "sq": "emocion",
+              "ka": "ემოცია"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "SION",
+    "lower": "sion",
+    "name": "sion",
+    "nameIpa": "/sjɔ̃/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "sion-standard",
+        "soundIpa": "/sjɔ̃/",
+        "soundName": {
+          "fr": "Son SION (/sjɔ̃/)",
+          "en": "SION sound (/sjɔ̃/)",
+          "es": "Sonido SION (/sjɔ̃/)",
+          "de": "SION-Laut (/sjɔ̃/)",
+          "it": "Suono SION (/sjɔ̃/)",
+          "pt": "Som SION (/sjɔ̃/)",
+          "ar": "صوت SION (/sjɔ̃/)",
+          "zh": "SION 后缀 (/sjɔ̃/)",
+          "nl": "SION-klank (/sjɔ̃/)",
+          "prs": "صوت SION (/sjɔ̃/)",
+          "uk": "Звук SION (/sjɔ̃/)",
+          "ps": "د SION غږ (/sjɔ̃/)",
+          "sq": "Tingulli SION (/sjɔ̃/)",
+          "ka": "SION ბგერა (/sjɔ̃/)"
+        },
+        "rule": {
+          "fr": "Le suffixe SION après consonne se prononce /sjɔ̃/ (comme dans « tension »).",
+          "en": "The suffix SION after a consonant is pronounced /sjɔ̃/ (as in \"tension\").",
+          "es": "El sufijo SION tras consonante se pronuncia /sjɔ̃/ (como en «tensión»).",
+          "de": "Die Endung SION nach Konsonant wird /sjɔ̃/ gesprochen.",
+          "it": "Il suffisso SION dopo consonante si pronuncia /sjɔ̃/.",
+          "pt": "O sufixo SION após consoante pronuncia-se /sjɔ̃/.",
+          "ar": "اللاحقة SION بعد حرف ساكن تُنطق /sjɔ̃/ (كما في « tension »).",
+          "zh": "辅音后的后缀 SION 读作 /sjɔ̃/（如 \"tension\"）。",
+          "nl": "Het achtervoegsel SION klinkt na een medeklinker als /sjɔ̃/.",
+          "prs": "پسوند SION پس از حرف بی‌صدا، صدای /sjɔ̃/ می‌دهد.",
+          "uk": "Суфікс SION після приголосного вимовляється як /sjɔ̃/.",
+          "ps": "د SION وروستاړی له بې‌غږه توري وروسته /sjɔ̃/ تلفظ کېږي.",
+          "sq": "Prapashtesa SION pas një bashkëtingëlloreje shqiptohet /sjɔ̃/.",
+          "ka": "SION სუფიქსი თანხმოვნის შემდეგ წარმოითქმის როგორც /sjɔ̃/."
+        },
+        "words": [
+          {
+            "word": "tension",
+            "highlight": "sion",
+            "ipa": "/tɑ̃.sjɔ̃/",
+            "gloss": {
+              "en": "tension",
+              "fr": "tension",
+              "es": "tensión",
+              "de": "Spannung",
+              "it": "tensione",
+              "pt": "tensão",
+              "ar": "ضغط / توتر",
+              "zh": "压力 / 张力",
+              "nl": "spanning",
+              "prs": "تنش / فشار",
+              "uk": "напруга",
+              "ps": "فشار",
+              "sq": "tension",
+              "ka": "დაძაბულობა"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1527689368864-3a821dbccc34?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "ETTE",
+    "lower": "ette",
+    "name": "ette",
+    "nameIpa": "/ɛt/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "ette-standard",
+        "soundIpa": "/ɛt/",
+        "soundName": {
+          "fr": "Son ETTE (/ɛt/)",
+          "en": "ETTE sound (/ɛt/)",
+          "es": "Sonido ETTE (/ɛt/)",
+          "de": "ETTE-Laut (/ɛt/)",
+          "it": "Suono ETTE (/ɛt/)",
+          "pt": "Som ETTE (/ɛt/)",
+          "ar": "صوت ETTE (/ɛt/)",
+          "zh": "ETTE 词尾 (/ɛt/)",
+          "nl": "ETTE-klank (/ɛt/)",
+          "prs": "صوت ETTE (/ɛt/)",
+          "uk": "Звук ETTE (/ɛt/)",
+          "ps": "د ETTE غږ (/ɛt/)",
+          "sq": "Tingulli ETTE (/ɛt/)",
+          "ka": "ETTE ბგერა (/ɛt/)"
+        },
+        "rule": {
+          "fr": "La terminaison ETTE se prononce /ɛt/ (comme dans « lunettes » et « fillette »).",
+          "en": "The ending ETTE is pronounced /ɛt/ (as in \"lunettes\" and \"fillette\").",
+          "es": "La terminación ETTE se pronuncia /ɛt/ (como en «lunettes» y «fillette»).",
+          "de": "Die Endung ETTE wird als /ɛt/ gesprochen (wie in «lunettes» und «fillette»).",
+          "it": "La desinenza ETTE si pronuncia /ɛt/ (come in «lunettes» e «fillette»).",
+          "pt": "A terminação ETTE pronuncia-se /ɛt/ (como em «lunettes» e «fillette»).",
+          "ar": "اللاحقة ETTE تُنطق /ɛt/ (كما في « lunettes » و « fillette »).",
+          "zh": "词尾 ETTE 读作 /ɛt/（如 \"lunettes\" 和 \"fillette\"）。",
+          "nl": "De uitgang ETTE klinkt als /ɛt/ (zoals in «lunettes» en «fillette»).",
+          "prs": "پایانه ETTE صدای /ɛt/ می‌دهد (مانند «lunettes» و «fillette»).",
+          "uk": "Закінчення ETTE вимовляється як /ɛt/ (як у «lunettes» та «fillette»).",
+          "ps": "د ETTE پای د /ɛt/ په توګه تلفظ کېږي (لکه په «lunettes» او «fillette» کې).",
+          "sq": "Mbarimi ETTE shqiptohet /ɛt/ (si te «lunettes» dhe «fillette»).",
+          "ka": "ETTE დაბოლოება წარმოითქმის როგორც /ɛt/ (როგორც «lunettes» და «fillette»)."
+        },
+        "words": [
+          {
+            "word": "lunettes",
+            "highlight": "ette",
+            "ipa": "/ly.nɛt/",
+            "gloss": {
+              "en": "glasses",
+              "fr": "lunettes",
+              "es": "gafas",
+              "de": "Brille",
+              "it": "occhiali",
+              "pt": "óculos",
+              "ar": "نظارات",
+              "zh": "眼镜",
+              "nl": "bril",
+              "prs": "عینک",
+              "uk": "окуляри",
+              "ps": "عینکې",
+              "sq": "syze",
+              "ka": "სათვალე"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "fillette",
+            "highlight": "ette",
+            "ipa": "/fi.jɛt/",
+            "gloss": {
+              "en": "little girl",
+              "fr": "fillette",
+              "es": "niña pequeña",
+              "de": "kleines Mädchen",
+              "it": "bambina",
+              "pt": "menininha",
+              "ar": "طفلة صغيرة",
+              "zh": "小女孩",
+              "nl": "meisje",
+              "prs": "دختر کوچک",
+              "uk": "маленька дівчинка",
+              "ps": "کوچنۍ نجلۍ",
+              "sq": "vajzë e vogël",
+              "ka": "პატარა გოგონა"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "ILLE",
+    "lower": "ille",
+    "name": "ille",
+    "nameIpa": "/ij/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "ille-standard",
+        "soundIpa": "/ij/",
+        "soundName": {
+          "fr": "Son ILLE (/ij/)",
+          "en": "ILLE sound (/ij/)",
+          "es": "Sonido ILLE (/ij/)",
+          "de": "ILLE-Laut (/ij/)",
+          "it": "Suono ILLE (/ij/)",
+          "pt": "Som ILLE (/ij/)",
+          "ar": "صوت ILLE (/ij/)",
+          "zh": "ILLE 组合 (/ij/)",
+          "nl": "ILLE-klank (/ij/)",
+          "prs": "صوت ILLE (/ij/)",
+          "uk": "Звук ILLE (/ij/)",
+          "ps": "د ILLE غږ (/ij/)",
+          "sq": "Tingulli ILLE (/ij/)",
+          "ka": "ILLE ბგერა (/ij/)"
+        },
+        "rule": {
+          "fr": "La graphie ILLE produit généralement le son /ij/ (comme dans « famille »).",
+          "en": "The spelling ILLE generally produces the /ij/ sound (as in \"famille\").",
+          "es": "La grafía ILLE generalmente produce el sonido /ij/ (como en «famille»).",
+          "de": "Die Gruppe ILLE wird meist als /ij/ gesprochen (wie in «famille»).",
+          "it": "La grafia ILLE produce generalmente il suono /ij/ (come in «famille»).",
+          "pt": "A grafia ILLE produz geralmente o som /ij/ (como em «famille»).",
+          "ar": "التركيبة ILLE تُنطق عموماً /ij/ (كما في « famille »).",
+          "zh": "拼写 ILLE 通常发 /ij/ 音（如 \"famille\" 中）。",
+          "nl": "De spelling ILLE klinkt meestal als /ij/ (zoals in «famille»).",
+          "prs": "ترکیب ILLE معمولاً صدای /ij/ می‌دهد (مانند «famille»).",
+          "uk": "Буквосполучення ILLE зазвичай читається як /ij/ (як у «famille»).",
+          "ps": "د ILLE لیکنه عموماً د /ij/ غږ رامنځته کوي (لکه په «famille» کې).",
+          "sq": "Grupi ILLE përgjithësisht shqiptohet /ij/ (si te «famille»).",
+          "ka": "ILLE კომბინაცია ჩვეულებრივ წარმოითქმის როგორც /ij/ (როგორც «famille»-ში)."
+        },
+        "words": [
+          {
+            "word": "famille",
+            "highlight": "ille",
+            "ipa": "/fa.mij/",
+            "gloss": {
+              "en": "family",
+              "fr": "famille",
+              "es": "familia",
+              "de": "Familie",
+              "it": "famiglia",
+              "pt": "família",
+              "ar": "عائلة",
+              "zh": "家庭 / 家人",
+              "nl": "gezin / familie",
+              "prs": "خانواده",
+              "uk": "родина",
+              "ps": "کورنۍ",
+              "sq": "familje",
+              "ka": "ოჯახი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "OIN",
+    "lower": "oin",
+    "name": "oin",
+    "nameIpa": "/wɛ̃/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "oin-standard",
+        "soundIpa": "/wɛ̃/",
+        "soundName": {
+          "fr": "Son OIN (/wɛ̃/)",
+          "en": "OIN sound (/wɛ̃/)",
+          "es": "Sonido OIN (/wɛ̃/)",
+          "de": "OIN-Laut (/wɛ̃/)",
+          "it": "Suono OIN (/wɛ̃/)",
+          "pt": "Som OIN (/wɛ̃/)",
+          "ar": "صوت OIN الأنفي (/wɛ̃/)",
+          "zh": "OIN 组合 (/wɛ̃/)",
+          "nl": "OIN-klank (/wɛ̃/)",
+          "prs": "صوت OIN تودماغی (/wɛ̃/)",
+          "uk": "Звук OIN (/wɛ̃/)",
+          "ps": "د OIN پوزیز غږ (/wɛ̃/)",
+          "sq": "Tingulli OIN (/wɛ̃/)",
+          "ka": "OIN ბგერა (/wɛ̃/)"
+        },
+        "rule": {
+          "fr": "La combinaison OIN se prononce en une seule syllabe nasale /wɛ̃/ (comme dans « coin »).",
+          "en": "The combination OIN is pronounced as a single nasal syllable /wɛ̃/ (as in \"coin\").",
+          "es": "La combinación OIN se pronuncia en una sola sílaba nasal /wɛ̃/ (como en «coin»).",
+          "de": "Die Verbindung OIN wird als eine einzige nasale Silbe /wɛ̃/ gesprochen.",
+          "it": "La combinazione OIN si pronuncia in un'unica sillaba nasale /wɛ̃/.",
+          "pt": "A combinação OIN pronuncia-se como uma única sílaba nasal /wɛ̃/.",
+          "ar": "التركيبة OIN تُنطق كمقطع أنفي واحد /wɛ̃/ (كما في « coin »).",
+          "zh": "组合 OIN 作为一个鼻化音节读作 /wɛ̃/（如 \"coin\"）。",
+          "nl": "De combinatie OIN klinkt als één nasale lettergreep /wɛ̃/.",
+          "prs": "ترکیب OIN به صورت یک هجای تودماغی /wɛ̃/ تلفظ می‌شود (مانند «coin»).",
+          "uk": "Буквосполучення OIN вимовляється як один носовий склад /wɛ̃/.",
+          "ps": "د OIN ترکیب د یوه پوزیز سیلاب /wɛ̃/ په توګه تلفظ کېږي.",
+          "sq": "Kombinimi OIN shqiptohet si një rrokje e vetme hundore /wɛ̃/.",
+          "ka": "OIN კომბინაცია წარმოითქმის როგორც ერთი ცხვირისმიერი მარცვალი /wɛ̃/."
+        },
+        "words": [
+          {
+            "word": "coin",
+            "highlight": "oin",
+            "ipa": "/kwɛ̃/",
+            "gloss": {
+              "en": "corner",
+              "fr": "coin",
+              "es": "esquina",
+              "de": "Ecke",
+              "it": "angolo",
+              "pt": "canto / esquina",
+              "ar": "زاوية / ركن",
+              "zh": "角落 / 拐角",
+              "nl": "hoek",
+              "prs": "گوشه / کنج",
+              "uk": "кут",
+              "ps": "کونج",
+              "sq": "kënd",
+              "ka": "კუთხე"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "GN",
+    "lower": "gn",
+    "name": "gn",
+    "nameIpa": "/ɲ/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "gn-standard",
+        "soundIpa": "/ɲ/",
+        "soundName": {
+          "fr": "Son GN (/ɲ/)",
+          "en": "GN sound (/ɲ/)",
+          "es": "Sonido GN (/ɲ/)",
+          "de": "GN-Laut (/ɲ/)",
+          "it": "Suono GN (/ɲ/)",
+          "pt": "Som GN (/ɲ/)",
+          "ar": "صوت GN الحلقي (/ɲ/)",
+          "zh": "GN 组合 (/ɲ/)",
+          "nl": "GN-klank (/ɲ/)",
+          "prs": "صوت GN (/ɲ/)",
+          "uk": "Звук GN (/ɲ/)",
+          "ps": "د GN غږ (/ɲ/)",
+          "sq": "Tingulli GN (/ɲ/)",
+          "ka": "GN ბგერა (/ɲ/)"
+        },
+        "rule": {
+          "fr": "La combinaison GN produit le son /ɲ/ (comme dans « montagne »).",
+          "en": "The combination GN makes the /ɲ/ sound (like Spanish 'ñ', as in \"montagne\").",
+          "es": "La combinación GN produce el sonido /ɲ/ (como la 'ñ', en «montagne»).",
+          "de": "Die Verbindung GN erzeugt den Laut /ɲ/ (in «montagne»).",
+          "it": "La combinazione GN produce il suono /ɲ/ (come 'gn' in «montagne»).",
+          "pt": "A combinação GN produz o som /ɲ/ (como 'nh' em «montagne»).",
+          "ar": "التركيبة GN تنتج الصوت /ɲ/ (مثل ñ الإسبانية، كما في « montagne »).",
+          "zh": "组合 GN 发硬腭鼻音 /ɲ/（如 \"montagne\"）。",
+          "nl": "De combinatie GN klinkt als /ɲ/ (zoals in «montagne»).",
+          "prs": "ترکیب GN صدای /ɲ/ تولید می‌کند (در «montagne»).",
+          "uk": "Буквосполучення GN вимовляється як м’який носовий /ɲ/ (як у «montagne»).",
+          "ps": "د GN ترکیب د /ɲ/ غږ تولیدوي (لکه په «montagne» کې).",
+          "sq": "Kombinimi GN prodhon tingullin /ɲ/ (si te «montagne»).",
+          "ka": "GN კომბინაცია იძლევა /ɲ/ ბგერას (როგორც «montagne»-ში)."
+        },
+        "words": [
+          {
+            "word": "montagne",
+            "highlight": "gn",
+            "ipa": "/mɔ̃.taɲ/",
+            "gloss": {
+              "en": "mountain",
+              "fr": "montagne",
+              "es": "montaña",
+              "de": "Berg",
+              "it": "montagna",
+              "pt": "montanha",
+              "ar": "جبل",
+              "zh": "山峰",
+              "nl": "berg",
+              "prs": "کوه",
+              "uk": "гора",
+              "ps": "غر",
+              "sq": "mal",
+              "ka": "მთა"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "AI = é",
+    "lower": "ai",
+    "name": "ai",
+    "nameIpa": "/ɛ/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "ai-standard",
+        "soundIpa": "/ɛ/",
+        "soundName": {
+          "fr": "Son AI = é (/ɛ/)",
+          "en": "AI = é sound (/ɛ/)",
+          "es": "Sonido AI = é (/ɛ/)",
+          "de": "AI = é-Laut (/ɛ/)",
+          "it": "Suono AI = é (/ɛ/)",
+          "pt": "Som AI = é (/ɛ/)",
+          "ar": "صوت AI = é (/ɛ/)",
+          "zh": "AI = é 组合 (/ɛ/)",
+          "nl": "AI = é-klank (/ɛ/)",
+          "prs": "صوت AI = é (/ɛ/)",
+          "uk": "Звук AI = é (/ɛ/)",
+          "ps": "د AI = é غږ (/ɛ/)",
+          "sq": "Tingulli AI = é (/ɛ/)",
+          "ka": "AI = é ბგერა (/ɛ/)"
+        },
+        "rule": {
+          "fr": "La combinaison AI se prononce comme un « è » ou « é » ouvert /ɛ/ (comme dans « lait »).",
+          "en": "The combination AI is pronounced like an open 'è' or 'é' /ɛ/ (as in \"lait\").",
+          "es": "La combinación AI se pronuncia como una 'e' abierta /ɛ/ (como en «lait»).",
+          "de": "Die Verbindung AI wird wie ein offenes 'è' /ɛ/ gesprochen (wie in «lait»).",
+          "it": "La combinazione AI si pronuncia come una 'è' aperta /ɛ/ (come in «lait»).",
+          "pt": "A combinação AI pronuncia-se como um 'e' aberto /ɛ/ (como em «lait»).",
+          "ar": "التركيبة AI تُنطق كـ « è » أو « é » مفتوح /ɛ/ (كما في « lait »).",
+          "zh": "组合 AI 读作开前不圆唇元音 /ɛ/（如 \"lait\"）。",
+          "nl": "De combinatie AI klinkt als een open 'è' /ɛ/ (zoals in «lait»).",
+          "prs": "ترکیب AI مانند یک «è» یا «é» باز تلفظ می‌شود (مانند «lait»).",
+          "uk": "Буквосполучення AI вимовляється як відкритий звук «е» /ɛ/ (як у «lait»).",
+          "ps": "د AI ترکیب لکه یو پرانیستی 'è' یا 'é' /ɛ/ تلفظ کېږي.",
+          "sq": "Kombinimi AI shqiptohet si një 'è' e hapur /ɛ/ (si te «lait»).",
+          "ka": "AI კომბინაცია წარმოითქმის როგორც ღია 'è' ან 'é' /ɛ/ (როგორც «lait»-ში)."
+        },
+        "words": [
+          {
+            "word": "lait",
+            "highlight": "ai",
+            "ipa": "/lɛ/",
+            "gloss": {
+              "en": "milk",
+              "fr": "lait",
+              "es": "leche",
+              "de": "Milch",
+              "it": "latte",
+              "pt": "leite",
+              "ar": "حليب",
+              "zh": "牛奶",
+              "nl": "melk",
+              "prs": "شیر",
+              "uk": "молоко",
+              "ps": "شیدې",
+              "sq": "qumësht",
+              "ka": "რძე"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "EL / ELLE",
+    "lower": "el / elle",
+    "name": "elle",
+    "nameIpa": "/ɛl/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "el-elle-standard",
+        "soundIpa": "/ɛl/",
+        "soundName": {
+          "fr": "Son EL / ELLE (/ɛl/)",
+          "en": "EL / ELLE sound (/ɛl/)",
+          "es": "Sonido EL / ELLE (/ɛl/)",
+          "de": "EL / ELLE-Laut (/ɛl/)",
+          "it": "Suono EL / ELLE (/ɛl/)",
+          "pt": "Som EL / ELLE (/ɛl/)",
+          "ar": "صوت EL / ELLE (/ɛl/)",
+          "zh": "EL / ELLE 组合 (/ɛl/)",
+          "nl": "EL / ELLE-klank (/ɛl/)",
+          "prs": "صوت EL / ELLE (/ɛl/)",
+          "uk": "Звук EL / ELLE (/ɛl/)",
+          "ps": "د EL / ELLE غږ (/ɛl/)",
+          "sq": "Tingulli EL / ELLE (/ɛl/)",
+          "ka": "EL / ELLE ბგერა (/ɛl/)"
+        },
+        "rule": {
+          "fr": "Les graphies EL et ELLE se prononcent /ɛl/ (comme dans « caramel » et « belle »).",
+          "en": "The spellings EL and ELLE are pronounced /ɛl/ (as in \"caramel\" and \"belle\").",
+          "es": "Las grafías EL y ELLE se pronuncian /ɛl/ (como en «caramel» y «belle»).",
+          "de": "Die Schreibweisen EL und ELLE werden /ɛl/ gesprochen.",
+          "it": "Le grafie EL e ELLE si pronunciano /ɛl/.",
+          "pt": "As grafias EL e ELLE pronunciam-se /ɛl/.",
+          "ar": "الرسمان EL و ELLE يُنطقان /ɛl/ (كما في « caramel » و « belle »).",
+          "zh": "拼写 EL 和 ELLE 读作 /ɛl/（如 \"caramel\" 和 \"belle\"）。",
+          "nl": "EL en ELLE klinken als /ɛl/ (zoals in «caramel» en «belle»).",
+          "prs": "نوشتارهای EL و ELLE هر دو صدای /ɛl/ می‌دهند (مانند «caramel» و «belle»).",
+          "uk": "Буквосполучення EL та ELLE вимовляються як /ɛl/.",
+          "ps": "د EL او ELLE لیکنې د /ɛl/ په توګه تلفظ کېږي.",
+          "sq": "Shkronjat EL dhe ELLE shqiptohen /ɛl/ (si te «caramel» dhe «belle»).",
+          "ka": "EL და ELLE წარმოითქმის როგორც /ɛl/ (როგორც «caramel» და «belle»)."
+        },
+        "words": [
+          {
+            "word": "caramel",
+            "highlight": "el",
+            "ipa": "/ka.ʁa.mɛl/",
+            "gloss": {
+              "en": "caramel",
+              "fr": "caramel",
+              "es": "caramelo",
+              "de": "Karamell",
+              "it": "caramello",
+              "pt": "caramelo",
+              "ar": "كراميل",
+              "zh": "焦糖",
+              "nl": "karamel",
+              "prs": "کارامل",
+              "uk": "карамель",
+              "ps": "کارامیل",
+              "sq": "karamel",
+              "ka": "კარამელი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1582293041079-7814c2f12063?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "belle",
+            "highlight": "elle",
+            "ipa": "/bɛl/",
+            "gloss": {
+              "en": "beautiful",
+              "fr": "belle",
+              "es": "bella / hermosa",
+              "de": "schön",
+              "it": "bella",
+              "pt": "bela",
+              "ar": "جميلة",
+              "zh": "美丽",
+              "nl": "mooi",
+              "prs": "زیبا",
+              "uk": "красива",
+              "ps": "ښکلې",
+              "sq": "e bukur",
+              "ka": "ლამაზი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "AU = EAU = O",
+    "lower": "au / eau",
+    "name": "eau",
+    "nameIpa": "/o/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "au-eau-standard",
+        "soundIpa": "/o/",
+        "soundName": {
+          "fr": "Son AU = EAU = O (/o/)",
+          "en": "AU = EAU = O sound (/o/)",
+          "es": "Sonido AU = EAU = O (/o/)",
+          "de": "AU = EAU = O-Laut (/o/)",
+          "it": "Suono AU = EAU = O (/o/)",
+          "pt": "Som AU = EAU = O (/o/)",
+          "ar": "صوت AU = EAU = O (/o/)",
+          "zh": "AU = EAU = O 组合 (/o/)",
+          "nl": "AU = EAU = O-klank (/o/)",
+          "prs": "صوت AU = EAU = O (/o/)",
+          "uk": "Звук AU = EAU = O (/o/)",
+          "ps": "د AU = EAU = O غږ (/o/)",
+          "sq": "Tingulli AU = EAU = O (/o/)",
+          "ka": "AU = EAU = O ბგერა (/o/)"
+        },
+        "rule": {
+          "fr": "Les graphies AU et EAU se prononcent toutes les deux /o/ (comme dans « chevaux » et « eau »).",
+          "en": "The spellings AU and EAU are both pronounced /o/ (as in \"chevaux\" and \"eau\").",
+          "es": "Las grafías AU y EAU se pronuncian ambas como /o/.",
+          "de": "Die Schreibweisen AU und EAU werden beide als /o/ gesprochen.",
+          "it": "Le grafie AU ed EAU si pronunciano entrambe /o/.",
+          "pt": "As grafias AU e EAU pronunciam-se ambas como /o/.",
+          "ar": "الرسمان AU و EAU يُنطقان كلاهما كصوت /o/ (كما في « chevaux » و « eau »).",
+          "zh": "拼写 AU 和 EAU 都读作闭后圆唇元音 /o/（如 \"chevaux\" 和 \"eau\"）。",
+          "nl": "AU en EAU klinken beide als /o/.",
+          "prs": "نوشتارهای AU و EAU هر دو صدای /o/ می‌دهند.",
+          "uk": "Буквосполучення AU та EAU вимовляються як /o/.",
+          "ps": "د AU او EAU لیکنې دواړه د /o/ په توګه تلفظ کېږي.",
+          "sq": "Shkronjat AU dhe EAU shqiptohen të dyja /o/.",
+          "ka": "AU და EAU ორივე წარმოითქმის როგორც /o/."
+        },
+        "words": [
+          {
+            "word": "chevaux",
+            "highlight": "au",
+            "ipa": "/ʃə.vo/",
+            "gloss": {
+              "en": "horses",
+              "fr": "chevaux",
+              "es": "caballos",
+              "de": "Pferde",
+              "it": "cavalli",
+              "pt": "cavalos",
+              "ar": "خيول",
+              "zh": "马匹",
+              "nl": "paarden",
+              "prs": "اسب‌ها",
+              "uk": "коні",
+              "ps": "اسونه",
+              "sq": "kuaj",
+              "ka": "ცხენები"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "eau",
+            "highlight": "eau",
+            "ipa": "/o/",
+            "gloss": {
+              "en": "water",
+              "fr": "eau",
+              "es": "agua",
+              "de": "Wasser",
+              "it": "acqua",
+              "pt": "água",
+              "ar": "ماء",
+              "zh": "水",
+              "nl": "water",
+              "prs": "آب",
+              "uk": "вода",
+              "ps": "اوبه",
+              "sq": "ujë",
+              "ka": "წყალი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&w=600&q=80"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "letter": "IEN",
+    "lower": "ien",
+    "name": "ien",
+    "nameIpa": "/jɛ̃/",
+    "category": "digraph",
+    "variants": [
+      {
+        "id": "ien-standard",
+        "soundIpa": "/jɛ̃/",
+        "soundName": {
+          "fr": "Son IEN (/jɛ̃/)",
+          "en": "IEN sound (/jɛ̃/)",
+          "es": "Sonido IEN (/jɛ̃/)",
+          "de": "IEN-Laut (/jɛ̃/)",
+          "it": "Suono IEN (/jɛ̃/)",
+          "pt": "Som IEN (/jɛ̃/)",
+          "ar": "صوت IEN الأنفي (/jɛ̃/)",
+          "zh": "IEN 组合 (/jɛ̃/)",
+          "nl": "IEN-klank (/jɛ̃/)",
+          "prs": "صوت IEN تودماغی (/jɛ̃/)",
+          "uk": "Звук IEN (/jɛ̃/)",
+          "ps": "د IEN پوزیز غږ (/jɛ̃/)",
+          "sq": "Tingulli IEN (/jɛ̃/)",
+          "ka": "IEN ბგერა (/jɛ̃/)"
+        },
+        "rule": {
+          "fr": "La combinaison IEN se prononce /jɛ̃/ (comme dans « chien » et « mien »).",
+          "en": "The combination IEN is pronounced /jɛ̃/ (as in \"chien\" and \"mien\").",
+          "es": "La combinación IEN se pronuncia /jɛ̃/ (como en «chien» y «mien»).",
+          "de": "Die Verbindung IEN wird als /jɛ̃/ gesprochen (wie in «chien» und «mien»).",
+          "it": "La combinazione IEN si pronuncia /jɛ̃/ (come in «chien» e «mien»).",
+          "pt": "A combinação IEN pronuncia-se /jɛ̃/ (como em «chien» e «mien»).",
+          "ar": "التركيبة IEN تُنطق /jɛ̃/ (كما في « chien » و « mien »).",
+          "zh": "组合 IEN 读作 /jɛ̃/（如 \"chien\" 和 \"mien\"）。",
+          "nl": "De combinatie IEN klinkt als /jɛ̃/ (zoals in «chien» en «mien»).",
+          "prs": "ترکیب IEN صدای /jɛ̃/ می‌دهد (مانند «chien» و «mien»).",
+          "uk": "Буквосполучення IEN вимовляється як /jɛ̃/ (як у «chien» та «mien»).",
+          "ps": "د IEN ترکیب د /jɛ̃/ غږ جوړوي (لکه په «chien» او «mien» کې).",
+          "sq": "Kombinimi IEN shqiptohet /jɛ̃/ (si te «chien» dhe «mien»).",
+          "ka": "IEN კომბინაცია წარმოითქმის როგორც /jɛ̃/ (როგორც «chien» და «mien»)."
+        },
+        "words": [
+          {
+            "word": "chien",
+            "highlight": "ien",
+            "ipa": "/ʃjɛ̃/",
+            "gloss": {
+              "en": "dog",
+              "fr": "chien",
+              "es": "perro",
+              "de": "Hund",
+              "it": "cane",
+              "pt": "cão / cachorro",
+              "ar": "كلب",
+              "zh": "狗",
+              "nl": "hond",
+              "prs": "سگ",
+              "uk": "собака",
+              "ps": "سپى",
+              "sq": "qen",
+              "ka": "ძაღლი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=600&q=80"
+          },
+          {
+            "word": "mien",
+            "highlight": "ien",
+            "ipa": "/mjɛ̃/",
+            "gloss": {
+              "en": "mine",
+              "fr": "mien",
+              "es": "mío",
+              "de": "meins",
+              "it": "mio",
+              "pt": "meu",
+              "ar": "لي / ملكي",
+              "zh": "我的",
+              "nl": "het mijne",
+              "prs": "مال من",
+              "uk": "моє",
+              "ps": "زما",
+              "sq": "imja",
+              "ka": "ჩემი"
+            },
+            "imageUrl": "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=600&q=80"
           }
         ]
       }

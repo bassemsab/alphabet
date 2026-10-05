@@ -197,7 +197,7 @@
               currentIndex = i;
               trackEvent("letter_selected", { letter: item.letter, index: i });
             }}
-            class="relative w-11 h-11 rounded-2xl font-bold text-sm shrink-0 flex items-center justify-center transition-all cursor-pointer {currentIndex === i ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/25 ring-2 ring-emerald-400' : 'bg-surface-elevated border border-slate-200/80 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-emerald-400 hover:text-emerald-500'}"
+            class="relative min-w-11 h-11 px-2.5 rounded-2xl font-bold text-xs sm:text-sm whitespace-nowrap shrink-0 flex items-center justify-center transition-all cursor-pointer {currentIndex === i ? 'bg-emerald-500 text-white shadow-md shadow-emerald-500/25 ring-2 ring-emerald-400' : 'bg-surface-elevated border border-slate-200/80 dark:border-white/10 text-slate-700 dark:text-slate-300 hover:border-emerald-400 hover:text-emerald-500'}"
           >
             {item.letter}
             {#if isItemMastered}
