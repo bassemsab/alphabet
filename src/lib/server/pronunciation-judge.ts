@@ -141,15 +141,82 @@ function normalizeSpoken(text: string): string {
     .trim();
 }
 
+/**
+ * Normalizes common French phonetic endings and homophones (e.g. -eille / -eil / -ey, -aille / -ay)
+ * so that phonetic transcriptions match standard French spellings.
+ */
+function normalizePhoneticFr(text: string): string {
+  return normalizeSpoken(text)
+    .replace(/eille\b/g, "ey")
+    .replace(/eil\b/g, "ey")
+    .replace(/aille\b/g, "ay")
+    .replace(/ail\b/g, "ay")
+    .replace(/ouille\b/g, "ouy")
+    .replace(/ouil\b/g, "ouy");
+}
+
 function matchesSpoken(heardText: string, expectedText: string): boolean {
   const heard = normalizeSpoken(heardText);
   const want = normalizeSpoken(expectedText);
   if (!heard || !want) return false;
   if (heard === want) return true;
   if (heard.includes(want) || want.includes(heard)) return true;
+
+  // Phonetic homophone match (e.g. "abey" vs "abeille", "soley" vs "soleil")
+  const heardPhonetic = normalizePhoneticFr(heardText);
+  const wantPhonetic = normalizePhoneticFr(expectedText);
+  if (heardPhonetic === wantPhonetic) return true;
+  if (heardPhonetic.includes(wantPhonetic) || wantPhonetic.includes(heardPhonetic)) return true;
+
   const heardTokens = heard.split(" ");
   const wantTokens = want.split(" ");
   return wantTokens.every((w) => heardTokens.includes(w));
+}
+
+/**
+ * OpenRouter Chat Completion API schema for multimodal audio models
+ * (thinkingmachines/inkling-small:free, thinkingmachines/inkling:free, nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free)
+ */
+interface OpenRouterAudioContent {
+  type: "input_audio";
+  input_audio: {
+    data: string;
+    format: "wav";
+  };
+}
+
+interface OpenRouterTextContent {
+  type: "text";
+  text: string;
+}
+
+interface OpenRouterMessage {
+  role: "system" | "user" | "assistant";
+  content: (OpenRouterTextContent | OpenRouterAudioContent)[];
+}
+
+interface OpenRouterChatRequest {
+  model: string;
+  messages: OpenRouterMessage[];
+  temperature?: number;
+  max_tokens?: number;
+  include_reasoning?: boolean;
+}
+
+interface OpenRouterChatResponse {
+  id?: string;
+  choices?: Array<{
+    message?: {
+      role?: string;
+      content?: string | null;
+      reasoning?: string | null;
+    };
+    finish_reason?: string;
+  }>;
+  error?: {
+    code?: number | string;
+    message?: string;
+  };
 }
 
 /**
@@ -165,14 +232,42 @@ async function judgeWithOpenRouter(
   const langName = LANGUAGE_NAMES[uiLang] || "French";
   const promptText = `The attached audio is a French learner attempting to say "${expected}".
 Their user interface language is ${langName} (${uiLang}).
-Listen carefully to the audio clip and respond ONLY with a JSON object in this exact schema:
-{
-  "heard": boolean (false if silence or only background noise, true if speech is heard),
-  "transcript": string or null (phonetic or actual words heard, or "NO_SPEECH" if silent),
-  "correct": boolean (true if recognizable attempt at "${expected}", false if wrong word or serious phonetic substitution),
-  "feedback": string or null (short, encouraging feedback written entirely in ${langName} (${uiLang}) explaining how to improve if incorrect, or praise in ${langName} if correct),
-  "targetIpa": string or null (IPA transcription of "${expected}")
-}`;
+
+Listen carefully to the audio clip and evaluate their French pronunciation.
+RULES:
+1. "heard": true if speech is detected in the audio, false if silent or only background noise.
+2. "transcript": write what was actually said using standard French orthography (e.g. write "abeille", not English phonetic spellings like "Abey"). If silent, write "NO_SPEECH".
+3. "correct": true if the audio is a recognizable attempt at "${expected}". If what they said is phonetically identical or a standard homophone of "${expected}" (for example: French "abeille" pronounced /a.bɛj/, which sounds like "abey"), you MUST mark correct=true.
+4. "feedback": short encouraging tip written entirely in ${langName} (${uiLang}) explaining how to pronounce it if incorrect, or null if correct.
+5. "targetIpa": IPA citation form of "${expected}" (e.g. "/a.bɛj/").
+
+Respond ONLY with a valid JSON object matching this schema, with no markdown code fences and no preamble:
+{"heard": true, "transcript": "...", "correct": true, "feedback": null, "targetIpa": "..."}`;
+
+  // Clean data URI prefix if present
+  const cleanWavBase64 = wavBase64.replace(/^data:audio\/\w+;base64,/, "").trim();
+
+  const requestPayload: OpenRouterChatRequest = {
+    model: modelId,
+    messages: [
+      {
+        role: "user",
+        content: [
+          { type: "text", text: promptText },
+          {
+            type: "input_audio",
+            input_audio: {
+              data: cleanWavBase64,
+              format: "wav"
+            }
+          }
+        ]
+      }
+    ],
+    temperature: 0.1,
+    max_tokens: 600,
+    include_reasoning: false
+  };
 
   try {
     const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -180,29 +275,10 @@ Listen carefully to the audio clip and respond ONLY with a JSON object in this e
       headers: {
         Authorization: `Bearer ${apiKey}`,
         "Content-Type": "application/json",
-        "HTTP-Referer": "https://cursor.com",
-        "X-Title": "Cursor",
-        "User-Agent": "Cursor/0.45.0"
+        "HTTP-Referer": "https://alphabet.ether.paris",
+        "X-Title": "Alphabet Pronunciation Judge"
       },
-      body: JSON.stringify({
-        model: modelId,
-        messages: [
-          {
-            role: "user",
-            content: [
-              { type: "text", text: promptText },
-              {
-                type: "input_audio",
-                input_audio: {
-                  data: wavBase64,
-                  format: "wav"
-                }
-              }
-            ]
-          }
-        ],
-        response_format: { type: "json_object" }
-      })
+      body: JSON.stringify(requestPayload)
     });
 
     if (!res.ok) {
@@ -211,22 +287,43 @@ Listen carefully to the audio clip and respond ONLY with a JSON object in this e
       return null;
     }
 
-    const data = await res.json();
-    const content = data?.choices?.[0]?.message?.content;
-    if (!content) return null;
+    const data = (await res.json()) as OpenRouterChatResponse;
+    const rawContent = data?.choices?.[0]?.message?.content;
+    if (!rawContent || typeof rawContent !== "string") {
+      console.warn(`[openrouter] Model ${modelId} returned empty content`);
+      return null;
+    }
 
-    const parsed = JSON.parse(content);
+    // Strip inline thinking tags emitted by reasoning models (<think>...</think> or <thought>...</thought>)
+    const strippedContent = rawContent
+      .replace(/<(?:think|thought)>[\s\S]*?<\/(?:think|thought)>/gi, "")
+      .trim();
+
+    // Extract the JSON object even if enclosed in markdown fences or commentary
+    const jsonMatch = strippedContent.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      console.warn(`[openrouter] Model ${modelId} returned non-JSON content:`, strippedContent.slice(0, 100));
+      return null;
+    }
+
+    const parsed = JSON.parse(jsonMatch[0]);
     const heard = parsed.heard !== false && parsed.transcript !== "NO_SPEECH";
+    const transcript = heard ? (parsed.transcript || null) : null;
+
+    // Check phonetic match on transcript as safety check in case the model marked false on a homophone
+    const isPhoneticallyCorrect = transcript ? matchesSpoken(transcript, expected) : false;
+    const isCorrect = heard && (Boolean(parsed.correct) || isPhoneticallyCorrect);
+
     return {
       heard,
-      transcript: heard ? (parsed.transcript || null) : null,
-      correct: heard && !!parsed.correct,
+      transcript,
+      correct: isCorrect,
       feedback:
         parsed.feedback ||
-        (parsed.correct
+        (isCorrect
           ? (DEFAULT_FEEDBACK_CORRECT[uiLang] || DEFAULT_FEEDBACK_CORRECT.fr)
-          : parsed.transcript
-          ? formatHeardFeedback(parsed.transcript, uiLang)
+          : transcript
+          ? formatHeardFeedback(transcript, uiLang)
           : (DEFAULT_FEEDBACK_RETRY[uiLang] || DEFAULT_FEEDBACK_RETRY.fr)),
       targetIpa: parsed.targetIpa || null
     };
