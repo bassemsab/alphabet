@@ -183,21 +183,8 @@
       {/each}
     </div>
 
-    <!-- View Mode Switcher, Search, Strict Mode Toggle -->
+    <!-- View Mode Switcher, Search -->
     <div class="flex items-center justify-between sm:justify-end gap-2.5 flex-wrap sm:flex-nowrap">
-      <!-- Strict Mode Toggle -->
-      <button
-        onclick={() => {
-          settings.toggleStrictMode();
-          trackEvent("strict_mode_toggled", { enabled: settings.strictMode });
-        }}
-        class="px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer select-none {settings.strictMode ? 'bg-amber-500/10 border-amber-500/30 text-amber-700 dark:text-amber-300 font-bold shadow-xs' : 'bg-surface-elevated border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5'}"
-        title={settings.strictMode ? i18n.t("strict_mode_hint_on") : i18n.t("strict_mode_hint_off")}
-      >
-        <span>{settings.strictMode ? "🎯" : "🌱"}</span>
-        <span>{settings.strictMode ? i18n.t("strict_mode_label") : i18n.t("relaxed_mode_label")}</span>
-      </button>
-
       <!-- Search Input -->
       <div class="relative max-w-[150px] sm:max-w-[190px] w-full">
         <input

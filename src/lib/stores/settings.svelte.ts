@@ -2,32 +2,21 @@ export class SettingsStore {
   strictMode = $state<boolean>(true);
 
   constructor() {
+    this.strictMode = true;
     if (typeof window !== "undefined") {
       try {
-        const saved = localStorage.getItem("alphabet-strict-mode");
-        if (saved !== null) {
-          this.strictMode = saved === "true";
-        }
+        localStorage.removeItem("alphabet-strict-mode");
       } catch {}
     }
   }
 
   toggleStrictMode() {
-    this.strictMode = !this.strictMode;
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.setItem("alphabet-strict-mode", String(this.strictMode));
-      } catch {}
-    }
+    // Strict mode is enforced on
+    this.strictMode = true;
   }
 
-  setStrictMode(val: boolean) {
-    this.strictMode = val;
-    if (typeof window !== "undefined") {
-      try {
-        localStorage.setItem("alphabet-strict-mode", String(val));
-      } catch {}
-    }
+  setStrictMode(_val: boolean) {
+    this.strictMode = true;
   }
 }
 

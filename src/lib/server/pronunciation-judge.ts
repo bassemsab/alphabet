@@ -302,7 +302,7 @@ async function judgeWithOpenRouter(
     tools: [buildVerdictTool(strict)],
     plugins: [{ id: "response-healing" }],
     temperature: 0.1,
-    max_tokens: 600,
+    max_tokens: 250,
     include_reasoning: false
   };
 
