@@ -60,6 +60,9 @@ export const handleError: HandleServerError = async ({ error, event }) => {
   const headers = event.request.headers;
   const rawUa = headers.get("user-agent") || "";
   const uaInfo = parseUserAgent(rawUa);
+  const err = error as any;
+  const message = err?.message || String(error);
+  const stack = err?.stack || "";
 
   // Do not log errors triggered by web bots or scanner probes
   if (uaInfo.isBot) {

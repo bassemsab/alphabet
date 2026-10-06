@@ -4,6 +4,7 @@
   import { recordAndJudgeSpeech, type SpeechSession } from "$lib/alphabet/speech";
   import { i18n } from "$lib/stores/i18n.svelte";
   import { progress } from "$lib/stores/progress.svelte";
+  import { settings } from "$lib/stores/settings.svelte";
   import { trackEvent } from "$lib/telemetry";
   import { onDestroy } from "svelte";
 
@@ -88,6 +89,7 @@
     currentSpeechSession = recordAndJudgeSpeech(
       word,
       i18n.currentLang,
+      settings.strictMode,
       (state) => {
         if (state === "listening") {
           listeningWord = word;

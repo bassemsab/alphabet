@@ -6,6 +6,7 @@ export type { SpeechSession };
 export function recordAndJudgeSpeech(
   expectedWord: string,
   uiLang: string,
+  strictMode: boolean = true,
   onStateChange: (state: "listening" | "evaluating" | "idle") => void,
   onResult: (verdict: PronunciationVerdict) => void
 ): SpeechSession {
@@ -81,7 +82,8 @@ export function recordAndJudgeSpeech(
         body: JSON.stringify({
           audio: audioBase64,
           expected: expectedWord,
-          uiLang
+          uiLang,
+          strict: strictMode
         })
       });
 

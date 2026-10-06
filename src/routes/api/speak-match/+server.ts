@@ -11,6 +11,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
   const audio = typeof body?.audio === "string" ? body.audio : null;
   const expected = typeof body?.expected === "string" ? body.expected.trim() : null;
   const uiLang = typeof body?.uiLang === "string" ? body.uiLang : "fr";
+  const strict = typeof body?.strict === "boolean" ? body.strict : true;
   const sessionId = typeof body?.sessionId === "string" ? body.sessionId : cookies.get("alphabet_sid") || null;
 
   if (!audio || audio.length > MAX_AUDIO_BASE64_LENGTH) {
@@ -20,7 +21,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     throw error(400, "Le mot ou la lettre attendu est requis.");
   }
 
-  const verdict = await evaluatePronunciation(audio, expected, uiLang);
+  const verdict = await evaluatePronunciation(audio, expected, uiLang, strict);
   const durationMs = Math.round(performance.now() - start);
 
   const headers = request.headers;

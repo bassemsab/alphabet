@@ -141,8 +141,7 @@ export async function logToO2(event: Record<string, any>): Promise<void> {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(payload),
-      // @ts-expect-error keepalive is supported in Node/Bun fetch
-      keepalive: true
+      keepalive: true as any
     });
 
     if (!res.ok) {

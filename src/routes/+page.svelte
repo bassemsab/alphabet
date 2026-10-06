@@ -4,6 +4,7 @@
   import type { AlphabetLetter, LetterCategory } from "$lib/alphabet/types";
   import { i18n } from "$lib/stores/i18n.svelte";
   import { progress } from "$lib/stores/progress.svelte";
+  import { settings } from "$lib/stores/settings.svelte";
   import { trackEvent } from "$lib/telemetry";
 
   type FilterCategory = "all" | LetterCategory;
@@ -96,6 +97,63 @@
     if (event.key === "ArrowLeft") prevLetter();
   }
 
+  // Touch swipe gesture navigation
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchStartTime = 0;
+  let swipeOffsetX = $state(0);
+  let isSwiping = $state(false);
+
+  function handleTouchStart(e: TouchEvent) {
+    if (viewMode !== "cards") return;
+    const touch = e.touches[0];
+    if (!touch) return;
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    touchStartTime = Date.now();
+    isSwiping = false;
+  }
+
+  function handleTouchMove(e: TouchEvent) {
+    if (viewMode !== "cards") return;
+    const touch = e.touches[0];
+    if (!touch) return;
+    const dx = touch.clientX - touchStartX;
+    const dy = touch.clientY - touchStartY;
+
+    if (!isSwiping) {
+      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        isSwiping = true;
+      }
+    }
+
+    if (isSwiping) {
+      swipeOffsetX = Math.max(-90, Math.min(90, dx * 0.45));
+    }
+  }
+
+  function handleTouchEnd(e: TouchEvent) {
+    if (viewMode !== "cards") return;
+    const touch = e.changedTouches[0];
+    if (touch) {
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+      const elapsed = Date.now() - touchStartTime;
+
+      if (Math.abs(dx) >= 45 && Math.abs(dx) > Math.abs(dy) * 1.2 && elapsed < 800) {
+        if (i18n.isRtl) {
+          if (dx < 0) prevLetter();
+          else nextLetter();
+        } else {
+          if (dx < 0) nextLetter();
+          else prevLetter();
+        }
+      }
+    }
+    swipeOffsetX = 0;
+    isSwiping = false;
+  }
+
   const categoryLabels = $derived<Record<FilterCategory, string>>({
     all: i18n.t("alphabet_filter_all"),
     vowel: i18n.t("alphabet_filter_vowels"),
@@ -125,10 +183,23 @@
       {/each}
     </div>
 
-    <!-- View Mode Switcher (Cards vs Grid) -->
-    <div class="flex items-center justify-between sm:justify-end gap-3">
+    <!-- View Mode Switcher, Search, Strict Mode Toggle -->
+    <div class="flex items-center justify-between sm:justify-end gap-2.5 flex-wrap sm:flex-nowrap">
+      <!-- Strict Mode Toggle -->
+      <button
+        onclick={() => {
+          settings.toggleStrictMode();
+          trackEvent("strict_mode_toggled", { enabled: settings.strictMode });
+        }}
+        class="px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer select-none {settings.strictMode ? 'bg-amber-500/10 border-amber-500/30 text-amber-700 dark:text-amber-300 font-bold shadow-xs' : 'bg-surface-elevated border-slate-200 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5'}"
+        title={settings.strictMode ? i18n.t("strict_mode_hint_on") : i18n.t("strict_mode_hint_off")}
+      >
+        <span>{settings.strictMode ? "🎯" : "🌱"}</span>
+        <span>{settings.strictMode ? i18n.t("strict_mode_label") : i18n.t("relaxed_mode_label")}</span>
+      </button>
+
       <!-- Search Input -->
-      <div class="relative max-w-[160px] sm:max-w-[200px] w-full">
+      <div class="relative max-w-[150px] sm:max-w-[190px] w-full">
         <input
           type="text"
           bind:value={searchQuery}
@@ -209,12 +280,28 @@
         {/each}
       </div>
 
-      <!-- Current Letter Card -->
-      {#if currentLetter}
-        {#key currentLetter.letter}
-          <AlphabetCard letter={currentLetter} />
-        {/key}
-      {/if}
+      <!-- Current Letter Card with Swipe Gestures -->
+      <div
+        role="region"
+        aria-label="Lettre active"
+        class="touch-pan-y transition-transform duration-150 ease-out will-change-transform relative"
+        style={swipeOffsetX !== 0 ? `transform: translateX(${swipeOffsetX}px)` : ''}
+        ontouchstart={handleTouchStart}
+        ontouchmove={handleTouchMove}
+        ontouchend={handleTouchEnd}
+        ontouchcancel={handleTouchEnd}
+      >
+        {#if currentLetter}
+          {#key currentLetter.letter}
+            <AlphabetCard letter={currentLetter} />
+          {/key}
+        {/if}
+      </div>
+
+      <!-- Mobile Swipe Hint -->
+      <div class="text-center text-[11px] font-medium text-slate-400 dark:text-slate-500 sm:hidden select-none -mt-3">
+        {i18n.t('swipe_hint')}
+      </div>
 
       <!-- Bottom Navigation Footer -->
       <div class="flex items-center justify-between gap-4 pt-2">
