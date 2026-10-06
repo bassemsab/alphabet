@@ -143,23 +143,26 @@ function buildJudgePrompt(
   const langName = LANGUAGE_NAMES[uiLang] || "French";
 
   if (strict) {
-    return `The attached audio is a language learner attempting to pronounce the French word or letter "${expected}".
-Their user interface language is ${langName} (${uiLang}).
+    return `Évaluez la prononciation dans l'extrait audio pour le mot ou la lettre cible en français : "${expected}".
+Langue de l'interface de l'apprenant : ${langName} (${uiLang}).
 
-Judge their pronunciation:
-1. Speech detection: Determine whether speech was heard (false if silence or background noise).
-2. Language check: The pronunciation MUST be in French. If the learner pronounced the word in English instead of French (for example with English cognates or false friends), mark "correct": false and explain in ${langName} (${uiLang}) that they pronounced it in English.
-3. Accept authentic French pronunciation. Provide short feedback in ${langName} (${uiLang}) if incorrect, or brief encouragement if correct.`;
+Consignes d'évaluation stricte :
+1. Détection de la parole : "heard": true si une voix humaine est détectée, false si seulement silence ou bruit de fond.
+2. Respect de la phonétique française : La prononciation DOIT être authentiquement française. Si le mot est prononcé en anglais (notamment pour les mots identiques ou proches en anglais comme les cognates), marquez impérativement "correct": false et expliquez en ${langName} (${uiLang}) que le mot a été prononcé en anglais et non en français.
+3. Résultat : "correct": true uniquement si la prononciation est authentiquement française.
+4. Donnez un retour court et constructif en ${langName} (${uiLang}).
+5. Répondez au format JSON avec les clés : heard, transcript, correct, feedback, targetIpa.`;
   }
 
-  // Relaxed / Beginner-friendly mode
-  return `The attached audio is a language learner attempting to pronounce the French word or letter "${expected}".
-Their user interface language is ${langName} (${uiLang}).
+  // Mode détendu pour débutants
+  return `Évaluez la prononciation dans l'extrait audio pour le mot ou la lettre cible en français : "${expected}".
+Langue de l'interface de l'apprenant : ${langName} (${uiLang}).
 
-Judge their pronunciation in relaxed beginner mode:
-1. Speech detection: Determine whether speech was heard (false if silence or background noise).
-2. Forgiving evaluation: Accept recognizable attempts at "${expected}", being encouraging of foreign accents or minor pronunciation shifts. Only mark "correct": false if completely wrong or silence.
-3. Provide brief encouraging feedback in ${langName} (${uiLang}).`;
+Consignes d'évaluation débutant :
+1. Détection de la parole : "heard": true si une voix humaine est détectée, false si silence ou bruit.
+2. Tolérance : Acceptez les tentatives reconnaissables de "${expected}". Ne marquez "correct": false que si le mot est totalement erroné ou inaudible.
+3. Donnez un bref encouragement en ${langName} (${uiLang}).
+4. Répondez au format JSON avec les clés : heard, transcript, correct, feedback, targetIpa.`;
 }
 
 
@@ -232,31 +235,31 @@ function buildVerdictTool(strict: boolean): OpenRouterTool {
     type: "function",
     function: {
       name: "evaluate_pronunciation",
-      description: "Submit the pronunciation verdict for the learner's spoken audio.",
+      description: "Soumettre le verdict d'évaluation de prononciation pour l'audio de l'apprenant.",
       parameters: {
         type: "object",
         properties: {
           heard: {
             type: "boolean",
-            description: "true if speech is detected in the audio, false if silent or background noise"
+            description: "true si une voix humaine est détectée, false si silence ou bruit de fond"
           },
           transcript: {
             type: "string",
-            description: "what the learner actually said, or NO_SPEECH if silent"
+            description: "ce que l'apprenant a dit, ou NO_SPEECH si silence"
           },
           correct: {
             type: "boolean",
             description: strict
-              ? "true if pronounced in authentic French, false if pronounced in English or wrong word"
-              : "true if recognizable attempt at the target word, false if completely wrong"
+              ? "true si prononcé en français authentique, false si prononcé en anglais ou mot erroné"
+              : "true si tentative reconnaissable du mot cible, false si totalement faux ou silence"
           },
           feedback: {
             type: "string",
-            description: "short encouraging feedback for the learner in their UI language, or null if correct"
+            description: "court retour encourageant ou explicatif dans la langue d'interface de l'apprenant"
           },
           targetIpa: {
             type: "string",
-            description: "IPA citation form of the target French word"
+            description: "transcription API (alphabet phonétique international) du mot cible en français"
           }
         },
         required: ["heard", "correct"]
