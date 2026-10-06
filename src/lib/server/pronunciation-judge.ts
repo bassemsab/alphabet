@@ -141,33 +141,12 @@ function normalizeSpoken(text: string): string {
     .trim();
 }
 
-/**
- * Normalizes common French phonetic endings and homophones (e.g. -eille / -eil / -ey, -aille / -ay)
- * so that phonetic transcriptions match standard French spellings.
- */
-function normalizePhoneticFr(text: string): string {
-  return normalizeSpoken(text)
-    .replace(/eille\b/g, "ey")
-    .replace(/eil\b/g, "ey")
-    .replace(/aille\b/g, "ay")
-    .replace(/ail\b/g, "ay")
-    .replace(/ouille\b/g, "ouy")
-    .replace(/ouil\b/g, "ouy");
-}
-
 function matchesSpoken(heardText: string, expectedText: string): boolean {
   const heard = normalizeSpoken(heardText);
   const want = normalizeSpoken(expectedText);
   if (!heard || !want) return false;
   if (heard === want) return true;
   if (heard.includes(want) || want.includes(heard)) return true;
-
-  // Phonetic homophone match (e.g. "abey" vs "abeille", "soley" vs "soleil")
-  const heardPhonetic = normalizePhoneticFr(heardText);
-  const wantPhonetic = normalizePhoneticFr(expectedText);
-  if (heardPhonetic === wantPhonetic) return true;
-  if (heardPhonetic.includes(wantPhonetic) || wantPhonetic.includes(heardPhonetic)) return true;
-
   const heardTokens = heard.split(" ");
   const wantTokens = want.split(" ");
   return wantTokens.every((w) => heardTokens.includes(w));
@@ -195,9 +174,20 @@ interface OpenRouterMessage {
   content: (OpenRouterTextContent | OpenRouterAudioContent)[];
 }
 
+interface OpenRouterTool {
+  type: "function";
+  function: {
+    name: string;
+    description: string;
+    parameters: Record<string, unknown>;
+  };
+}
+
 interface OpenRouterChatRequest {
   model: string;
   messages: OpenRouterMessage[];
+  tools?: OpenRouterTool[];
+  plugins?: { id: string }[];
   temperature?: number;
   max_tokens?: number;
   include_reasoning?: boolean;
@@ -210,6 +200,14 @@ interface OpenRouterChatResponse {
       role?: string;
       content?: string | null;
       reasoning?: string | null;
+      tool_calls?: Array<{
+        id: string;
+        type: "function";
+        function: {
+          name: string;
+          arguments: string;
+        };
+      }>;
     };
     finish_reason?: string;
   }>;
@@ -218,6 +216,40 @@ interface OpenRouterChatResponse {
     message?: string;
   };
 }
+
+const VERDICT_TOOL: OpenRouterTool = {
+  type: "function",
+  function: {
+    name: "evaluate_pronunciation",
+    description: "Submit the pronunciation verdict for the learner's spoken audio.",
+    parameters: {
+      type: "object",
+      properties: {
+        heard: {
+          type: "boolean",
+          description: "true if speech is detected in the audio, false if silent or background noise"
+        },
+        transcript: {
+          type: "string",
+          description: "what the learner actually said, or NO_SPEECH if silent"
+        },
+        correct: {
+          type: "boolean",
+          description: "true if the pronunciation is acceptable/correct, false otherwise"
+        },
+        feedback: {
+          type: "string",
+          description: "short encouraging feedback for the learner if incorrect, or null if correct"
+        },
+        targetIpa: {
+          type: "string",
+          description: "IPA citation form of the target word"
+        }
+      },
+      required: ["heard", "correct"]
+    }
+  }
+};
 
 /**
  * Attempt evaluation using OpenRouter Multimodal Audio Models.
@@ -233,16 +265,9 @@ async function judgeWithOpenRouter(
   const promptText = `The attached audio is a French learner attempting to say "${expected}".
 Their user interface language is ${langName} (${uiLang}).
 
-Listen carefully to the audio clip and evaluate their French pronunciation.
-RULES:
-1. "heard": true if speech is detected in the audio, false if silent or only background noise.
-2. "transcript": write what was actually said using standard French orthography (e.g. write "abeille", not English phonetic spellings like "Abey"). If silent, write "NO_SPEECH".
-3. "correct": true if the audio is a recognizable attempt at "${expected}". If what they said is phonetically identical or a standard homophone of "${expected}" (for example: French "abeille" pronounced /a.bɛj/, which sounds like "abey"), you MUST mark correct=true.
-4. "feedback": short encouraging tip written entirely in ${langName} (${uiLang}) explaining how to pronounce it if incorrect, or null if correct.
-5. "targetIpa": IPA citation form of "${expected}" (e.g. "/a.bɛj/").
-
-Respond ONLY with a valid JSON object matching this schema, with no markdown code fences and no preamble:
-{"heard": true, "transcript": "...", "correct": true, "feedback": null, "targetIpa": "..."}`;
+Listen to the audio and judge their pronunciation of "${expected}".
+Determine whether speech was heard, what was said, and whether their pronunciation is correct.
+Provide brief feedback in ${langName} (${uiLang}) if incorrect.`;
 
   // Clean data URI prefix if present
   const cleanWavBase64 = wavBase64.replace(/^data:audio\/\w+;base64,/, "").trim();
@@ -264,6 +289,8 @@ Respond ONLY with a valid JSON object matching this schema, with no markdown cod
         ]
       }
     ],
+    tools: [VERDICT_TOOL],
+    plugins: [{ id: "response-healing" }],
     temperature: 0.1,
     max_tokens: 600,
     include_reasoning: false
@@ -288,31 +315,47 @@ Respond ONLY with a valid JSON object matching this schema, with no markdown cod
     }
 
     const data = (await res.json()) as OpenRouterChatResponse;
-    const rawContent = data?.choices?.[0]?.message?.content;
-    if (!rawContent || typeof rawContent !== "string") {
-      console.warn(`[openrouter] Model ${modelId} returned empty content`);
+    const choice = data?.choices?.[0];
+    const toolCall = choice?.message?.tool_calls?.[0];
+
+    let parsed: any = null;
+
+    // 1. Prefer structured arguments from function/tool call if returned
+    if (toolCall?.function?.arguments) {
+      try {
+        parsed = typeof toolCall.function.arguments === "string"
+          ? JSON.parse(toolCall.function.arguments)
+          : toolCall.function.arguments;
+      } catch (e) {
+        console.warn(`[openrouter] Failed to parse tool arguments from ${modelId}:`, e);
+      }
+    }
+
+    // 2. Otherwise parse direct JSON object from message content
+    if (!parsed && choice?.message?.content) {
+      const rawContent = choice.message.content.trim();
+      const strippedContent = rawContent
+        .replace(/<(?:think|thought)>[\s\S]*?<\/(?:think|thought)>/gi, "")
+        .replace(/^```(?:json)?\s*/i, "")
+        .replace(/\s*```$/i, "")
+        .trim();
+
+      const jsonMatch = strippedContent.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        try {
+          parsed = JSON.parse(jsonMatch[0]);
+        } catch {}
+      }
+    }
+
+    if (!parsed || typeof parsed.heard !== "boolean" || typeof parsed.correct !== "boolean") {
+      console.warn(`[openrouter] Model ${modelId} did not return a valid verdict object`);
       return null;
     }
 
-    // Strip inline thinking tags emitted by reasoning models (<think>...</think> or <thought>...</thought>)
-    const strippedContent = rawContent
-      .replace(/<(?:think|thought)>[\s\S]*?<\/(?:think|thought)>/gi, "")
-      .trim();
-
-    // Extract the JSON object even if enclosed in markdown fences or commentary
-    const jsonMatch = strippedContent.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      console.warn(`[openrouter] Model ${modelId} returned non-JSON content:`, strippedContent.slice(0, 100));
-      return null;
-    }
-
-    const parsed = JSON.parse(jsonMatch[0]);
     const heard = parsed.heard !== false && parsed.transcript !== "NO_SPEECH";
     const transcript = heard ? (parsed.transcript || null) : null;
-
-    // Check phonetic match on transcript as safety check in case the model marked false on a homophone
-    const isPhoneticallyCorrect = transcript ? matchesSpoken(transcript, expected) : false;
-    const isCorrect = heard && (Boolean(parsed.correct) || isPhoneticallyCorrect);
+    const isCorrect = heard && Boolean(parsed.correct);
 
     return {
       heard,
