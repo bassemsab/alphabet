@@ -6,11 +6,6 @@ export interface PronunciationVerdict {
   targetIpa: string | null;
 }
 
-const GEMINI_MODELS = [
-  "gemini-2.5-flash",
-  "gemini-2.5-flash-lite"
-];
-
 const OPENROUTER_MODELS = [
   "thinkingmachines/inkling-small:free",
   "thinkingmachines/inkling:free",
@@ -167,112 +162,6 @@ Judge their pronunciation in relaxed beginner mode:
 3. Provide brief encouraging feedback in ${langName} (${uiLang}).`;
 }
 
-/**
- * Direct evaluation using Google Gemini Multimodal Audio API.
- */
-async function judgeWithGemini(
-  wavBase64: string,
-  expected: string,
-  uiLang: string,
-  strict: boolean,
-  modelName: string,
-  apiKey: string
-): Promise<PronunciationVerdict | null> {
-  const cleanWavBase64 = wavBase64.replace(/^data:audio\/\w+;base64,/, "").trim();
-  const promptText = buildJudgePrompt(expected, uiLang, strict);
-  const langName = LANGUAGE_NAMES[uiLang] || "French";
-
-  const payload = {
-    contents: [
-      {
-        parts: [
-          { text: promptText },
-          {
-            inlineData: {
-              mimeType: "audio/wav",
-              data: cleanWavBase64
-            }
-          }
-        ]
-      }
-    ],
-    generationConfig: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: "OBJECT",
-        properties: {
-          heard: {
-            type: "BOOLEAN",
-            description: "true if human speech was detected in the audio, false if only silence or noise"
-          },
-          transcript: {
-            type: "STRING",
-            description: "what was actually heard in standard orthography, or NO_SPEECH"
-          },
-          correct: {
-            type: "BOOLEAN",
-            description: strict
-              ? "true if and only if pronounced in French, false if pronounced in English or wrong word"
-              : "true if a recognizable attempt at the word, false if completely wrong or silence"
-          },
-          feedback: {
-            type: "STRING",
-            description: `short helpful feedback written in ${langName} (${uiLang}) explaining how to improve if incorrect, or brief praise if correct`
-          },
-          targetIpa: {
-            type: "STRING",
-            description: "IPA citation form of the target French word/letter"
-          }
-        },
-        required: ["heard", "correct", "transcript"]
-      },
-      temperature: 0.1
-    }
-  };
-
-  try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      }
-    );
-
-    if (!res.ok) {
-      const errText = await res.text().catch(() => "");
-      console.warn(`[gemini] Model ${modelName} returned ${res.status}: ${errText.slice(0, 150)}`);
-      return null;
-    }
-
-    const data = await res.json();
-    const rawJson = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!rawJson) return null;
-
-    const parsed = JSON.parse(rawJson);
-    const heard = parsed.heard !== false && parsed.transcript !== "NO_SPEECH" && parsed.transcript !== "";
-    const isCorrect = heard && Boolean(parsed.correct);
-    const transcript = heard ? (parsed.transcript || null) : null;
-
-    return {
-      heard,
-      transcript,
-      correct: isCorrect,
-      feedback:
-        parsed.feedback ||
-        (isCorrect
-          ? (DEFAULT_FEEDBACK_CORRECT[uiLang] || DEFAULT_FEEDBACK_CORRECT.fr)
-          : transcript
-          ? formatHeardFeedback(transcript, uiLang)
-          : (DEFAULT_FEEDBACK_RETRY[uiLang] || DEFAULT_FEEDBACK_RETRY.fr)),
-      targetIpa: parsed.targetIpa || null
-    };
-  } catch (err: any) {
-    console.warn(`[gemini] Error calling ${modelName}:`, err.message);
-    return null;
-  }
-}
 
 /**
  * OpenRouter Chat Completion API schema for multimodal audio models
@@ -494,10 +383,12 @@ async function judgeWithOpenRouter(
 }
 
 /**
- * Main pronunciation judgment function with model waterfall:
- * 1. OpenRouter Multimodal Audio Models (the 3 configured free models)
- * 2. Google Gemini Free Multimodal Audio Fallback (gemini-2.5-flash, gemini-2.5-flash-lite)
- * Note: Whisper models are explicitly excluded.
+ * Pronunciation evaluation using OpenRouter free multimodal audio models:
+ * - thinkingmachines/inkling-small:free
+ * - thinkingmachines/inkling:free
+ * - nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free
+ *
+ * No external fallbacks (Gemini and Whisper are disabled).
  */
 export async function evaluatePronunciation(
   wavBase64: string,
@@ -506,9 +397,8 @@ export async function evaluatePronunciation(
   strict: boolean = true
 ): Promise<PronunciationVerdict> {
   const openRouterKey = process.env.OPENROUTER_API_KEY || "";
-  const googleApiKey = process.env.GOOGLE_API_KEY || process.env.GEMINI_API_KEY || "";
 
-  // 1. Try OpenRouter configured free models first
+  // Evaluate using OpenRouter configured free models
   if (openRouterKey) {
     for (const modelId of OPENROUTER_MODELS) {
       const verdict = await judgeWithOpenRouter(wavBase64, expected, uiLang, strict, modelId, openRouterKey);
@@ -518,17 +408,7 @@ export async function evaluatePronunciation(
     }
   }
 
-  // 2. Free multimodal audio fallback
-  if (googleApiKey) {
-    for (const modelName of GEMINI_MODELS) {
-      const verdict = await judgeWithGemini(wavBase64, expected, uiLang, strict, modelName, googleApiKey);
-      if (verdict !== null) {
-        return verdict;
-      }
-    }
-  }
-
-  // 3. Graceful fallback if no external API responded
+  // Graceful fallback if no model responded
   return {
     heard: false,
     transcript: null,
