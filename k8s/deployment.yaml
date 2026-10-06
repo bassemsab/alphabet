@@ -40,6 +40,12 @@ spec:
                   name: alphabet-secrets
                   key: GROQ_API_KEY
                   optional: true
+            - name: GOOGLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: alphabet-secrets
+                  key: GOOGLE_API_KEY
+                  optional: true
             - name: OPENOBSERVE_ENDPOINT
               value: "http://openobserve.ether-shared.svc.cluster.local:5080"
             - name: OPENOBSERVE_ORG
