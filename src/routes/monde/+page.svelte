@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import { KitchenStage, type ViewMode } from "$lib/3d/KitchenStage";
+  import { KitchenStage } from "$lib/3d/KitchenStage";
 
   // Step definitions
   const Step = {
@@ -61,10 +61,10 @@
   let currentStep = $state<Step>(Step.SPOKEN_COMPREHENSION);
   let currentChallenge = $derived(challenges[currentChallengeIndex]);
 
-  // Three.js Canvas Container & View Mode
+  // Three.js Canvas Container & Pointer Lock
   let canvasContainer = $state<HTMLDivElement | null>(null);
   let stage: KitchenStage | null = null;
-  let viewMode = $state<ViewMode>("fps");
+  let isPointerLocked = $state(false);
   let hoveredObject = $state<string | null>(null);
 
   // Slate (Ardoise) state
@@ -111,20 +111,18 @@
     showToast(`Fatima : « ${currentChallenge.npcSpeech} »`);
   }
 
-  function toggleViewMode() {
-    const nextMode: ViewMode = viewMode === "fps" ? "orbit" : "fps";
-    viewMode = nextMode;
-    if (stage) {
-      stage.setViewMode(nextMode);
-    }
-    showToast(nextMode === "fps" ? "🎮 Mode Première Personne (FPS) activé !" : "🔭 Mode Orbite (Diorama) activé !");
-  }
-
   onMount(() => {
     if (canvasContainer) {
-      stage = new KitchenStage(canvasContainer, handle3DObjectClick, (hovered) => {
-        hoveredObject = hovered;
-      }, "fps");
+      stage = new KitchenStage(
+        canvasContainer,
+        handle3DObjectClick,
+        (hovered) => {
+          hoveredObject = hovered;
+        },
+        (locked) => {
+          isPointerLocked = locked;
+        }
+      );
     }
     setTimeout(() => {
       speakFatima();
@@ -149,6 +147,7 @@
         playAudio(`/audio/${objectId}.wav`);
         setTimeout(() => {
           currentStep = Step.WRITTEN_COMPREHENSION;
+          if (stage) stage.exitLock();
         }, 1200);
       } else {
         showToast("Ce n'est pas cet aliment. Écoutez bien la demande de Fatima.");
@@ -247,6 +246,7 @@
         cards = cards.map((c) => (c.id === currentChallenge.cardId ? { ...c, stars: 3 } : c));
         setTimeout(() => {
           showVictoryModal = true;
+          if (stage) stage.exitLock();
         }, 1200);
       }
     } catch (err) {
@@ -300,31 +300,28 @@
   <!-- 3D Three.js WebGL Canvas Container -->
   <div bind:this={canvasContainer} class="absolute inset-0 cursor-crosshair"></div>
 
-  <!-- FPS Crosshair & Interaction Target Prompt (Only in FPS mode) -->
-  {#if viewMode === "fps"}
-    <div class="absolute inset-0 pointer-events-none flex items-center justify-center z-20">
-      <!-- Reticle Ring -->
-      <div class="relative flex items-center justify-center">
-        <div class="w-7 h-7 rounded-full border-2 transition-all duration-150 {hoveredObject ? 'border-emerald-400 scale-125 bg-emerald-500/20 shadow-lg shadow-emerald-500/50' : 'border-white/40'}"></div>
-        <div class="absolute w-1 h-1 rounded-full {hoveredObject ? 'bg-emerald-300' : 'bg-white/80'}"></div>
+  <!-- FPS Crosshair & Interaction Target Prompt in Center -->
+  <div class="absolute inset-0 pointer-events-none flex items-center justify-center z-20">
+    <div class="relative flex items-center justify-center">
+      <div class="w-6 h-6 rounded-full border-2 transition-all duration-150 {hoveredObject ? 'border-emerald-400 scale-125 bg-emerald-500/20 shadow-lg shadow-emerald-500/50' : 'border-white/40'}"></div>
+      <div class="absolute w-1 h-1 rounded-full {hoveredObject ? 'bg-emerald-300' : 'bg-white/80'}"></div>
 
-        <!-- Target hover label -->
-        {#if hoveredObject}
-          <div class="absolute -top-10 px-3 py-1 rounded-full bg-slate-950/90 border border-emerald-500/50 text-emerald-300 font-bold text-xs tracking-wide shadow-xl whitespace-nowrap animate-in fade-in slide-in-from-bottom-1 duration-150">
-            {#if hoveredObject === "pain"}
-              [ Clic / Espace ] Le Pain 🥖
-            {:else if hoveredObject === "lait"}
-              [ Clic / Espace ] Le Lait 🥛
-            {:else if hoveredObject === "fatima"}
-              [ Clic / Espace ] Écouter Fatima 🗣
-            {:else}
-              [ Clic / Espace ] Interagir
-            {/if}
-          </div>
-        {/if}
-      </div>
+      <!-- Target Hover Prompt -->
+      {#if hoveredObject}
+        <div class="absolute -top-10 px-3 py-1 rounded-full bg-slate-950/95 border border-emerald-500/60 text-emerald-300 font-extrabold text-xs tracking-wide shadow-2xl whitespace-nowrap animate-in fade-in slide-in-from-bottom-1 duration-150">
+          {#if hoveredObject === "pain"}
+            [ Clic / Espace ] Le Pain 🥖
+          {:else if hoveredObject === "lait"}
+            [ Clic / Espace ] Le Lait 🥛
+          {:else if hoveredObject === "fatima"}
+            [ Clic / Espace ] Écouter Fatima 🗣
+          {:else}
+            [ Clic / Espace ] Interagir
+          {/if}
+        </div>
+      {/if}
     </div>
-  {/if}
+  </div>
 
   <!-- Top Domain & Step Header -->
   <div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none z-10">
@@ -333,41 +330,32 @@
       <span class="text-xs sm:text-sm font-bold text-slate-100">Domaine 1 : Maison & Famille</span>
     </div>
 
-    <!-- Mode Switcher (FPS vs Orbit) -->
-    <div class="flex items-center gap-2 pointer-events-auto">
-      <button
-        onclick={toggleViewMode}
-        class="px-3.5 py-2 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-xs font-bold text-white border border-white/10 shadow-lg transition-all cursor-pointer flex items-center gap-1.5"
-      >
-        <span>{viewMode === "fps" ? "🎮 FPS (1ère Personne)" : "🔭 Orbite (Diorama)"}</span>
-        <span class="text-[10px] text-slate-400">(Changer)</span>
-      </button>
-
-      <div class="px-3.5 py-2 rounded-2xl bg-slate-900/85 backdrop-blur-md border border-white/10 shadow-lg hidden sm:block">
-        <span class="text-xs sm:text-sm font-semibold text-emerald-400">
-          Étape {currentStep + 1}/4 :
-          {#if currentStep === Step.SPOKEN_COMPREHENSION}
-            Écoute Orale
-          {:else if currentStep === Step.WRITTEN_COMPREHENSION}
-            Lecture & Indice
-          {:else if currentStep === Step.WRITTEN_CREATION}
-            L'Ardoise
-          {:else}
-            Voix & Gemini IA
-          {/if}
-        </span>
-      </div>
+    <!-- Step Badge -->
+    <div class="px-4 py-2 rounded-2xl bg-slate-900/85 backdrop-blur-md border border-white/10 shadow-lg pointer-events-auto">
+      <span class="text-xs sm:text-sm font-semibold text-emerald-400">
+        Étape {currentStep + 1}/4 :
+        {#if currentStep === Step.SPOKEN_COMPREHENSION}
+          Écoute Orale
+        {:else if currentStep === Step.WRITTEN_COMPREHENSION}
+          Lecture & Indice
+        {:else if currentStep === Step.WRITTEN_CREATION}
+          L'Ardoise
+        {:else}
+          Voix & Gemini IA
+        {/if}
+      </span>
     </div>
   </div>
 
-  <!-- FPS Controls Help Hint (Bottom-left Desktop) -->
-  {#if viewMode === "fps"}
-    <div class="absolute top-16 left-4 hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/70 border border-white/10 text-[11px] text-slate-300 pointer-events-none z-10">
-      <span class="font-bold text-emerald-400">[W / A / S / D]</span> ou flèches pour marcher •
-      <span class="font-bold text-emerald-400">[Glisser souris]</span> pour regarder •
-      <span class="font-bold text-emerald-400">[Clic / E]</span> pour interagir
-    </div>
-  {/if}
+  <!-- FPS Pointer Lock Status Banner (Desktop hint) -->
+  <div class="absolute top-16 left-4 hidden md:flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-950/80 border border-white/10 text-[11px] text-slate-300 pointer-events-none z-10">
+    {#if isPointerLocked}
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+      <span>Regard verrouillé sur la souris • Touche <kbd class="px-1.5 py-0.5 rounded bg-white/10 font-bold text-white">Échap</kbd> pour libérer</span>
+    {:else}
+      <span>👉 <strong>Cliquez sur la scène</strong> pour diriger le regard à la souris • <kbd class="px-1.5 py-0.5 rounded bg-white/10 font-bold text-white">Échap</kbd> pour libérer</span>
+    {/if}
+  </div>
 
   <!-- Fatima Speaking Banner (Step 1 & 2) -->
   {#if currentStep === Step.SPOKEN_COMPREHENSION || currentStep === Step.WRITTEN_COMPREHENSION}
@@ -390,14 +378,14 @@
             « {currentChallenge.npcSpeech} »
           </p>
           <p class="text-xs text-slate-400 italic">
-            👉 Avancez vers la table et visez l'aliment avec le réticule pour cliquer dessus !
+            👉 Avancez avec [W/A/S/D] et visez l'aliment avec le réticule pour cliquer dessus !
           </p>
         {:else}
           <div class="p-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200">
             {currentChallenge.writtenClue}
           </div>
           <p class="text-xs text-slate-400 italic">
-            👉 Choisissez la carte correspondante dans votre deck en bas.
+            👉 Appuyez sur [Échap] si besoin puis choisissez la bonne carte en bas.
           </p>
         {/if}
       </div>
@@ -495,18 +483,18 @@
     </div>
   {/if}
 
-  <!-- Mobile On-Screen Virtual Joystick (Only in FPS mode on touch devices) -->
-  {#if viewMode === "fps"}
-    <div
-      ontouchmove={handleJoystickTouch}
-      ontouchend={resetJoystick}
-      class="absolute bottom-28 left-6 w-24 h-24 rounded-full bg-slate-900/60 border border-white/20 backdrop-blur-md flex items-center justify-center pointer-events-auto sm:hidden z-20"
-    >
-      <div class="w-10 h-10 rounded-full bg-emerald-500/80 shadow-md flex items-center justify-center text-xs text-slate-950 font-bold">
-        🕹
-      </div>
+  <!-- Mobile On-Screen Virtual Joystick (touch devices) -->
+  <div
+    role="toolbar"
+    aria-label="Contrôle de déplacement virtuel"
+    ontouchmove={handleJoystickTouch}
+    ontouchend={resetJoystick}
+    class="absolute bottom-28 left-6 w-24 h-24 rounded-full bg-slate-900/60 border border-white/20 backdrop-blur-md flex items-center justify-center pointer-events-auto sm:hidden z-20"
+  >
+    <div class="w-10 h-10 rounded-full bg-emerald-500/80 shadow-md flex items-center justify-center text-xs text-slate-950 font-bold">
+      🕹
     </div>
-  {/if}
+  </div>
 
   <!-- Bottom Card Deck -->
   <div class="absolute bottom-4 left-4 right-4 z-10 flex flex-col gap-2 pointer-events-none">
