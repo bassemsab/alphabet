@@ -6,6 +6,7 @@
   import { onMount } from "svelte";
 
   import { initClientTelemetry, trackEvent } from "$lib/telemetry";
+  import { page } from "$app/stores";
 
   let { children } = $props();
 
@@ -64,6 +65,22 @@
           {i18n.t("alphabet_title")}
         </h1>
       </div>
+
+      <!-- Navigation Switcher -->
+      <nav class="hidden sm:flex items-center gap-1.5 ml-4 p-1 rounded-2xl bg-slate-200/60 dark:bg-white/5 border border-slate-300/60 dark:border-white/10 text-xs font-bold">
+        <a
+          href="/"
+          class="px-3 py-1.5 rounded-xl transition-all {$page.url.pathname === '/' ? 'bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}"
+        >
+          🔤 Cartes 2D
+        </a>
+        <a
+          href="/monde"
+          class="px-3 py-1.5 rounded-xl transition-all {$page.url.pathname === '/monde' ? 'bg-emerald-500 text-slate-950 shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}"
+        >
+          🌍 Monde 3D (Three.js)
+        </a>
+      </nav>
     </div>
 
     <!-- Right Controls: Progress, Language Selector, Dark Mode -->
