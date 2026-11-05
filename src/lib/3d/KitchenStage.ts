@@ -3,25 +3,43 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 export type ClickCallback = (objectId: string) => void;
+export type HoverCallback = (objectId: string | null) => void;
+export type ViewMode = "fps" | "orbit";
 
 export class KitchenStage {
   private container: HTMLElement;
   private scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
-  private controls: OrbitControls;
+  private orbitControls: OrbitControls;
   private animFrameId: number | null = null;
   private clock: THREE.Clock = new THREE.Clock();
 
-  // 3D Objects
+  // Mode: "fps" or "orbit"
+  public viewMode: ViewMode = "fps";
+
+  // 3D Objects & Raycasting
   private interactables: Map<string, THREE.Object3D> = new Map();
   private raycaster: THREE.Raycaster = new THREE.Raycaster();
-  private pointer: THREE.Vector2 = new THREE.Vector2();
   private onObjectClick: ClickCallback | null = null;
+  private onObjectHover: HoverCallback | null = null;
+  public hoveredObjectId: string | null = null;
 
-  // Touch/Mouse drag vs click tracking
-  private pointerDownPos: { x: number; y: number } = { x: 0, y: 0 };
+  // FPS Camera & Movement State
+  private fpsYaw: number = 0; // horizontal angle
+  private fpsPitch: number = -0.15; // vertical angle (slight look-down towards table)
+  private playerPos: THREE.Vector3 = new THREE.Vector3(0, 1.58, 2.3);
+  private moveSpeed: number = 2.8;
+  private keysPressed: Record<string, boolean> = {};
+  private headBobTimer: number = 0;
+
+  // Pointer & Drag tracking
   private isPointerDown: boolean = false;
+  private pointerDownPos = { x: 0, y: 0 };
+  private isPointerLocked: boolean = false;
+
+  // Mobile virtual joystick input (-1 to 1)
+  public joystickMove = { x: 0, y: 0 };
 
   // Fatima & Bones
   private fatimaModel: THREE.Object3D | null = null;
@@ -33,25 +51,32 @@ export class KitchenStage {
   private leftForearmIdx: number = -1;
   private headIdx: number = -1;
 
-  private isSpeaking: boolean = false;
+  public isSpeaking: boolean = false;
   private speakTimer: number = 0;
   private idleTime: number = 0;
 
   // Textures
   private textureLoader: THREE.TextureLoader = new THREE.TextureLoader();
 
-  constructor(container: HTMLElement, onObjectClick?: ClickCallback) {
+  constructor(
+    container: HTMLElement,
+    onObjectClick?: ClickCallback,
+    onObjectHover?: HoverCallback,
+    initialMode: ViewMode = "fps"
+  ) {
     this.container = container;
     this.onObjectClick = onObjectClick || null;
+    this.onObjectHover = onObjectHover || null;
+    this.viewMode = initialMode;
 
     // 1. Scene
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xeef2f6);
+    this.scene.background = new THREE.Color(0x0f172a); // Slate-900 background
 
     // 2. Camera
     const aspect = container.clientWidth / container.clientHeight;
-    this.camera = new THREE.PerspectiveCamera(36, aspect, 0.1, 100);
-    this.camera.position.set(4.2, 3.8, 5.2);
+    this.camera = new THREE.PerspectiveCamera(65, aspect, 0.1, 100);
+    this.camera.position.copy(this.playerPos);
 
     // 3. Renderer
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
@@ -60,100 +85,135 @@ export class KitchenStage {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.1;
+    this.renderer.toneMappingExposure = 1.15;
     container.appendChild(this.renderer.domElement);
 
-    // 4. Controls
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.enableDamping = true;
-    this.controls.dampingFactor = 0.08;
-    this.controls.maxPolarAngle = Math.PI / 2 - 0.05; // Don't go below floor
-    this.controls.minDistance = 2.5;
-    this.controls.maxDistance = 12.0;
-    this.controls.target.set(-0.2, 0.9, 0);
+    // 4. OrbitControls (used in orbit mode)
+    this.orbitControls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.orbitControls.enableDamping = true;
+    this.orbitControls.dampingFactor = 0.08;
+    this.orbitControls.maxPolarAngle = Math.PI / 2 - 0.05;
+    this.orbitControls.minDistance = 2.0;
+    this.orbitControls.maxDistance = 10.0;
+    this.orbitControls.target.set(0, 0.95, 0);
+    this.orbitControls.enabled = this.viewMode === "orbit";
 
     // 5. Lights & Environment
     this.setupLighting();
 
-    // 6. Build the Kitchen Diorama
+    // 6. Kitchen Elements
     this.buildRoom();
     this.buildTable();
     this.buildBread();
     this.buildMilk();
     this.loadFatima();
 
-    // 7. Event Listeners
+    // 7. Input Events
     this.setupInputEvents();
     window.addEventListener("resize", this.onWindowResize);
+
+    // Set initial camera view
+    this.setViewMode(this.viewMode);
 
     // 8. Start Loop
     this.animate();
   }
 
+  public setViewMode(mode: ViewMode): void {
+    this.viewMode = mode;
+    if (mode === "orbit") {
+      this.orbitControls.enabled = true;
+      this.camera.position.set(3.8, 3.5, 4.5);
+      this.orbitControls.target.set(0, 0.95, 0);
+      this.orbitControls.update();
+    } else {
+      this.orbitControls.enabled = false;
+      this.playerPos.set(0, 1.58, 2.3);
+      this.fpsYaw = 0;
+      this.fpsPitch = -0.15;
+      this.camera.position.copy(this.playerPos);
+      this.updateFpsCameraRotation();
+    }
+  }
+
   private setupLighting(): void {
-    const ambient = new THREE.AmbientLight(0xfff6ea, 0.9);
+    const ambient = new THREE.AmbientLight(0xfff5e6, 0.95);
     this.scene.add(ambient);
 
-    const hemi = new THREE.HemisphereLight(0xddeeff, 0x554433, 0.6);
+    const hemi = new THREE.HemisphereLight(0xeef6ff, 0x443322, 0.65);
     this.scene.add(hemi);
 
     const sun = new THREE.DirectionalLight(0xffeedd, 1.4);
-    sun.position.set(5, 8, 4);
+    sun.position.set(4, 7, 3.5);
     sun.castShadow = true;
     sun.shadow.mapSize.width = 2048;
     sun.shadow.mapSize.height = 2048;
     sun.shadow.camera.near = 0.5;
-    sun.shadow.camera.far = 25;
-    const d = 4.5;
+    sun.shadow.camera.far = 20;
+    const d = 4.0;
     sun.shadow.camera.left = -d;
     sun.shadow.camera.right = d;
     sun.shadow.camera.top = d;
     sun.shadow.camera.bottom = -d;
-    sun.shadow.bias = -0.0005;
+    sun.shadow.bias = -0.0004;
     this.scene.add(sun);
 
-    // Warm table accent light
-    const tableLight = new THREE.PointLight(0xffecd0, 0.8, 4);
-    tableLight.position.set(0, 2.5, 0);
+    // Warm pendant table light
+    const tableLight = new THREE.PointLight(0xffe2b8, 1.1, 4.5);
+    tableLight.position.set(0, 2.4, 0);
     this.scene.add(tableLight);
   }
 
   private buildRoom(): void {
     // Parquet Floor
-    const floorGeo = new THREE.BoxGeometry(6, 0.2, 6);
-    const floorMat = new THREE.MeshStandardMaterial({ color: 0xb88860, roughness: 0.55 });
+    const floorGeo = new THREE.BoxGeometry(6.4, 0.2, 6.4);
+    const floorMat = new THREE.MeshStandardMaterial({ color: 0xb58257, roughness: 0.5 });
     const floor = new THREE.Mesh(floorGeo, floorMat);
     floor.position.set(0, -0.1, 0);
     floor.receiveShadow = true;
     this.scene.add(floor);
 
     // Back Wall
-    const wallBackGeo = new THREE.BoxGeometry(6, 4, 0.2);
-    const wallMat = new THREE.MeshStandardMaterial({ color: 0xf0ece4, roughness: 0.85 });
+    const wallBackGeo = new THREE.BoxGeometry(6.4, 4, 0.2);
+    const wallMat = new THREE.MeshStandardMaterial({ color: 0xf1ede6, roughness: 0.85 });
     const wallBack = new THREE.Mesh(wallBackGeo, wallMat);
-    wallBack.position.set(0, 1.9, -2.9);
+    wallBack.position.set(0, 1.9, -3.1);
     wallBack.receiveShadow = true;
     this.scene.add(wallBack);
 
+    // Front Wall (with opening)
+    const wallFrontGeo = new THREE.BoxGeometry(6.4, 4, 0.2);
+    const wallFront = new THREE.Mesh(wallFrontGeo, wallMat);
+    wallFront.position.set(0, 1.9, 3.1);
+    wallFront.receiveShadow = true;
+    this.scene.add(wallFront);
+
     // Sage Green Kitchen Backsplash
-    const splashGeo = new THREE.BoxGeometry(5.9, 1.1, 0.05);
-    const splashMat = new THREE.MeshStandardMaterial({ color: 0x487068, roughness: 0.35 });
+    const splashGeo = new THREE.BoxGeometry(6.3, 1.2, 0.05);
+    const splashMat = new THREE.MeshStandardMaterial({ color: 0x3d665f, roughness: 0.35 });
     const splash = new THREE.Mesh(splashGeo, splashMat);
-    splash.position.set(0, 1.3, -2.78);
+    splash.position.set(0, 1.3, -2.98);
     splash.receiveShadow = true;
     this.scene.add(splash);
 
     // Left Wall
-    const wallLeftGeo = new THREE.BoxGeometry(0.2, 4, 6);
+    const wallLeftGeo = new THREE.BoxGeometry(0.2, 4, 6.4);
     const wallLeft = new THREE.Mesh(wallLeftGeo, wallMat);
-    wallLeft.position.set(-2.9, 1.9, 0);
+    wallLeft.position.set(-3.1, 1.9, 0);
     wallLeft.receiveShadow = true;
     this.scene.add(wallLeft);
+
+    // Right Wall
+    const wallRightGeo = new THREE.BoxGeometry(0.2, 4, 6.4);
+    const wallRight = new THREE.Mesh(wallRightGeo, wallMat);
+    wallRight.position.set(3.1, 1.9, 0);
+    wallRight.receiveShadow = true;
+    this.scene.add(wallRight);
   }
 
   private buildTable(): void {
     const tableGroup = new THREE.Group();
-    const woodMat = new THREE.MeshStandardMaterial({ color: 0x5a341a, roughness: 0.35 });
+    const woodMat = new THREE.MeshStandardMaterial({ color: 0x563016, roughness: 0.35 });
 
     // Tabletop
     const topGeo = new THREE.BoxGeometry(2.6, 0.08, 1.6);
@@ -163,15 +223,15 @@ export class KitchenStage {
     top.receiveShadow = true;
     tableGroup.add(top);
 
-    // Table Runner
+    // Runner
     const runnerGeo = new THREE.BoxGeometry(0.85, 0.005, 1.62);
-    const runnerMat = new THREE.MeshStandardMaterial({ color: 0xe8e4d8, roughness: 0.85 });
+    const runnerMat = new THREE.MeshStandardMaterial({ color: 0xeae5d8, roughness: 0.85 });
     const runner = new THREE.Mesh(runnerGeo, runnerMat);
     runner.position.set(0, 0.985, 0);
     runner.receiveShadow = true;
     tableGroup.add(runner);
 
-    // 4 Table Legs
+    // 4 Turned Legs
     const legGeo = new THREE.CylinderGeometry(0.055, 0.045, 0.92, 16);
     const legPositions = [
       [-1.15, 0.46, -0.65],
@@ -204,7 +264,7 @@ export class KitchenStage {
     board.receiveShadow = true;
     breadGroup.add(board);
 
-    // Loaf (Pain de Campagne)
+    // Pain de Campagne Loaf
     const crustTex = this.textureLoader.load("/models/bread_crust.png");
     const crumbTex = this.textureLoader.load("/models/bread_crumb.png");
 
@@ -221,7 +281,7 @@ export class KitchenStage {
     loaf.castShadow = true;
     breadGroup.add(loaf);
 
-    // Expansion score along top
+    // Baker's expansion slit
     const scoreGeo = new THREE.BoxGeometry(0.04, 0.36, 0.03);
     const scoreMat = new THREE.MeshStandardMaterial({
       map: crumbTex,
@@ -323,9 +383,9 @@ export class KitchenStage {
       (gltf) => {
         const model = gltf.scene;
         this.fatimaModel = model;
-        model.position.set(-1.35, 0, -0.85);
-        model.rotation.y = THREE.MathUtils.degToRad(55);
-        model.scale.set(1, 1, 1);
+        model.name = "fatima";
+        model.position.set(-1.45, 0, -0.75);
+        model.rotation.y = THREE.MathUtils.degToRad(50);
 
         model.traverse((child) => {
           if ((child as THREE.Mesh).isMesh) {
@@ -339,17 +399,27 @@ export class KitchenStage {
 
         if (this.skeleton) {
           const names = this.skeleton.bones.map((b) => b.name);
-          this.rightArmIdx = names.indexOf("mixamorig_RightArm");
-          this.rightForearmIdx = names.indexOf("mixamorig_RightForeArm");
-          this.rightHandIdx = names.indexOf("mixamorig_RightHand");
-          this.leftArmIdx = names.indexOf("mixamorig_LeftArm");
-          this.leftForearmIdx = names.indexOf("mixamorig_LeftForeArm");
-          this.headIdx = names.indexOf("mixamorig_Head");
+          // Case-insensitive flexible bone index matching
+          this.rightArmIdx = names.findIndex((n) => /rightarm$/i.test(n.replace(/_/g, "")));
+          this.rightForearmIdx = names.findIndex((n) => /rightforearm$/i.test(n.replace(/_/g, "")));
+          this.rightHandIdx = names.findIndex((n) => /righthand$/i.test(n.replace(/_/g, "")));
+          this.leftArmIdx = names.findIndex((n) => /leftarm$/i.test(n.replace(/_/g, "")));
+          this.leftForearmIdx = names.findIndex((n) => /leftforearm$/i.test(n.replace(/_/g, "")));
+          this.headIdx = names.findIndex((n) => /head$/i.test(n.replace(/_/g, "")));
+
+          console.log("[Three.js Fatima] Bones connected:", {
+            rightArm: this.rightArmIdx,
+            rightForearm: this.rightForearmIdx,
+            rightHand: this.rightHandIdx,
+            leftArm: this.leftArmIdx,
+            head: this.headIdx,
+          });
 
           this.applyPointingPose(0, 0, 0);
         }
 
         this.scene.add(model);
+        this.interactables.set("fatima", model);
       },
       undefined,
       (err) => console.error("Error loading Fatima GLB:", err)
@@ -374,13 +444,13 @@ export class KitchenStage {
       bones[this.leftForearmIdx].quaternion.copy(q);
     }
 
-    // Right arm raised and pointing to table
+    // Right arm raised, actively pointing toward the table
     if (this.rightArmIdx !== -1) {
       const q = new THREE.Quaternion().setFromEuler(
         new THREE.Euler(
-          THREE.MathUtils.degToRad(-20 + waveArm * 16),
-          THREE.MathUtils.degToRad(35 + waveArm * 18),
-          THREE.MathUtils.degToRad(-50 + waveArm * 12)
+          THREE.MathUtils.degToRad(-22 + waveArm * 18),
+          THREE.MathUtils.degToRad(38 + waveArm * 20),
+          THREE.MathUtils.degToRad(-48 + waveArm * 14)
         )
       );
       bones[this.rightArmIdx].quaternion.copy(q);
@@ -388,9 +458,9 @@ export class KitchenStage {
     if (this.rightForearmIdx !== -1) {
       const q = new THREE.Quaternion().setFromEuler(
         new THREE.Euler(
-          THREE.MathUtils.degToRad(-10 + waveHand * 15),
-          THREE.MathUtils.degToRad(28 + waveHand * 12),
-          THREE.MathUtils.degToRad(10)
+          THREE.MathUtils.degToRad(-12 + waveHand * 18),
+          THREE.MathUtils.degToRad(26 + waveHand * 16),
+          THREE.MathUtils.degToRad(8)
         )
       );
       bones[this.rightForearmIdx].quaternion.copy(q);
@@ -398,20 +468,20 @@ export class KitchenStage {
     if (this.rightHandIdx !== -1) {
       const q = new THREE.Quaternion().setFromEuler(
         new THREE.Euler(
-          THREE.MathUtils.degToRad(15 + waveHand * 25),
-          THREE.MathUtils.degToRad(20 + waveHand * 20),
-          THREE.MathUtils.degToRad(10)
+          THREE.MathUtils.degToRad(16 + waveHand * 28),
+          THREE.MathUtils.degToRad(22 + waveHand * 22),
+          THREE.MathUtils.degToRad(12)
         )
       );
       bones[this.rightHandIdx].quaternion.copy(q);
     }
 
-    // Head nodding & looking warmly towards table
+    // Head nodding & looking warmly towards the player and table
     if (this.headIdx !== -1) {
       const q = new THREE.Quaternion().setFromEuler(
         new THREE.Euler(
           THREE.MathUtils.degToRad(-6 + nod * 12),
-          THREE.MathUtils.degToRad(-14 + nod * 6),
+          THREE.MathUtils.degToRad(-12 + nod * 6),
           0
         )
       );
@@ -433,13 +503,12 @@ export class KitchenStage {
 
     const baseScale = obj.scale.clone();
     const startTime = performance.now();
-    const duration = 320;
+    const duration = 300;
 
     const animateBounce = (time: number) => {
       const elapsed = time - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Sine bounce curve
-      const factor = 1 + Math.sin(progress * Math.PI) * 0.25;
+      const factor = 1 + Math.sin(progress * Math.PI) * 0.22;
       obj.scale.copy(baseScale).multiplyScalar(factor);
 
       if (progress < 1) {
@@ -451,9 +520,24 @@ export class KitchenStage {
     requestAnimationFrame(animateBounce);
   }
 
+  // --- Input & FPS Controls ---
   private setupInputEvents(): void {
     const dom = this.renderer.domElement;
 
+    // Keyboard events for WASD walking & Space interact
+    window.addEventListener("keydown", (e) => {
+      const k = e.key.toLowerCase();
+      this.keysPressed[k] = true;
+      if (k === "e" || k === " ") {
+        this.triggerCenterInteraction();
+      }
+    });
+
+    window.addEventListener("keyup", (e) => {
+      this.keysPressed[e.key.toLowerCase()] = false;
+    });
+
+    // Mouse / Touch Look & Click
     const onPointerDown = (e: MouseEvent | TouchEvent) => {
       this.isPointerDown = true;
       const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
@@ -461,44 +545,113 @@ export class KitchenStage {
       this.pointerDownPos = { x: clientX, y: clientY };
     };
 
+    const onPointerMove = (e: MouseEvent | TouchEvent) => {
+      if (!this.isPointerDown) return;
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
+      const dx = clientX - this.pointerDownPos.x;
+      const dy = clientY - this.pointerDownPos.y;
+
+      if (this.viewMode === "fps") {
+        const lookSens = 0.0035;
+        this.fpsYaw -= dx * lookSens;
+        this.fpsPitch -= dy * lookSens;
+        // Clamp pitch so player cannot flip upside down
+        this.fpsPitch = Math.max(-Math.PI / 2.5, Math.min(Math.PI / 2.5, this.fpsPitch));
+        this.updateFpsCameraRotation();
+        this.pointerDownPos = { x: clientX, y: clientY };
+      }
+    };
+
     const onPointerUp = (e: MouseEvent | TouchEvent) => {
       if (!this.isPointerDown) return;
       this.isPointerDown = false;
-
       const clientX = "changedTouches" in e ? e.changedTouches[0].clientX : e.clientX;
       const clientY = "changedTouches" in e ? e.changedTouches[0].clientY : e.clientY;
       const dist = Math.hypot(clientX - this.pointerDownPos.x, clientY - this.pointerDownPos.y);
 
-      // Only treat as click if pointer moved less than 15px (not a drag/rotate)
-      if (dist < 15) {
-        this.handleClick(clientX, clientY);
+      // Tap / Click interaction
+      if (dist < 12) {
+        if (this.viewMode === "fps") {
+          this.triggerCenterInteraction();
+        } else {
+          this.handleOrbitClick(clientX, clientY);
+        }
       }
     };
 
     dom.addEventListener("mousedown", onPointerDown);
-    dom.addEventListener("mouseup", onPointerUp);
+    window.addEventListener("mousemove", onPointerMove);
+    window.addEventListener("mouseup", onPointerUp);
+
     dom.addEventListener("touchstart", onPointerDown, { passive: true });
-    dom.addEventListener("touchend", onPointerUp);
+    window.addEventListener("touchmove", onPointerMove, { passive: true });
+    window.addEventListener("touchend", onPointerUp);
   }
 
-  private handleClick(clientX: number, clientY: number): void {
-    const rect = this.renderer.domElement.getBoundingClientRect();
-    this.pointer.x = ((clientX - rect.left) / rect.width) * 2 - 1;
-    this.pointer.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+  private updateFpsCameraRotation(): void {
+    const euler = new THREE.Euler(0, 0, 0, "YXZ");
+    euler.x = this.fpsPitch;
+    euler.y = this.fpsYaw;
+    this.camera.quaternion.setFromEuler(euler);
+  }
 
-    this.raycaster.setFromCamera(this.pointer, this.camera);
+  // Crosshair Raycast forward from camera center
+  private updateCenterRaycast(): void {
+    if (this.viewMode !== "fps") return;
 
+    this.raycaster.setFromCamera(new THREE.Vector2(0, 0), this.camera);
     const candidates: THREE.Object3D[] = [];
     this.interactables.forEach((val) => candidates.push(val));
 
+    const intersects = this.raycaster.intersectObjects(candidates, true);
+    let matchedId: string | null = null;
+
+    if (intersects.length > 0 && intersects[0].distance < 4.5) {
+      let topObj: THREE.Object3D | null = intersects[0].object;
+      while (topObj && topObj !== this.scene) {
+        if (this.interactables.has(topObj.name)) {
+          matchedId = topObj.name;
+          break;
+        }
+        topObj = topObj.parent;
+      }
+    }
+
+    if (this.hoveredObjectId !== matchedId) {
+      this.hoveredObjectId = matchedId;
+      if (this.onObjectHover) {
+        this.onObjectHover(matchedId);
+      }
+    }
+  }
+
+  public triggerCenterInteraction(): void {
+    if (this.hoveredObjectId) {
+      this.animateObjectBounce(this.hoveredObjectId);
+      if (this.onObjectClick) {
+        this.onObjectClick(this.hoveredObjectId);
+      }
+    }
+  }
+
+  private handleOrbitClick(clientX: number, clientY: number): void {
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    const ptr = new THREE.Vector2(
+      ((clientX - rect.left) / rect.width) * 2 - 1,
+      -((clientY - rect.top) / rect.height) * 2 + 1
+    );
+
+    this.raycaster.setFromCamera(ptr, this.camera);
+    const candidates: THREE.Object3D[] = [];
+    this.interactables.forEach((val) => candidates.push(val));
     const intersects = this.raycaster.intersectObjects(candidates, true);
 
     if (intersects.length > 0) {
       let topObj: THREE.Object3D | null = intersects[0].object;
       let matchedId: string | null = null;
-
       while (topObj && topObj !== this.scene) {
-        if (topObj.name === "pain" || topObj.name === "lait") {
+        if (this.interactables.has(topObj.name)) {
           matchedId = topObj.name;
           break;
         }
@@ -525,17 +678,65 @@ export class KitchenStage {
 
   private animate = (): void => {
     this.animFrameId = requestAnimationFrame(this.animate);
-    const delta = this.clock.getDelta();
+    const delta = Math.min(this.clock.getDelta(), 0.1);
 
-    this.controls.update();
+    // FPS Movement
+    if (this.viewMode === "fps") {
+      let moveZ = 0;
+      let moveX = 0;
 
-    // Fatima animation
+      if (this.keysPressed["w"] || this.keysPressed["arrowup"]) moveZ -= 1;
+      if (this.keysPressed["s"] || this.keysPressed["arrowdown"]) moveZ += 1;
+      if (this.keysPressed["a"] || this.keysPressed["arrowleft"]) moveX -= 1;
+      if (this.keysPressed["d"] || this.keysPressed["arrowright"]) moveX += 1;
+
+      // Virtual joystick contribution
+      if (Math.abs(this.joystickMove.y) > 0.1) moveZ += this.joystickMove.y;
+      if (Math.abs(this.joystickMove.x) > 0.1) moveX += this.joystickMove.x;
+
+      const isWalking = Math.abs(moveX) > 0.05 || Math.abs(moveZ) > 0.05;
+
+      if (isWalking) {
+        // Forward vector (projected on XZ ground plane)
+        const forward = new THREE.Vector3(-Math.sin(this.fpsYaw), 0, -Math.cos(this.fpsYaw)).normalize();
+        const right = new THREE.Vector3(Math.cos(this.fpsYaw), 0, -Math.sin(this.fpsYaw)).normalize();
+
+        const moveDir = forward.multiplyScalar(-moveZ).add(right.multiplyScalar(moveX)).normalize();
+        const nextPos = this.playerPos.clone().add(moveDir.multiplyScalar(this.moveSpeed * delta));
+
+        // Kitchen Room Bounds Collision (keep player inside room)
+        nextPos.x = Math.max(-2.6, Math.min(2.6, nextPos.x));
+        nextPos.z = Math.max(-2.5, Math.min(2.7, nextPos.z));
+
+        // Table collision (table is at 0, 0, size ~ 2.6 x 1.6)
+        const inTableX = Math.abs(nextPos.x) < 1.45;
+        const inTableZ = Math.abs(nextPos.z) < 0.95;
+        if (!inTableX || !inTableZ) {
+          this.playerPos.copy(nextPos);
+        }
+
+        // Head Bobbing
+        this.headBobTimer += delta * 10;
+        this.camera.position.y = 1.58 + Math.sin(this.headBobTimer) * 0.025;
+      } else {
+        this.camera.position.y = THREE.MathUtils.lerp(this.camera.position.y, 1.58, delta * 8);
+      }
+
+      this.camera.position.x = this.playerPos.x;
+      this.camera.position.z = this.playerPos.z;
+
+      this.updateCenterRaycast();
+    } else {
+      this.orbitControls.update();
+    }
+
+    // Fatima Arm & Head Gestures Animation
     if (this.skeleton) {
       if (this.isSpeaking) {
-        this.speakTimer += delta * 4.5;
-        const waveArm = Math.sin(this.speakTimer) * 0.22;
-        const waveHand = Math.sin(this.speakTimer * 1.3) * 0.25;
-        const nod = Math.sin(this.speakTimer * 1.5) * 0.1;
+        this.speakTimer += delta * 4.8;
+        const waveArm = Math.sin(this.speakTimer) * 0.24;
+        const waveHand = Math.sin(this.speakTimer * 1.4) * 0.28;
+        const nod = Math.sin(this.speakTimer * 1.6) * 0.12;
         this.applyPointingPose(waveArm, nod, waveHand);
       } else {
         this.idleTime += delta * 1.8;
@@ -552,7 +753,7 @@ export class KitchenStage {
       cancelAnimationFrame(this.animFrameId);
     }
     window.removeEventListener("resize", this.onWindowResize);
-    this.controls.dispose();
+    this.orbitControls.dispose();
     this.renderer.dispose();
     if (this.renderer.domElement.parentElement) {
       this.renderer.domElement.parentElement.removeChild(this.renderer.domElement);

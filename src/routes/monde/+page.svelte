@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import { KitchenStage } from "$lib/3d/KitchenStage";
+  import { KitchenStage, type ViewMode } from "$lib/3d/KitchenStage";
 
   // Step definitions
   const Step = {
@@ -61,9 +61,11 @@
   let currentStep = $state<Step>(Step.SPOKEN_COMPREHENSION);
   let currentChallenge = $derived(challenges[currentChallengeIndex]);
 
-  // Three.js Canvas Container
+  // Three.js Canvas Container & View Mode
   let canvasContainer = $state<HTMLDivElement | null>(null);
   let stage: KitchenStage | null = null;
+  let viewMode = $state<ViewMode>("fps");
+  let hoveredObject = $state<string | null>(null);
 
   // Slate (Ardoise) state
   let placedCards = $state<Card[]>([]);
@@ -109,11 +111,21 @@
     showToast(`Fatima : « ${currentChallenge.npcSpeech} »`);
   }
 
+  function toggleViewMode() {
+    const nextMode: ViewMode = viewMode === "fps" ? "orbit" : "fps";
+    viewMode = nextMode;
+    if (stage) {
+      stage.setViewMode(nextMode);
+    }
+    showToast(nextMode === "fps" ? "🎮 Mode Première Personne (FPS) activé !" : "🔭 Mode Orbite (Diorama) activé !");
+  }
+
   onMount(() => {
     if (canvasContainer) {
-      stage = new KitchenStage(canvasContainer, handle3DObjectClick);
+      stage = new KitchenStage(canvasContainer, handle3DObjectClick, (hovered) => {
+        hoveredObject = hovered;
+      }, "fps");
     }
-    // Greet at start
     setTimeout(() => {
       speakFatima();
     }, 600);
@@ -126,6 +138,11 @@
   });
 
   function handle3DObjectClick(objectId: string) {
+    if (objectId === "fatima") {
+      speakFatima();
+      return;
+    }
+
     if (currentStep === Step.SPOKEN_COMPREHENSION) {
       if (objectId === currentChallenge.cardId) {
         showToast(`✓ Bravo ! Vous avez bien identifié ${currentChallenge.cardName} sur la table.`);
@@ -227,7 +244,6 @@
       geminiResult = data;
 
       if (data.is_correct) {
-        // Upgrade star count for this card
         cards = cards.map((c) => (c.id === currentChallenge.cardId ? { ...c, stars: 3 } : c));
         setTimeout(() => {
           showVictoryModal = true;
@@ -253,11 +269,62 @@
       showToast("🎉 Félicitations ! Toutes les leçons de la cuisine sont maîtrisées !");
     }
   }
+
+  // Mobile virtual joystick touch handling
+  function handleJoystickTouch(e: TouchEvent) {
+    const touch = e.targetTouches[0];
+    const target = e.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    const dx = (touch.clientX - centerX) / (rect.width / 2);
+    const dy = (touch.clientY - centerY) / (rect.height / 2);
+
+    if (stage) {
+      stage.joystickMove = {
+        x: Math.max(-1, Math.min(1, dx)),
+        y: Math.max(-1, Math.min(1, dy))
+      };
+    }
+  }
+
+  function resetJoystick() {
+    if (stage) {
+      stage.joystickMove = { x: 0, y: 0 };
+    }
+  }
 </script>
 
-<div class="relative w-full h-[calc(100vh-4rem)] overflow-hidden bg-slate-900 select-none">
+<div class="relative w-full h-[calc(100vh-4rem)] overflow-hidden bg-slate-950 select-none">
   <!-- 3D Three.js WebGL Canvas Container -->
-  <div bind:this={canvasContainer} class="absolute inset-0 cursor-grab active:cursor-grabbing"></div>
+  <div bind:this={canvasContainer} class="absolute inset-0 cursor-crosshair"></div>
+
+  <!-- FPS Crosshair & Interaction Target Prompt (Only in FPS mode) -->
+  {#if viewMode === "fps"}
+    <div class="absolute inset-0 pointer-events-none flex items-center justify-center z-20">
+      <!-- Reticle Ring -->
+      <div class="relative flex items-center justify-center">
+        <div class="w-7 h-7 rounded-full border-2 transition-all duration-150 {hoveredObject ? 'border-emerald-400 scale-125 bg-emerald-500/20 shadow-lg shadow-emerald-500/50' : 'border-white/40'}"></div>
+        <div class="absolute w-1 h-1 rounded-full {hoveredObject ? 'bg-emerald-300' : 'bg-white/80'}"></div>
+
+        <!-- Target hover label -->
+        {#if hoveredObject}
+          <div class="absolute -top-10 px-3 py-1 rounded-full bg-slate-950/90 border border-emerald-500/50 text-emerald-300 font-bold text-xs tracking-wide shadow-xl whitespace-nowrap animate-in fade-in slide-in-from-bottom-1 duration-150">
+            {#if hoveredObject === "pain"}
+              [ Clic / Espace ] Le Pain 🥖
+            {:else if hoveredObject === "lait"}
+              [ Clic / Espace ] Le Lait 🥛
+            {:else if hoveredObject === "fatima"}
+              [ Clic / Espace ] Écouter Fatima 🗣
+            {:else}
+              [ Clic / Espace ] Interagir
+            {/if}
+          </div>
+        {/if}
+      </div>
+    </div>
+  {/if}
 
   <!-- Top Domain & Step Header -->
   <div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none z-10">
@@ -266,25 +333,45 @@
       <span class="text-xs sm:text-sm font-bold text-slate-100">Domaine 1 : Maison & Famille</span>
     </div>
 
-    <div class="px-4 py-2 rounded-2xl bg-slate-900/85 backdrop-blur-md border border-white/10 shadow-lg pointer-events-auto">
-      <span class="text-xs sm:text-sm font-semibold text-emerald-400">
-        Étape {currentStep + 1}/4 :
-        {#if currentStep === Step.SPOKEN_COMPREHENSION}
-          Écoute Orale
-        {:else if currentStep === Step.WRITTEN_COMPREHENSION}
-          Lecture & Indice
-        {:else if currentStep === Step.WRITTEN_CREATION}
-          L'Ardoise
-        {:else}
-          Voix & Gemini IA
-        {/if}
-      </span>
+    <!-- Mode Switcher (FPS vs Orbit) -->
+    <div class="flex items-center gap-2 pointer-events-auto">
+      <button
+        onclick={toggleViewMode}
+        class="px-3.5 py-2 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-xs font-bold text-white border border-white/10 shadow-lg transition-all cursor-pointer flex items-center gap-1.5"
+      >
+        <span>{viewMode === "fps" ? "🎮 FPS (1ère Personne)" : "🔭 Orbite (Diorama)"}</span>
+        <span class="text-[10px] text-slate-400">(Changer)</span>
+      </button>
+
+      <div class="px-3.5 py-2 rounded-2xl bg-slate-900/85 backdrop-blur-md border border-white/10 shadow-lg hidden sm:block">
+        <span class="text-xs sm:text-sm font-semibold text-emerald-400">
+          Étape {currentStep + 1}/4 :
+          {#if currentStep === Step.SPOKEN_COMPREHENSION}
+            Écoute Orale
+          {:else if currentStep === Step.WRITTEN_COMPREHENSION}
+            Lecture & Indice
+          {:else if currentStep === Step.WRITTEN_CREATION}
+            L'Ardoise
+          {:else}
+            Voix & Gemini IA
+          {/if}
+        </span>
+      </div>
     </div>
   </div>
 
+  <!-- FPS Controls Help Hint (Bottom-left Desktop) -->
+  {#if viewMode === "fps"}
+    <div class="absolute top-16 left-4 hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/70 border border-white/10 text-[11px] text-slate-300 pointer-events-none z-10">
+      <span class="font-bold text-emerald-400">[W / A / S / D]</span> ou flèches pour marcher •
+      <span class="font-bold text-emerald-400">[Glisser souris]</span> pour regarder •
+      <span class="font-bold text-emerald-400">[Clic / E]</span> pour interagir
+    </div>
+  {/if}
+
   <!-- Fatima Speaking Banner (Step 1 & 2) -->
   {#if currentStep === Step.SPOKEN_COMPREHENSION || currentStep === Step.WRITTEN_COMPREHENSION}
-    <div class="absolute top-18 left-4 right-4 sm:max-w-md mx-auto z-10 animate-in fade-in slide-in-from-top-3 duration-200">
+    <div class="absolute top-26 left-4 right-4 sm:max-w-md mx-auto z-10 animate-in fade-in slide-in-from-top-3 duration-200">
       <div class="p-4 rounded-3xl bg-slate-900/90 backdrop-blur-md border border-emerald-500/30 shadow-2xl flex flex-col gap-2">
         <div class="flex items-center justify-between">
           <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
@@ -303,7 +390,7 @@
             « {currentChallenge.npcSpeech} »
           </p>
           <p class="text-xs text-slate-400 italic">
-            👉 Touchez l'aliment demandé sur la table en 3D !
+            👉 Avancez vers la table et visez l'aliment avec le réticule pour cliquer dessus !
           </p>
         {:else}
           <div class="p-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200">
@@ -319,7 +406,7 @@
 
   <!-- L'Ardoise (Step 3) -->
   {#if currentStep === Step.WRITTEN_CREATION}
-    <div class="absolute top-20 left-4 right-4 sm:max-w-lg mx-auto z-10 animate-in zoom-in-95 duration-200">
+    <div class="absolute top-26 left-4 right-4 sm:max-w-lg mx-auto z-10 animate-in zoom-in-95 duration-200">
       <div class="p-5 rounded-3xl bg-slate-900/95 backdrop-blur-md border border-blue-500/30 shadow-2xl flex flex-col gap-3">
         <div class="flex items-center justify-between border-b border-white/10 pb-2">
           <span class="text-xs font-bold tracking-wider uppercase text-blue-400">L'Ardoise d'Écriture</span>
@@ -359,7 +446,7 @@
 
   <!-- Voice & Gemini Evaluation Widget (Step 4) -->
   {#if currentStep === Step.SPOKEN_CREATION}
-    <div class="absolute top-20 left-4 right-4 sm:max-w-md mx-auto z-10 animate-in zoom-in-95 duration-200">
+    <div class="absolute top-26 left-4 right-4 sm:max-w-md mx-auto z-10 animate-in zoom-in-95 duration-200">
       <div class="p-5 rounded-3xl bg-slate-900/95 backdrop-blur-md border border-purple-500/30 shadow-2xl flex flex-col items-center gap-4 text-center">
         <div>
           <span class="text-xs font-bold tracking-wider uppercase text-purple-400">Évaluation Vocale Google Gemini</span>
@@ -404,6 +491,19 @@
             {/if}
           </div>
         {/if}
+      </div>
+    </div>
+  {/if}
+
+  <!-- Mobile On-Screen Virtual Joystick (Only in FPS mode on touch devices) -->
+  {#if viewMode === "fps"}
+    <div
+      ontouchmove={handleJoystickTouch}
+      ontouchend={resetJoystick}
+      class="absolute bottom-28 left-6 w-24 h-24 rounded-full bg-slate-900/60 border border-white/20 backdrop-blur-md flex items-center justify-center pointer-events-auto sm:hidden z-20"
+    >
+      <div class="w-10 h-10 rounded-full bg-emerald-500/80 shadow-md flex items-center justify-center text-xs text-slate-950 font-bold">
+        🕹
       </div>
     </div>
   {/if}
