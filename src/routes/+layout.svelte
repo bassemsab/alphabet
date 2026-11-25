@@ -67,18 +67,24 @@
       </div>
 
       <!-- Navigation Switcher -->
-      <nav class="hidden sm:flex items-center gap-1.5 ml-4 p-1 rounded-2xl bg-slate-200/60 dark:bg-white/5 border border-slate-300/60 dark:border-white/10 text-xs font-bold">
+      <nav class="flex items-center gap-1 sm:gap-1.5 ml-1 sm:ml-4 p-1 rounded-2xl bg-slate-200/60 dark:bg-white/5 border border-slate-300/60 dark:border-white/10 text-[11px] sm:text-xs font-bold">
         <a
           href="/"
-          class="px-3 py-1.5 rounded-xl transition-all {$page.url.pathname === '/' ? 'bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}"
+          class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl transition-all {$page.url.pathname === '/' ? 'bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}"
         >
-          🔤 Cartes 2D
+          🔤 <span class="hidden sm:inline">Cartes</span> 2D
         </a>
         <a
           href="/monde"
-          class="px-3 py-1.5 rounded-xl transition-all {$page.url.pathname === '/monde' ? 'bg-emerald-500 text-slate-950 shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}"
+          class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl transition-all {$page.url.pathname === '/monde' ? 'bg-amber-400 text-slate-950 shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}"
         >
-          🌍 Monde 3D (Three.js)
+          🍳 <span class="hidden sm:inline">Cuisine</span> 3D
+        </a>
+        <a
+          href="/pharmacie"
+          class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl transition-all {$page.url.pathname === '/pharmacie' ? 'bg-emerald-500 text-slate-950 shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'}"
+        >
+          💊 <span class="hidden sm:inline">Pharmacie</span>
         </a>
       </nav>
     </div>

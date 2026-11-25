@@ -16,7 +16,7 @@
 
   let { letter, currentVariantId, onSelectVariant }: Props = $props();
 
-  let activeVariantId = $state<string>(currentVariantId || letter.variants[0]?.id || "");
+  let activeVariantId = $state<string>("");
 
   $effect(() => {
     if (currentVariantId) {

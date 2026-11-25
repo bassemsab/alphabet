@@ -29,6 +29,25 @@
 html, body {
   height: 100%;
   font-family: var(--font-sans);
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+  -webkit-touch-callout: none;
+}
+
+/* Prevent zooming, overscroll bounce, and text selection during 3D gameplay */
+.no-zoom {
+  touch-action: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+  overscroll-behavior: none !important;
+}
+
+/* Ensure mobile on-screen controls are hidden on desktop with mouse */
+@media (pointer: fine) and (hover: hover) {
+  .mobile-only-controls:not(.force-show) {
+    display: none !important;
+  }
 }
 
 /* Custom scrollbar styling */

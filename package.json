@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev --host 0.0.0.0 --port 3000",
+    "dev": "concurrently -k \"bun --bun vite dev --host 0.0.0.0 --port 2000\" \"caddy run --config Caddyfile.dev\"",
+    "dev:vite": "vite dev --host 0.0.0.0 --port 2000",
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
@@ -15,6 +16,7 @@
     "@tailwindcss/vite": "^4.3.0",
     "@types/bun": "latest",
     "@types/three": "^0.187.0",
+    "concurrently": "^10.0.6",
     "svelte": "^5.0.0",
     "svelte-adapter-bun": "^0.5.2",
     "svelte-check": "^3.6.0",
@@ -23,6 +25,7 @@
     "vite": "^5.0.0"
   },
   "dependencies": {
+    "@google/genai": "^2.32.0",
     "msedge-tts": "^2.0.8",
     "three": "^0.187.0"
   }

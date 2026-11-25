@@ -1,0 +1,9 @@
+{
+	auto_https off
+	admin off
+}
+
+https://local-dev.ether.paris:3000, https://dev.ether.paris:3000, https://:3000 {
+	tls {$HOME}/.certbot/config/live/local-dev.ether.paris/fullchain.pem {$HOME}/.certbot/config/live/local-dev.ether.paris/privkey.pem
+	reverse_proxy localhost:2000
+}

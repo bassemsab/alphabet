@@ -8,7 +8,16 @@ const config = {
     adapter: adapter({
       out: "build",
       precompress: true
-    })
+    }),
+    csrf: {
+      trustedOrigins: [
+        "https://alphabet.ether.paris",
+        "https://local-dev.ether.paris:3000",
+        "https://dev.ether.paris:3000",
+        "http://localhost:3000",
+        "http://localhost:2000"
+      ]
+    }
   }
 };
 
